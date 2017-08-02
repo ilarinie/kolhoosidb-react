@@ -1,5 +1,5 @@
-import { AppState } from "../store/state";
-import * as React from "react";
+import { AppState } from '../../store/state';
+import * as React from 'react';
 
 export class TasksComponent extends React.Component<{ appState: AppState }, {} > {
     render() {
@@ -7,6 +7,6 @@ export class TasksComponent extends React.Component<{ appState: AppState }, {} >
             <div>
                 Taskeja Taskeja
             </div>
-        )
+        );
     }
 }

@@ -1,57 +1,133 @@
-import { observable } from 'mobx';
-import createBrowserHistory from '../history'
+import { UserService } from './user-service';
+import { observable, autorun, toJS, extendObservable } from 'mobx';
+import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
-import {Commune} from "./models/commune";
-import {User} from "./models/user";
+import { Commune } from './models/commune';
+import { User } from './models/user';
+
+const fakeCommunes: Commune[] = [];
+const fakeCommune1: Commune = new Commune;
+fakeCommune1.name = 'Fake commune 1';
+fakeCommune1.description = 'Fake desc.';
+fakeCommune1.created_at = new Date(2017, 5, 5);
+fakeCommune1.updated_at = new Date(2017, 5, 5);
+fakeCommune1.purchases = [];
+fakeCommune1.tasks = [];
+fakeCommunes.push(fakeCommune1);
+
+// This will autosave the state to localStorage to persist state
+// even after refreshes.
+function autoSave(store: any, save: any) {
+  let firstRun = true;
+  autorun(() => {
+    // This code will run every time any observable property
+    // on the store is updated.
+    const json = JSON.stringify(toJS(store));
+    if (!firstRun) {
+      save(json);
+    }
+    firstRun = false;
+  });
+}
 
 export class AppState {
 
-    // LogIn state
-    @observable loggedIn: boolean = localStorage.getItem('token') !== null;
+  // LogIn state
+  @observable loggedIn: boolean = localStorage.getItem('token') !== null;
 
-    // Loading indicators
-    @observable loginLoading: boolean = false;
-    @observable dashboardLoading: boolean = false;
+  // Loading indicators
+  @observable loginLoading: boolean = false;
+  @observable dashboardLoading: boolean = false;
+  @observable registerLoading: boolean = false;
 
+  // Error indicators
+  @observable loginError: boolean = false;
+  @observable loginErrorMessage: string;
+  @observable registerErrors: any = {};
 
-    // Error indicators
-    @observable loginError: boolean = false;
-    @observable loginErrorMessage: string;
+  // State data
+  @observable communeSelected: boolean = false;
+  @observable selectedCommune: Commune;
+  @observable communes: Commune[] = fakeCommunes;
+  @observable current_user: User;
 
-    // State data
-    @observable selectedCommune?: Commune;
-    @observable communes: Commune[];
-    @observable current_user: User;
-  
-  
-    constructor() {
-    }
-  
-    selectCommune = (id: number): boolean => {
-      if (this.communes[id] !== null) {
-        this.selectedCommune = this.communes[id];
-        createBrowserHistory.push('/');
-      }
-      return false;
-    };
-  
-    logIn = (username: string, password:string) => {
-        this.loginLoading = true;
-        this.loginError = false;
-        ApiService.login(username, password).then(() => {
-             this.loginLoading = false;
-             this.loggedIn = true;
-             createBrowserHistory.push('/communelist')
-        }).catch((error) => {
-            this.loginLoading = false;
-            this.loginError = true;
-            this.loginErrorMessage = error;
-        })
-    };
+  constructor() {
+    this.load();
+    autoSave(this, this.save.bind(this));
+  }
 
-    logOut = () => {
-        localStorage.removeItem('token')
-        this.loggedIn = false;
-        createBrowserHistory.push('/login')
+  load() {
+    if (localStorage.getItem('appstate') !== null || localStorage.getItem('appstate') !== undefined) {
+      const data: any = JSON.parse(localStorage.getItem('appstate') as string);
+      extendObservable(this, data);
     }
   }
+
+  save(json: string) {
+    localStorage.setItem('appstate', json);
+  }
+
+  selectCommune = (id: number) => {
+    if (this.communes[id] !== null) {
+      this.selectedCommune = this.communes[id];
+      this.communeSelected = true;
+      createBrowserHistory.push('/');
+    }
+  }
+
+  getUser = () => {
+    ApiService.get('/users/' + this.current_user.id).then((response) => {
+      this.current_user = response.json() as User;
+    });
+  }
+
+  updateUser = (user: User) => {
+    ApiService.put('/users/' + this.current_user.id, user).then((response) => {
+      this.current_user = response.json() as User;
+    });
+  }
+  deleteUser = () => {
+    ApiService.destroy('/users/' + this.current_user.id).then((response) => {
+      this.logOut();
+    });
+  }
+  createUser = (user: User) => {
+    this.registerErrors = [];
+    this.registerLoading = true;
+    let payload = JSON.stringify({ user: user });
+    ApiService.post('/users/', payload).then((response) => {
+      let createdUser: User = response as User;
+      this.logIn(createdUser.username, user.password as string);
+      this.registerLoading = false;
+    }).catch((error: Promise<any>) => {
+        error.then((err) => {
+          this.registerErrors = err.errors;
+          this.registerLoading = false;
+        });
+    });
+  }
+
+  logIn = (username: string, password: string) => {
+    this.loginLoading = true;
+    this.loginError = false;
+    ApiService.login(username, password).then(() => {
+      this.loginLoading = false;
+      this.loggedIn = true;
+      if (this.communeSelected) {
+        createBrowserHistory.push('/');
+      } else {
+        createBrowserHistory.push('/communelist');
+      }
+    }).catch((error) => {
+      this.loginLoading = false;
+      this.loginError = true;
+      this.loginErrorMessage = error;
+    });
+  }
+
+  logOut = () => {
+    localStorage.removeItem('token');
+    this.loggedIn = false;
+    createBrowserHistory.push('/login');
+  }
+}

@@ -1,7 +1,7 @@
-import {observable} from 'mobx';
-import {User} from "./user";
-import {Task} from "./task";
-import {Purchase} from "./purchase";
+import { observable } from 'mobx';
+import { User } from './user';
+import { Task } from './task';
+import { Purchase } from './purchase';
 
 export class Commune {
     @observable id: number;

@@ -1,26 +1,42 @@
-import * as React from "react";
-import { AppState } from "../store/state";
+import * as React from 'react';
+import { AppState } from '../store/state';
 import DevTools from 'mobx-react-devtools';
 import { observer, inject } from 'mobx-react';
+import { RegisterComponent } from './register';
+import { KolhoosiTextField } from './util/kolhoosi-text-field';
+import RaisedButton from 'material-ui/RaisedButton';
+import { User } from '../store/models/user';
 
 @inject('appState')
 @observer
 export class LoginComponent extends React.Component<{ appState: AppState }, {}> {
+    containerStyle = {
+        width: '90%',
+        textAlign: 'center',
+        padding: '30px'
+    };
+
     render() {
         return (
             <div>
-                <div className="input-field">
-                    <input id="username" type="text" placeholder="Username" />
+                <div style={this.containerStyle}>
+                    <h1>Welcome to KolhoosiDb</h1>
+                    <h4>Log in</h4>
+                        <KolhoosiTextField id="username" type="text" hintText="Username" /> <br />
+                        <KolhoosiTextField id="password" type="password" hintText="Password"/> <br />
+                        <RaisedButton label="Log In" onTouchTap={this.login} />
+                        <DevTools />
                 </div>
-                <div className="input-field">
-                    <input id="password" type="password" placeholder="Password" />
+                <div style={this.containerStyle}>
+                    <RegisterComponent appState={this.props.appState} />
                 </div>
-                <div className="input-field">
-                    <button onClick={this.login}> Log In </button>
-                </div>
-                <DevTools />
             </div>
-        )
+        );
+    }
+
+    createUser = (asd: any) => {
+        let user = asd as User;
+        this.props.appState.createUser(user);
     }
 
     login = () => {
@@ -30,6 +46,5 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
             this.props.appState.logIn(username, password);
         }
     }
-
 
 }

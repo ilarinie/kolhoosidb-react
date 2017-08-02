@@ -1,7 +1,7 @@
-import {observable} from 'mobx';
+import { observable } from 'mobx';
 
 export class User {
-    @observable id: number;
+    @observable id?: number;
     @observable username: string;
     @observable name: string;
     password?: string;
