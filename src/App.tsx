@@ -57,6 +57,10 @@ const CommunelistRoute = ({ component: Component, ...rest }) => (
   )}/>
 )
 
-const appState = new AppState();
+let appState: AppState;
+if (localStorage.getItem('appState') !== null)
+    appState = JSON.parse(localStorage.getItem('appstate') as string) as AppState;
+else
+    appState = new AppState();
 
 export default App;

@@ -9,18 +9,27 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
     render() {
         return (
             <div>
-                <button onClick={this.onReset}>
-                    Seconds passed: {this.props.appState.timer}
-                </button>
-                <button onClick={this.props.appState.logIn}>
-                    Log in
-                </button>
+                <div className="input-field">
+                    <input id="username" type="text" placeholder="Username" />
+                </div>
+                <div className="input-field">
+                    <input id="password" type="password" placeholder="Password" />
+                </div>
+                <div className="input-field">
+                    <button onClick={this.login}> Log In </button>
+                </div>
                 <DevTools />
             </div>
         )
     }
 
-    onReset = () => {
-        this.props.appState.resetTimer();
+    login = () => {
+        let username: string =  (document.getElementById('username') as HTMLInputElement).value;
+        let password: string =  (document.getElementById('password') as HTMLInputElement).value;
+        if (username && password) {
+            this.props.appState.logIn(username, password);
+        }
     }
+
+
 }

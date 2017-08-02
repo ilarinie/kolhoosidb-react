@@ -5,6 +5,7 @@ import createBrowserHistory from '../history';
 import { TasksComponent } from "./tasks";
 import {  Route, Link, Switch } from "react-router-dom";
 import { PurchasesComponent } from "./purchases";
+import {Commune} from "../store/models/commune";
 
 
 @inject('appState')
@@ -34,7 +35,7 @@ export class Dashboard extends React.Component<{ appState: AppState }, {}> {
     }
 
     deselectCommune = () => {
-        this.props.appState.selectedCommune = null;
+        this.props.appState.selectedCommune = undefined;
         createBrowserHistory.push('/communelist')
     }
 
