@@ -14,6 +14,7 @@ export class CommuneCard extends React.Component<{commune: Commune, value: numbe
                 />
                 <CardActions>
                     <FlatButton label="Select" onTouchTap={this.selectCommune} />
+                    <FlatButton label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
                 </CardActions>    
             </Card>
         );
@@ -21,5 +22,9 @@ export class CommuneCard extends React.Component<{commune: Commune, value: numbe
 
     selectCommune = () => {
         this.props.appState.selectCommune(this.props.value);
+    }
+
+    deleteCommune = () => {
+        this.props.appState.deleteCommune(this.props.commune.id);
     }
 }

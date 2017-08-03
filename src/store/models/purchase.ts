@@ -1,5 +1,5 @@
 import {observable} from 'mobx';
-import {User} from "./user";
+import {User} from './user';
 
 export class Purchase {
     @observable user: User;

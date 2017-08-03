@@ -1,5 +1,5 @@
 import { observable } from 'mobx';
-import {TaskCompletion} from "./task_completion";
+import {TaskCompletion} from './task_completion';
 
 export class Task {
     @observable id: number;

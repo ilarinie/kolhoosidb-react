@@ -4,6 +4,7 @@ import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
 import { Commune } from './models/commune';
 import { User } from './models/user';
+import { destroy } from './api-service';
 
 const fakeCommunes: Commune[] = [];
 const fakeCommune1: Commune = new Commune;
@@ -67,6 +68,7 @@ export class AppState {
     localStorage.setItem('appstate', json);
   }
 
+  // COMMUNE RELATED METHODS
   selectCommune = (id: number) => {
     if (this.communes[id] !== null) {
       this.selectedCommune = this.communes[id];
@@ -75,6 +77,22 @@ export class AppState {
     }
   }
 
+  createCommune = (commune: Commune) => {
+    let payload = JSON.stringify({commune: commune});
+    ApiService.post('/communes', payload).then((response) => {
+      console.log(response.commune);
+      this.communes.push(response.commune as Commune);
+      this.selectCommune(this.communes.length - 1);
+    });
+  }
+
+  deleteCommune = (id: number) => {
+    ApiService.destroy('communes/' + id).then((response) => {
+      this.communes = this.communes.slice(this.communes.findIndex(commune => commune.id === id), 1);
+    });
+  }
+
+  // USER RELATED METHODS
   getUser = () => {
     ApiService.get('/users/' + this.current_user.id).then((response) => {
       this.current_user = response.json() as User;
@@ -95,22 +113,22 @@ export class AppState {
     this.registerErrors = [];
     this.registerLoading = true;
     let payload = JSON.stringify({ user: user });
-    ApiService.post('/users/', payload).then((response) => {
+    ApiService.post('users/', payload).then((response) => {
       let createdUser: User = response as User;
       this.logIn(createdUser.username, user.password as string);
       this.registerLoading = false;
-    }).catch((error: Promise<any>) => {
-        error.then((err) => {
-          this.registerErrors = err.errors;
+    }).catch((error: any) => {
+          console.log(error);
+          this.registerErrors = error.errors;
           this.registerLoading = false;
-        });
     });
   }
 
   logIn = (username: string, password: string) => {
     this.loginLoading = true;
     this.loginError = false;
-    ApiService.login(username, password).then(() => {
+    ApiService.login(username, password).then((response) => {
+      localStorage.setItem('token', response.jwt);
       this.loginLoading = false;
       this.loggedIn = true;
       if (this.communeSelected) {

@@ -22,6 +22,7 @@ export const post = (path: string, data: any): Promise<any> => {
     let postInit: any = init;
     postInit.method = 'POST';
     postInit.body = data;
+    postInit.headers = headers;
     return runFetch(new Request(API_URL + path, postInit));
 };
 
@@ -51,7 +52,6 @@ export const login = (username: string, password: string): Promise<any> => {
     return fetch(API_URL + 'user_token', anit).then((response: any) => {
         let json = response.json();
         if (response.status >= 200 && response.status < 300 ) {
-            localStorage.setItem('token', response.body.token);
             return json;
         } else {
             return Promise.reject('Username or password wrong, try again.');
@@ -66,10 +66,10 @@ const runFetch = (request: Request): Promise<any> => {
         if (response.status >= 200 && response.status < 300) {
             return json;
         } else {
-            return Promise.reject(json);
+            return json.then(Promise.reject.bind(Promise));
         }
         
-    }).catch(handleError);
+    });
 };
 
 const handleError = (error: any): Promise<any>  => {

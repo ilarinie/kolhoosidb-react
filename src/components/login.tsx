@@ -6,6 +6,7 @@ import { RegisterComponent } from './register';
 import { KolhoosiTextField } from './util/kolhoosi-text-field';
 import RaisedButton from 'material-ui/RaisedButton';
 import { User } from '../store/models/user';
+import TextField from 'material-ui/TextField';
 
 @inject('appState')
 @observer
@@ -22,8 +23,8 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
                 <div style={this.containerStyle}>
                     <h1>Welcome to KolhoosiDb</h1>
                     <h4>Log in</h4>
-                        <KolhoosiTextField id="username" type="text" hintText="Username" /> <br />
-                        <KolhoosiTextField id="password" type="password" hintText="Password"/> <br />
+                        <TextField id="username" type="text" hintText="Username" /> <br />
+                        <TextField id="password" type="password" hintText="Password" /> <br />
                         <RaisedButton label="Log In" onTouchTap={this.login} />
                         <DevTools />
                 </div>

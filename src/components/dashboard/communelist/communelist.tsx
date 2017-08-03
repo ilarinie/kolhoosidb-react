@@ -2,6 +2,7 @@ import * as React from 'react';
 import { AppState } from '../../../store/state';
 import { inject, observer } from 'mobx-react';
 import { CommuneCard } from './communecard';
+import { CommuneCreationComponent } from './communecreator';
 
 @inject('appState')
 @observer
@@ -15,6 +16,8 @@ export class Communelist extends React.Component<{ appState: AppState }, {}> {
                 <ul>
                     {communes}
                 </ul>
+                <hr />
+                <CommuneCreationComponent appState={this.props.appState} />
             </div>
         );
     }
@@ -26,17 +29,5 @@ export class Communelist extends React.Component<{ appState: AppState }, {}> {
 
     logout = () => {
         this.props.appState.logOut();
-    }
-}
-
-class CommuneSelector extends React.Component<{value: number, appState: AppState}, {}> {
-    render() {
-        return (
-            <button onClick={this.selectCommune}> Select </button>
-        );
-    }
-
-    selectCommune = () => {
-        this.props.appState.selectCommune(this.props.value);
     }
 }
