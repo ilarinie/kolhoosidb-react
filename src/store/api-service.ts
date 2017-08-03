@@ -1,5 +1,5 @@
 
-const API_URL = 'http://kolhoosidb-api.herokuapp.com/';
+const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
 
 const headers = new Headers();
 headers.append('Authorization', 'Bearer ' + localStorage.getItem('token'));
