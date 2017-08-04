@@ -7,6 +7,7 @@ import { User } from '../store/models/user';
 import TextField from 'material-ui/TextField';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { inject, observer } from 'mobx-react';
+import { SubmitButton } from './util/submit-button';
 
 @inject('appState')
 @observer
@@ -29,20 +30,16 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
 
     render() {
         const { user } = this.state;
-        if (this.props.appState.registerLoading) {
-            return (
-                <div>
-                    Loading..
-                </div>
-            );
-        }
-        // let errors = this.props.appState.registerErrors.map((error, index) => 
-        //      <li key={index}>{error}</li>
-        // );
+        let serverErrors = this.props.appState.registerErrors.map((error, index) => 
+             <li key={index}>{error}</li>
+        );
         
         return (
             <div>
                 <h4>Sign up</h4>
+                <ul style={{color: 'red', listStyle: 'none'}}>
+                    {serverErrors}
+                </ul>
                 <ValidatorForm
                     onSubmit={this.handleSubmit}
                     onError={errors => this.showError(errors)}
@@ -78,7 +75,7 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
                         floatingLabelText="Password"
                         onChange={this.handleChange}
                         name="password"
-                        type="text"
+                        type="password"
                         validators={['required']}
                         errorMessages={['Password is required']}
                         value={user.password}
@@ -87,12 +84,12 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
                         floatingLabelText="Password Confirmation"
                         onChange={this.handleChange}
                         name="password_confirmation"
-                        type="text"
+                        type="password"
                         validators={['required']}
                         errorMessages={['Password confirmation is required']}
                         value={user.password_confirmation}
                     /><br />
-                    <RaisedButton label="Sign up" type="submit" />
+                    <SubmitButton loading={this.props.appState.registerLoading} label="Sign up" type="submit" />
                 </ValidatorForm>
             </div>
         );
@@ -113,30 +110,3 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
     }
 
 }
-
-// return (
-//     <div>
-//         <h4>Sign up</h4>
-//         <form id="registerform">
-//             <fieldset>
-//             <TextField 
-//                 name="username"
-//                 type="text"
-//                 id="username"
-//                 hintText="Username"
-
-//             /> <br />
-//             <TextField
-//                 name="name"
-//                 type="text"
-//                 id="name"
-//                 hintText="Display name"
-//             /> <br/>
-//             <TextField name="email" type="email" id="email" hintText="Email address" /> <br />
-//             <TextField name="password" type="password" id="password" hintText="Password"/> <br />
-//             <TextField name="password_confirmation" type="password" id="password_confirmation" hintText="Password confirmation"/> <br /> 
-//             <RaisedButton label="Sign up"  />
-//             </fieldset>
-//         </form>
-//     </div>
-// );

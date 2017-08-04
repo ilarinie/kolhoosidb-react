@@ -7,6 +7,7 @@ import { KolhoosiTextField } from './util/kolhoosi-text-field';
 import RaisedButton from 'material-ui/RaisedButton';
 import { User } from '../store/models/user';
 import TextField from 'material-ui/TextField';
+import { SubmitButton } from './util/submit-button';
 
 @inject('appState')
 @observer
@@ -25,7 +26,8 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
                     <h4>Log in</h4>
                         <TextField id="username" type="text" hintText="Username" /> <br />
                         <TextField id="password" type="password" hintText="Password" /> <br />
-                        <RaisedButton label="Log In" onTouchTap={this.login} />
+                        <SubmitButton loading={this.props.appState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
+                        <div style={{color: 'red', marginTop: '10px'}}>{this.props.appState.loginErrorMessage}</div>
                         <DevTools />
                 </div>
                 <div style={this.containerStyle}>

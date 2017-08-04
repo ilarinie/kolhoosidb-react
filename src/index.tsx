@@ -6,9 +6,11 @@ import './index.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
+if (process.env.NODE_ENV === 'production') {
+}
+
 ReactDOM.render(
   <App />,
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
-

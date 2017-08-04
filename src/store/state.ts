@@ -4,7 +4,7 @@ import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
 import { Commune } from './models/commune';
 import { User } from './models/user';
-import { destroy } from './api-service';
+import { log, catAppState } from '../log-config';
 
 const fakeCommunes: Commune[] = [];
 const fakeCommune1: Commune = new Commune;
@@ -25,8 +25,8 @@ function autoSave(store: any, save: any) {
     // on the store is updated.
     const json = JSON.stringify(toJS(store));
     if (!firstRun && store.loggedIn) {
-      console.log('AppState is being saved to sessionStorage:');
-      console.log(JSON.parse(json));
+      log.info('AppState is being saved to sessionStorage:', catAppState);
+      log.info(JSON.parse(json), catAppState);
       save(json);
     }
     firstRun = false;
@@ -46,7 +46,7 @@ export class AppState {
   // Error indicators
   @observable loginError: boolean = false;
   @observable loginErrorMessage: string;
-  @observable registerErrors: any = {};
+  @observable registerErrors: any = [];
 
   // State data
   @observable communeSelected: boolean = false;
@@ -60,9 +60,9 @@ export class AppState {
   }
 
   load() {
-    console.log('Trying to find AppState in sessionStorage');
+    log.info('Trying to find AppState in sessionStorage', catAppState);
     if (sessionStorage.getItem('appstate') !== null || sessionStorage.getItem('appstate') !== undefined) {
-      console.log('AppState is being fetched from sessionStorage');
+      log.info('AppState is being fetched from sessionStorage', catAppState);
       const data: any = JSON.parse(sessionStorage.getItem('appstate') as string);
       extendObservable(this, data);
     }
@@ -84,26 +84,26 @@ export class AppState {
   createCommune = (commune: Commune) => {
     let payload = JSON.stringify({ commune: commune });
     ApiService.post('/communes', payload).then((response) => {
-      console.log('ApiService provided response (createCommune:');
-      console.log(response);
+      log.info('ApiService provided response (createCommune:', catAppState);
+      log.info(response, catAppState);
       this.communes.push(response.commune as Commune);
       this.selectCommune(this.communes.length - 1);
     }).catch((error) => {
-      console.log('ApiService provided error (createCommune):');
-      console.log(error);
+      log.info('ApiService provided error (createCommune):', catAppState);
+      log.info(error.error, catAppState);
     });
   }
 
   deleteCommune = (id: number) => {
-    console.log(`DeleteCommune method called in AppState, id: ${id}`);
+    log.info(`DeleteCommune method called in AppState, id: ${id}`, catAppState);
     ApiService.destroy('communes/' + id).then((response) => {
-      console.log('ApiService provided response (deleteCommune):');
-      console.log(response);
-      console.log(this.communes.findIndex(commune => commune.id === id));
+      log.info('ApiService provided response (deleteCommune):', catAppState);
+      log.info(response, catAppState);
+      log.info(this.communes.findIndex(commune => commune.id === id) + '', catAppState);
       this.communes.splice(this.communes.findIndex(commune => commune.id === id), 1);
-    }).catch((error: any) => {
-      console.log('ApiService provided error (deleteCommune):');
-      console.log(error);
+    }).catch((error: Error) => {
+      log.info('ApiService provided error (deleteCommune):', catAppState);
+      console.log(error.message);
     });
   }
 
@@ -128,18 +128,18 @@ export class AppState {
     this.registerErrors = [];
     this.registerLoading = true;
     let payload = JSON.stringify({ user: user });
-    console.log('CreateUser function called in AppState. User:');
-    console.log(user);
+    log.info('CreateUser function called in AppState. User:', catAppState);
+    log.info({msg: 'User:' , data: user }, catAppState);
     ApiService.post('users/', payload).then((response) => {
-      console.log('ApiService provided response:');
-      console.log(response);
+      log.info('ApiService provided response:', catAppState);
+      log.info(response, catAppState);
       let createdUser: User = response as User;
       this.logIn(user.username, user.password as string);
       this.registerLoading = false;
     }).catch((error: any) => {
-      console.log('ApiService provided error:');
-      console.log(error);
-      this.registerErrors = error.error;
+      log.info('ApiService provided error:', catAppState);
+      log.info(error, catAppState);
+      this.registerErrors = error.errors;
       this.registerLoading = false;
     });
   }
@@ -147,32 +147,32 @@ export class AppState {
   logIn = (username: string, password: string) => {
     this.loginLoading = true;
     this.loginError = false;
-    console.log(`Log in function called in AppState: username: ${username}, password: ${password}`);
+    log.info(`Log in function called in AppState: username: ${username}, password: ${password}`, catAppState);
     ApiService.login(username, password).then((response) => {
       // tslint:disable-next-line:no-empty
       while (response.jwt === null) { }
-      console.log(`Login function in ApiService returned:`);
-      console.log(response);
+      log.info(`Login function in ApiService returned:`, catAppState);
+      log.info(response, catAppState);
       sessionStorage.setItem('token', response.jwt);
       this.loginLoading = false;
       this.loggedIn = true;
       if (this.communeSelected) {
-        console.log('Login function redirecting to dashboard.');
+        log.info('Login function redirecting to dashboard.', catAppState);
         createBrowserHistory.push('/');
       } else {
-        console.log('Login function redirecting to commune list.');
+        log.info('Login function redirecting to commune list.', catAppState);
         createBrowserHistory.push('/communelist');
       }
     }).catch((error) => {
+      log.info({msg: 'Login function received error', data: error}, catAppState);
       this.loginLoading = false;
-      this.loginError = true;
-      this.loginErrorMessage = error;
+      this.loginErrorMessage = error.message;
     });
   }
 
   logOut = () => {
     sessionStorage.clear();
-    console.log(`Session storage cleared by logout function.`);
+    log.info(`Session storage cleared by logout function.`, catAppState);
     this.loggedIn = false;
     createBrowserHistory.push('/login');
   }

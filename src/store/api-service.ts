@@ -1,3 +1,4 @@
+import { KolhoosiError } from './error';
 
 const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
 
@@ -16,6 +17,40 @@ const init: any = {
     cache: 'default'
 };
 
+export const fetchGet = (path: string, method: string) => {
+    let getInit = init;
+    getInit.method = method;
+    getInit.headers = getHeaders();
+    return fetch(API_URL + path, getInit)
+            .then(readResponseJSON)
+            .then(validateResponse);        
+};
+
+const fetchPost = (path: string, method: string, data: any) => {
+    let postInit = init;
+    postInit.method = method;
+    postInit.headers = getHeaders();
+    postInit.data = JSON.stringify(data);
+    return fetch(API_URL + path, postInit)
+           .then(readResponseJSON)
+           .then(validateResponse);
+};
+const validateResponse = (response) => {
+    if (response.errors) {
+        throw new KolhoosiError('Backend reported errors.', response.errors);
+    }
+    return response;
+};
+
+const readResponseJSON = (response) => {
+    if (response.status !== 401) {
+        return response.json();
+    } else {
+        throw Error('Unauthorized, you must log in first');
+    }
+    
+};
+
 export const get = (path: string): Promise<any> => {
     let getInit = init;
     getInit.method = 'GET';
@@ -28,7 +63,7 @@ export const post = (path: string, data: any): Promise<any> => {
     postInit.method = 'POST';
     postInit.body = data;
     postInit.headers = getHeaders();
-    return runFetch(new Request(API_URL + path, postInit));
+    return fetchPost(path, 'POST', data);
 };
 
 export const put = (path: string, data: any): Promise<any> => {
@@ -43,7 +78,7 @@ export const destroy = (path: string): Promise<any> => {
     let deleteInit = init;
     deleteInit.method = 'DELETE';
     deleteInit.headers = getHeaders();
-    return runFetch(new Request(API_URL + path, deleteInit));
+    return fetchGet(path, 'DELETE');
 };
 
 export const login = (username: string, password: string): Promise<any> => {
@@ -57,14 +92,14 @@ export const login = (username: string, password: string): Promise<any> => {
         body: data
     };
     return fetch(API_URL + 'usertoken', anit).then((response: any) => {
+        if (response.status === 404) {
+            throw new KolhoosiError('Wrong username and/or password.', ['You need to log in.']);
+        }
         let json = response.json();
         if (response.status >= 200 && response.status < 300 ) {
             return json;
-        } else {
-            return Promise.reject('Username or password wrong, try again.');
         }
-
-    });
+    })
 };
 
 const runFetch = (request: Request): Promise<any> => {
