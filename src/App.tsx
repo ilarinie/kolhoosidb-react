@@ -10,8 +10,6 @@ import createBrowserHistory from './history';
 import { AppState } from './store/state';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const logo = require('./logo.svg');
-
 class App extends React.Component<{}, {}> {
   render(): any {
     return (

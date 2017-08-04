@@ -9,6 +9,7 @@ import { Commune } from '../../store/models/commune';
 import { AppBarComponent } from './app-bar/app-bar';
 import { Communelist } from './communelist/communelist';
 import { CommuneSelectedRoute } from '../../App';
+import DevTools from 'mobx-react-devtools';
 
 @inject('appState')
 @observer
@@ -17,6 +18,7 @@ export class Dashboard extends React.Component<{ appState: AppState }, {}> {
     render() {
         return (
             <div>
+                <DevTools />
                 <AppBarComponent appState={this.props.appState} />
                 <div className="content">
                     <Switch>
