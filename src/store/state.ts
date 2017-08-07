@@ -75,7 +75,6 @@ export class AppState {
   }
 
   asd = (message: string) => {
-    console.log('callds');
     this.snackbarMessage = message;
     this.showSnackbar = true;
     setTimeout(() => {

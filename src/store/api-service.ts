@@ -1,32 +1,79 @@
 import { KolhoosiError } from './error';
 import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+import createBrowserHistory from '../history';
 
 const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
 
-const getHeaders = (): Headers => {
+/* const getHeaders = (): Headers => {
     const headers = new Headers();
     headers.append('Authorization', 'Bearer ' + sessionStorage.getItem('token'));
     headers.append('Accept', 'application/json');
     // headers.append('Content-type', 'application/json');
     return headers;
-};
+}; */
 
-const axiosHeaders = () => {
+const config = () => {
     return {
+        headers:  {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         'Accept': 'application/json',
         'Content-type': 'application/json'
+    }
     };
 };
 
-const init: any = {
+/* const init: any = {
     method: 'GET',
     headers: getHeaders(),
     mode: 'cors',
     cache: 'default'
+}; */
+
+export const get = (path: string): Promise<any> => {
+    return axios.get(API_URL + path, config).then((response) => {
+        return response.data;
+    }).catch(handleAxiosError);
 };
 
-export const fetchGet = (path: string, method: string) => {
+export const post = (path: string, data: object): Promise<any> => {
+    console.log(dataConfig(data));
+    return axios.request( {method: 'post', url: API_URL + path, headers: config(), data: data } as AxiosRequestConfig).then((response) => {
+        return response.data;
+    }).catch(handleAxiosError);
+};
+
+export const destroy = (path: string): Promise<any> => {
+    return axios.delete(API_URL + path, config).then((response) => {
+        return response.data;
+    }).catch(handleAxiosError);
+};
+
+export const put = (path: string, data: object) => {
+    return axios.put(API_URL + path, dataConfig(data)).then((response) => {
+        return response.data;
+    }).catch(handleAxiosError);
+};
+
+const dataConfig = (data: object): {} => {
+    let dataConfiguration: any = config();
+    dataConfiguration.body = data;
+    return dataConfiguration;
+};
+
+const handleAxiosError = (error: any) => {
+    console.log(error.response.status);
+    if (error.response.status === 401) {
+        console.log('redirecting to login..');
+        createBrowserHistory.push('/login');
+        throw new KolhoosiError(error.response.data.message, error.response.data.errors);
+    } else if (error.response) {
+        throw new KolhoosiError(error.response.data.message, error.response.data.errors);
+    } else {
+        throw new KolhoosiError(error.message, error.errors);
+    }
+};
+
+/* export const fetchGet = (path: string, method: string) => {
     let getInit = init;
     getInit.method = method;
     getInit.headers = getHeaders();
@@ -34,22 +81,6 @@ export const fetchGet = (path: string, method: string) => {
     return fetch(API_URL + path, getInit)
             .then(readResponseJSON)
             .then(validateResponse);        
-};
-
-const axiosGet = (path: string): Promise<any> => {
-    let config: AxiosRequestConfig = {};
-    config.headers = axiosHeaders();
-    return axios.get(API_URL + path, config).then((response) => {
-        console.log('GOOD');
-        return response.data;
-    }).catch((error) => {
-        if (error.response) {
-            throw new KolhoosiError(error.response.data.message, error.response.data.errors);
-        } else {
-            throw new KolhoosiError(error.message, error.errors);
-        }
-
-    });
 };
 
 const fetchPost = (path: string, method: string, data: any) => {
@@ -122,4 +153,4 @@ const runFetch = (request: Request): Promise<any> => {
 
 const handleError = (error: any): Promise<any>  => {
     return Promise.reject(error.message || error);
-};
+}; */

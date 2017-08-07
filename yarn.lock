@@ -9,12 +9,6 @@
     address "^1.0.1"
     debug "^2.6.0"
 
-"@types/axios@^0.14.0":
-  version "0.14.0"
-  resolved "https://registry.yarnpkg.com/@types/axios/-/axios-0.14.0.tgz#ec2300fbe7d7dddd7eb9d3abf87999964cafce46"
-  dependencies:
-    axios "*"
-
 "@types/babel-core@^6.7.14":
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/@types/babel-core/-/babel-core-6.25.0.tgz#e6439b193c3644cf3fbd24b05620876f76017313"
@@ -395,7 +389,7 @@ aws4@^1.2.1:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.6.0.tgz#83ef5ca860b2b32e4a0deedee8c771b9db57471e"
 
-axios@*, axios@^0.16.2:
+axios@^0.16.2:
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.16.2.tgz#ba4f92f17167dfbab40983785454b9ac149c3c6d"
   dependencies:
@@ -514,14 +508,14 @@ babel-register@^6.24.1:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@6.23.0, babel-runtime@^6.22.0:
+babel-runtime@6.23.0:
   version "6.23.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.23.0.tgz#0a9489f144de70efb3ce4300accdb329e2fc543b"
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.10.0"
 
-babel-runtime@^6.20.0, babel-runtime@^6.23.0:
+babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0:
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
