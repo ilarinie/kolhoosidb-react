@@ -64,7 +64,7 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
     }
     
     // This will either make the drawer docked (desktop) or hidden (mobile)
-    componentWillMount() {
+    componentDidMount() {
       const mediaQuery = window.matchMedia('(min-width: 768px)');
       if (mediaQuery.matches) {
         this.setLarge();

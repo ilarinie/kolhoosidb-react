@@ -13,6 +13,7 @@ export class Communelist extends React.Component<{ appState: AppState }, {}> {
         );
         return (
             <div>
+                <button onClick={this.testSnackBar}>SNCKPBAR</button>
                 <ul>
                     {communes}
                 </ul>
@@ -20,6 +21,10 @@ export class Communelist extends React.Component<{ appState: AppState }, {}> {
                 <CommuneCreationComponent appState={this.props.appState} />
             </div>
         );
+    }
+
+    testSnackBar = () => {
+        this.props.appState.asd('JEEEEE??A?=?ASD' + Math.random());
     }
 
     selectCommune = (id: any) => {

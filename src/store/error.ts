@@ -1,9 +1,10 @@
 export class KolhoosiError extends Error {
-    name: string = 'KolhoosiAPI Error';
     errors: string[];
+    isError: boolean;
 
     constructor(message: string, errors: string[]) {
         super(message);
         this.errors = errors;
+        this.isError = message.length !== 0;
     }
 }

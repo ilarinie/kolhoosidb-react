@@ -10,6 +10,7 @@ import { AppBarComponent } from './app-bar/app-bar';
 import { Communelist } from './communelist/communelist';
 import { CommuneSelectedRoute } from '../../App';
 import DevTools from 'mobx-react-devtools';
+import KolhoosiSnackBar from '../util/kolhoosi-snackbar';
 
 @inject('appState')
 @observer
@@ -27,6 +28,7 @@ export class Dashboard extends React.Component<{ appState: AppState }, {}> {
                         <Route path="/communelist" component={Communelist} />
                     </Switch>
                 </div>
+                <KolhoosiSnackBar appState={this.props.appState} />
             </div>
         );
     }
