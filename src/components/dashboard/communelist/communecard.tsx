@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FontIcon from 'material-ui/FontIcon';
 
 export class CommuneCard extends React.Component<{commune: Commune, value: number, appState: AppState}, {}> {
-    
+
     render() {
         return (
             <Card style={{ width: '90%', marginBottom: '20px' }}>
@@ -17,7 +17,7 @@ export class CommuneCard extends React.Component<{commune: Commune, value: numbe
                 />
                 <CardActions>
                     <RaisedButton label="Select" onTouchTap={this.selectCommune} />
-                    <RaisedButton label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
+                    <RaisedButton disabled={!this.props.commune.current_user_admin} label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
                 </CardActions>    
             </Card>
         );
