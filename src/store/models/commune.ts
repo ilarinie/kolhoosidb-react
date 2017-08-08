@@ -12,4 +12,5 @@ export class Commune {
     @observable purchases?: Purchase[];
     @observable created_at?: Date;
     @observable updated_at?: Date;
+    @observable current_user_admin: boolean;
 }

@@ -27,20 +27,30 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
         } else {
             communeName = this.props.appState.selectedCommune.name;
         }
+        let adminMenuItems: any = null;
+        if (this.props.appState.communeSelected && this.props.appState.selectedCommune.current_user_admin) {
+            adminMenuItems = (
+                <KolhoosiNavItem disabled={false} path="/adduser" text="Add users" onTouchTap={this.handleClose} />
+            );
+        }
+
         return (
             <div>
                 <AppBar
                     title={communeName}
                     onLeftIconButtonTouchTap={this.toggleOpenDrawer}
+                    showMenuIconButton={this.state.mobile}
                 />
                 <Drawer open={this.state.drawerOpen} docked={this.state.docked} width={200} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
                     <MenuItem disabled={true}>KolhoosiDB</MenuItem>
                     <Divider />
-                    <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/" text="Tasks" onTouchTap={this.handleClose} /> 
-                    <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
+                        <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/" text="Tasks" onTouchTap={this.handleClose} /> 
+                        <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
                     <Divider />
-                    <MenuItem onTouchTap={this.deselectCommune}>Switch communes</MenuItem>
-                    <MenuItem onTouchTap={this.logout}>Log Out</MenuItem>
+                        {adminMenuItems}
+                    <Divider />
+                        <MenuItem onTouchTap={this.deselectCommune}>Switch communes</MenuItem>
+                        <MenuItem onTouchTap={this.logout}>Log Out</MenuItem>
                 </Drawer>
             </div>
         );
@@ -64,7 +74,7 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
     }
     
     // This will either make the drawer docked (desktop) or hidden (mobile)
-    componentWillMount() {
+    componentDidMount() {
       const mediaQuery = window.matchMedia('(min-width: 768px)');
       if (mediaQuery.matches) {
         this.setLarge();

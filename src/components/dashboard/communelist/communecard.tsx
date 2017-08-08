@@ -3,18 +3,21 @@ import { Commune } from '../../../store/models/commune';
 import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import { AppState } from '../../../store/state';
+import RaisedButton from 'material-ui/RaisedButton';
+import FontIcon from 'material-ui/FontIcon';
 
 export class CommuneCard extends React.Component<{commune: Commune, value: number, appState: AppState}, {}> {
+
     render() {
         return (
-            <Card style={{ width: '90%' }}>
+            <Card style={{ width: '90%', marginBottom: '20px' }}>
                 <CardHeader
                     title={this.props.commune.name}
                     subtitle={this.props.commune.description}
                 />
                 <CardActions>
-                    <FlatButton label="Select" onTouchTap={this.selectCommune} />
-                    <FlatButton label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
+                    <RaisedButton label="Select" onTouchTap={this.selectCommune} />
+                    <RaisedButton disabled={!this.props.commune.current_user_admin} label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
                 </CardActions>    
             </Card>
         );

@@ -8,6 +8,8 @@ import TextField from 'material-ui/TextField';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { inject, observer } from 'mobx-react';
 import { SubmitButton } from './util/submit-button';
+import { SmallErrorDisplay } from './util/small-error-display';
+import { LoadingScreen } from './util/loading-screen';
 
 @inject('appState')
 @observer
@@ -29,17 +31,11 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
     }
 
     render() {
-        const { user } = this.state;
-        let serverErrors = this.props.appState.registerErrors.map((error, index) => 
-             <li key={index}>{error}</li>
-        );
-        
+        const { user } = this.state;       
         return (
-            <div>
+            <LoadingScreen loading={this.props.appState.registerLoading}>
                 <h4>Sign up</h4>
-                <ul style={{color: 'red', listStyle: 'none'}}>
-                    {serverErrors}
-                </ul>
+                <SmallErrorDisplay error={this.props.appState.registerError} />
                 <ValidatorForm
                     onSubmit={this.handleSubmit}
                     onError={errors => this.showError(errors)}
@@ -91,7 +87,7 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
                     /><br />
                     <SubmitButton loading={this.props.appState.registerLoading} label="Sign up" type="submit" />
                 </ValidatorForm>
-            </div>
+            </LoadingScreen>
         );
     }
 

@@ -8,6 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { User } from '../store/models/user';
 import TextField from 'material-ui/TextField';
 import { SubmitButton } from './util/submit-button';
+import { SmallErrorDisplay } from './util/small-error-display';
 
 @inject('appState')
 @observer
@@ -24,10 +25,10 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
                 <div style={this.containerStyle}>
                     <h1>Welcome to KolhoosiDb</h1>
                     <h4>Log in</h4>
-                        <TextField id="username" type="text" hintText="Username" /> <br />
-                        <TextField id="password" type="password" hintText="Password" /> <br />
+                        <SmallErrorDisplay error={this.props.appState.loginError} />
+                        <TextField id="username" type="text" hintText="Username" value="testeriija" /> <br />
+                        <TextField id="password" type="password" hintText="Password" value="testaaja"/> <br />
                         <SubmitButton loading={this.props.appState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
-                        <div style={{color: 'red', marginTop: '10px'}}>{this.props.appState.loginErrorMessage}</div>
                         <DevTools />
                 </div>
                 <div style={this.containerStyle}>
