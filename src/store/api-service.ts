@@ -12,25 +12,18 @@ const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
     return headers;
 }; */
 
-const config = () => {
+const config = (): AxiosRequestConfig => {
     return {
         headers:  {
         'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
         'Accept': 'application/json',
         'Content-type': 'application/json'
     }
-    };
+} as AxiosRequestConfig;
 };
 
-/* const init: any = {
-    method: 'GET',
-    headers: getHeaders(),
-    mode: 'cors',
-    cache: 'default'
-}; */
-
 export const get = (path: string): Promise<any> => {
-    return axios.get(API_URL + path, config).then((response) => {
+    return axios.get(API_URL + path, config()).then((response) => {
         return response.data;
     }).catch(handleAxiosError);
 };

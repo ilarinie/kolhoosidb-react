@@ -9,4 +9,5 @@ export class KolhoosiNavItem extends React.Component<{path: string, text: string
                 <MenuItem disabled={this.props.disabled} onTouchTap={this.props.onTouchTap}>{this.props.text}</MenuItem>
             </Link>
         );
-    }}
+    }
+}
