@@ -15,8 +15,6 @@ function autoSave(store: any, save: any) {
     // on the store is updated.
     const json = JSON.stringify(toJS(store));
     if (!firstRun && store.loggedIn) {
-      log.info('AppState is being saved to sessionStorage:', catAppState);
-      log.info(JSON.parse(json), catAppState);
       save(json);
     }
     firstRun = false;
@@ -31,12 +29,14 @@ export class AppState {
   @observable loginLoading: boolean = false;
   @observable dashboardLoading: boolean = false;
   @observable registerLoading: boolean = false;
+  @observable dataLoading: boolean = false;
 
   // Error indicators
   @observable loginError: KolhoosiError = new KolhoosiError('', []);
   @observable registerError: KolhoosiError = new KolhoosiError('', []);
   @observable snackbarMessage: string = '';
   @observable showSnackbar: boolean = false;
+  @observable dataError: KolhoosiError = new KolhoosiError('', []);
 
   // State data
   @observable communeSelected: boolean = false;
@@ -49,9 +49,7 @@ export class AppState {
     autoSave(this, this.save.bind(this));
   }
   load() {
-    log.info('Trying to find AppState in sessionStorage', catAppState);
     if (sessionStorage.getItem('appstate') !== null || sessionStorage.getItem('appstate') !== undefined) {
-      log.info('AppState is being fetched from sessionStorage', catAppState);
       const data: any = JSON.parse(sessionStorage.getItem('appstate') as string);
       extendObservable(this, data);
     }
@@ -83,20 +81,20 @@ export class AppState {
       this.communes.push(response.commune as Commune);
       this.selectCommune(this.communes.length - 1);
     }).catch((error) => {
-      log.info('ApiService provided error (createCommune):', catAppState);
-      log.info(error.message, catAppState);
+      this.showDashboardError(error.message);
     });
   }
 
   deleteCommune = (id: number) => {
     ApiService.destroy('communes/' + id).then((response) => {
       this.communes.splice(this.communes.findIndex(commune => commune.id === id), 1);
-    }).catch((error: Error) => {
-      console.log(error.message);
+    }).catch((error) => {
+      this.showDashboardError(error.message);
     });
   }
 
   getCommunes = (): Promise<any> => {
+    this.dataLoading = true;
     return ApiService.get('communes').then((response) => {
       this.communes = [];
       for (let i = 0; i < response.length; i++) {
@@ -104,6 +102,8 @@ export class AppState {
       }
     }).catch((error) => {
       this.showDashboardError(error.message);
+    }).then(() => {
+      this.dataLoading = false;
     });
   }
 
@@ -157,4 +157,5 @@ export class AppState {
     this.loggedIn = false;
     createBrowserHistory.push('/login');
   }
+
 }
