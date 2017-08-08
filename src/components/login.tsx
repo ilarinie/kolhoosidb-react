@@ -26,8 +26,8 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
                     <h1>Welcome to KolhoosiDb</h1>
                     <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.appState.loginError} />
-                        <TextField id="username" type="text" hintText="Username" value="testeriija" /> <br />
-                        <TextField id="password" type="password" hintText="Password" value="testaaja"/> <br />
+                        <TextField id="username" type="text" hintText="Username" /> <br />
+                        <TextField id="password" type="password" hintText="Password" /> <br />
                         <SubmitButton loading={this.props.appState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
                         <DevTools />
                 </div>

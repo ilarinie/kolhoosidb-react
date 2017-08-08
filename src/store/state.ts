@@ -43,6 +43,7 @@ export class AppState {
   @observable selectedCommune: Commune;
   @observable communes: Commune[] = [];
   @observable current_user: User;
+  @observable all_users: User[] = [];
 
   constructor() {
     this.load();
@@ -96,10 +97,7 @@ export class AppState {
   getCommunes = (): Promise<any> => {
     this.dataLoading = true;
     return ApiService.get('communes').then((response) => {
-      this.communes = [];
-      for (let i = 0; i < response.length; i++) {
-        this.communes.push(response[i].commune);
-      }
+      this.communes = response as Commune[];
     }).catch((error) => {
       this.showDashboardError(error.message);
     }).then(() => {
@@ -112,6 +110,18 @@ export class AppState {
     return ApiService.get('/users/' + this.current_user.id).then((response) => {
       this.current_user = response.json() as User;
     });
+  }
+
+  getUsers = () => {
+    this.dataLoading = true;
+    ApiService.get('users').then((response) => {
+      this.all_users = response as User[];
+    }).catch((error) => {
+      console.log(error);
+    }) 
+    .then(() => {
+      this.dataLoading = false;
+    });  
   }
 
   updateUser = (user: User) => {
@@ -127,7 +137,7 @@ export class AppState {
   createUser = (user: User) => {
     this.registerError.isError = false;
     this.registerLoading = true;
-    let payload =  user;
+    let payload =  {user: user};
     ApiService.post('users/', payload).then((response) => {
       this.logIn(user.username, user.password as string);
       this.registerLoading = false;
@@ -135,6 +145,14 @@ export class AppState {
       this.registerError = error;
       this.registerError.isError = true;
       this.registerLoading = false;
+    });
+  }
+  //invite user to commune
+  inviteUser = (username: string) => {
+    ApiService.post('invitation', {username: username, commune_id: this.selectedCommune.id}).then((response) => {
+      this.showDashboardError("Invitation sent.");
+    }).catch((error) => {
+      this.showDashboardError(error.message);
     });
   }
 
