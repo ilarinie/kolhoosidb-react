@@ -10,6 +10,7 @@ import { inject, observer } from 'mobx-react';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
 import { LoadingScreen } from './util/loading-screen';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 @inject('appState')
 @observer
@@ -33,8 +34,13 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
     render() {
         const { user } = this.state;       
         return (
-            <LoadingScreen loading={this.props.appState.registerLoading}>
-                <h4>Sign up</h4>
+            <Card>
+                <CardHeader
+                title="Register"
+                actAsExpander={true}
+                showExpandableButton={true}
+                />
+                <CardText expandable={true}>
                 <SmallErrorDisplay error={this.props.appState.registerError} />
                 <ValidatorForm
                     onSubmit={this.handleSubmit}
@@ -87,7 +93,8 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
                     /><br />
                     <SubmitButton loading={this.props.appState.registerLoading} label="Sign up" type="submit" />
                 </ValidatorForm>
-            </LoadingScreen>
+                </CardText>
+            </Card>
         );
     }
 

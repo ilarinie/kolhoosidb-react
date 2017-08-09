@@ -19,7 +19,7 @@ export class Dashboard extends React.Component<{ appState: AppState }, {}> {
 
     render() {
         return (
-            <div>
+            <div className="dashboard">
                 <DevTools />
                 <AppBarComponent appState={this.props.appState} />
                 <div className="content">
