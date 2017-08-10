@@ -17,11 +17,11 @@ const logo = require('../assets/logo.png');
 @observer
 export class LoginComponent extends React.Component<{ appState: AppState }, {}> {
     containerStyle = {
-        width: '398px',
+        width: '370px',
+        maxWidth: '95vw',
         minHeight: '400px',
-        margin: '0 auto',
-        textAlign: 'center',
-        padding: '30px'
+        margin: '20px auto',
+        textAlign: 'center'
     };
 
     paperStyles = {
@@ -49,10 +49,10 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
 
     render() {
         return (
-            <div style={{backgroud: '#ffe'}}>
+            <div style={{width: '100%'}}>
                 <div style={this.containerStyle}>
                     <Paper style={this.paperStyles} rounded={true} zDepth={2}>
-                        <img src={logo} />
+                        <img style={{width: '100%'}} src={logo} />
                         <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.appState.loginError} />
                         <i className="fa fa-user" aria-hidden="true"/> <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" value="testeriija" />

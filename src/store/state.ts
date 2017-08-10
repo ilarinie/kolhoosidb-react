@@ -78,7 +78,7 @@ export class AppState {
   createCommune = (commune: Commune) => {
     let payload = { commune: commune };
     ApiService.post('communes', payload).then((response) => {
-      this.communes.push(response.commune as Commune);
+      this.communes.push(response as Commune);
       this.selectCommune(this.communes.length - 1);
     }).catch((error) => {
       this.showDashboardError(error.message);

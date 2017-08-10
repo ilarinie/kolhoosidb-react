@@ -6,7 +6,7 @@ export class SubmitButton extends React.Component<{ label: string, loading: bool
     render() {
         if (this.props.loading) {
             return (
-                <RaisedButton disabled={true} ><i className="fa fa-spinner fa-spin" /></RaisedButton>
+                <RaisedButton disabled={true} ><i style={{color: 'red'}} className="fa fa-star fa-spin" /></RaisedButton>
             );
         } else {
             return (
