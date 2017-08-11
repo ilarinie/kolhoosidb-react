@@ -21,9 +21,7 @@ export class Communelist extends React.Component<{ appState: AppState }, {}> {
         return (
             <LoadingScreen loading={this.props.appState.dataLoading}>
             <div>
-                <ul>
                     {communes}
-                </ul>
                 <hr />
                 <CommuneCreationComponent appState={this.props.appState} />
             </div>

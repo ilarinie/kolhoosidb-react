@@ -55,9 +55,9 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
                         <img style={{width: '100%'}} src={logo} />
                         <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.appState.loginError} />
-                        <i className="fa fa-user" aria-hidden="true"/> <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" value="testeriija" />
+                        <i className="fa fa-user" aria-hidden="true"/> <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" defaultValue="testeriija" />
                         <br />
-                        <i className="fa fa-lock" aria-hidden="true" /><TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" value="testaaja"/>
+                        <i className="fa fa-lock" aria-hidden="true" /><TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
                         <br /><br />
                         <SubmitButton loading={this.props.appState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
                     </Paper>
