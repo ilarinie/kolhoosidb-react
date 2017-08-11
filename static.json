@@ -1,5 +1,3 @@
-// heroku shits
-
 {
     "root": "build/",
     "routes": {
