@@ -2,6 +2,7 @@ import * as React from 'react';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import RaisedButton from 'material-ui/RaisedButton';
 import { AppState } from '../../../store/state';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 export class CommuneCreationComponent extends React.Component<{appState: AppState}, {commune: any}> {
 
@@ -19,36 +20,42 @@ export class CommuneCreationComponent extends React.Component<{appState: AppStat
     render() {
         const { commune } = this.state;
         return (
-            <div className="full-size-component">
-                <h4> Create a new commune </h4>
-                <ValidatorForm
-                    onSubmit={this.handleSubmit}
-                    onError={errors => this.handleError(errors)}
-                >
-                    <TextValidator
-                        floatingLabelText="Commune name"
-                        onChange={this.handleChange}
-                        name="name"
-                        type="text"
-                        validators={['required']}
-                        errorMessages={['Name is requred']}
-                        value={commune.name}
-                    /><br />
-                    <TextValidator
-                        floatingLabelText="Commune description"
-                        onChange={this.handleChange}
-                        multiLine={true}
-                        rows={2}
-                        type="text"
-                        name="description"
-                        validators={['required']}
-                        errorMessages={['Description is required']}
-                        value={commune.description}
-                        
-                    /><br />
-                    <RaisedButton label="Create" type="submit" />
-                </ValidatorForm>
-            </div>
+            <Card className="form-card">
+                <CardHeader
+                    title="Create a new commune"
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                <CardText expandable={true}>
+                    <ValidatorForm
+                        onSubmit={this.handleSubmit}
+                        onError={errors => this.handleError(errors)}
+                    >
+                        <TextValidator
+                            floatingLabelText="Commune name"
+                            onChange={this.handleChange}
+                            name="name"
+                            type="text"
+                            validators={['required']}
+                            errorMessages={['Name is requred']}
+                            value={commune.name}
+                        /><br />
+                        <TextValidator
+                            floatingLabelText="Commune description"
+                            onChange={this.handleChange}
+                            multiLine={true}
+                            rows={2}
+                            type="text"
+                            name="description"
+                            validators={['required']}
+                            errorMessages={['Description is required']}
+                            value={commune.description}
+                            
+                        /><br />
+                        <RaisedButton label="Create" type="submit" />
+                    </ValidatorForm>
+                </CardText>
+            </Card>
         );
     }
 

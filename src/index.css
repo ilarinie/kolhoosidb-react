@@ -9,9 +9,13 @@ body {
 
 /* This is to accomondate responsive drawer (that is docked when on desktop, hidden otherwise) */
 @media screen and (min-width: 768px) {
-  #root {
+  .dashboard {
     padding-left: 201px;
   }
+}
+
+#root {
+  width: 100%;
 }
 
 /* This will remove the stupid chrome yellow autofill */

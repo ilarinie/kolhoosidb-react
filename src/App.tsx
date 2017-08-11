@@ -9,12 +9,15 @@ import { Dashboard } from './components/dashboard/dashboard';
 import createBrowserHistory from './history';
 import { AppState } from './store/state';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { kolhoosiTheme } from './theme';
 
 class App extends React.Component<{}, {}> {
   render(): any {
     return (
       <div>
-        <MuiThemeProvider>
+        <MuiThemeProvider 
+          muiTheme={kolhoosiTheme}
+        >
           <Provider appState={appState}>
             <Router history={createBrowserHistory}>
               <Switch>

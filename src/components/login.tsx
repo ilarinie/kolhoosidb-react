@@ -9,27 +9,58 @@ import { User } from '../store/models/user';
 import TextField from 'material-ui/TextField';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
+import Paper from 'material-ui/Paper';
+
+const logo = require('../assets/logo.png');
 
 @inject('appState')
 @observer
 export class LoginComponent extends React.Component<{ appState: AppState }, {}> {
     containerStyle = {
-        width: '90%',
-        textAlign: 'center',
-        padding: '30px'
+        width: '370px',
+        maxWidth: '95vw',
+        minHeight: '400px',
+        margin: '20px auto',
+        textAlign: 'center'
+    };
+
+    paperStyles = {
+        height: '450px',
+        color: 'gray'
+    };
+
+    innerContainer = {
+        background: 'rgba(0%, 0%, 0%, 71.8%)',
+        color: 'white',
+        height: '300px',
+        width: '300px'
+    };
+
+    logoStyle = {
+        height: '100px',
+        background: 'rgb(100%, 0%, 18.3%)',
+        borderRadius: '5px 5px 0 0'
+    };
+
+    textFieldStyle = {
+        color: 'gray !important',
+        paddingLeft: '10px'
     };
 
     render() {
         return (
-            <div>
+            <div style={{width: '100%'}}>
                 <div style={this.containerStyle}>
-                    <h1>Welcome to KolhoosiDb</h1>
-                    <h4>Log in</h4>
+                    <Paper style={this.paperStyles} rounded={true} zDepth={2}>
+                        <img style={{width: '100%'}} src={logo} />
+                        <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.appState.loginError} />
-                        <TextField id="username" type="text" hintText="Username" /> <br />
-                        <TextField id="password" type="password" hintText="Password" /> <br />
+                        <i className="fa fa-user" aria-hidden="true"/> <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" defaultValue="testeriija" />
+                        <br />
+                        <i className="fa fa-lock" aria-hidden="true" /><TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
+                        <br /><br />
                         <SubmitButton loading={this.props.appState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
-                        <DevTools />
+                    </Paper>
                 </div>
                 <div style={this.containerStyle}>
                     <RegisterComponent appState={this.props.appState} />

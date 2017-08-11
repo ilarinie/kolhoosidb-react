@@ -10,7 +10,7 @@ export class CommuneCard extends React.Component<{commune: Commune, value: numbe
 
     render() {
         return (
-            <Card style={{ width: '90%', marginBottom: '20px' }}>
+            <Card style={{ width: '90%', margin: '20px auto' }}>
                 <CardHeader
                     title={this.props.commune.name}
                     subtitle={this.props.commune.description}
