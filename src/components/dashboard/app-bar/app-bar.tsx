@@ -8,6 +8,7 @@ import Divider from 'material-ui/Divider';
 import { Link } from 'react-router-dom';
 import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
+const logo = require('../../../assets/logo.png');
 
 export class AppBarComponent extends React.Component<{appState: AppState}, {docked: boolean, mobile: boolean, drawerOpen: any}> {
 
@@ -41,9 +42,8 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
                     onLeftIconButtonTouchTap={this.toggleOpenDrawer}
                     showMenuIconButton={this.state.mobile}
                 />
-                <Drawer open={this.state.drawerOpen} docked={this.state.docked} width={200} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
-                    <MenuItem disabled={true}>KolhoosiDB</MenuItem>
-                    <Divider />
+                <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={200} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
+                    <img src={logo} style={{height: '64px', width: '100%'}} />
                         <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/" text="Tasks" onTouchTap={this.handleClose} /> 
                         <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
                     <Divider />
