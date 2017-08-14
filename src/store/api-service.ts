@@ -8,7 +8,7 @@ const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
 const config = (): AxiosRequestConfig => {
     return {
         headers:  {
-        'Authorization': 'Bearer ' + sessionStorage.getItem('token'),
+        'Authorization': 'Bearer ' + mainState.authState.token,
         'Accept': 'application/json',
         'Content-type': 'application/json'
     }

@@ -4,6 +4,7 @@ import { observable, action } from 'mobx';
 import { Commune } from './models/commune';
 import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
+import { KolhoosiError } from './error';
 
 export class CommuneState {
     mainState: MainState;
@@ -24,37 +25,34 @@ export class CommuneState {
         createBrowserHistory.push('/');
       }
     }
-  
+
     @action
-    createCommune = (commune: Commune) => {
-      let payload = { commune: commune };
-      ApiService.post('communes', payload).then((response) => {
-        this.communes.push(response as Commune);
-        this.selectCommune(this.communes.length - 1);
-      }).catch((error) => {
+    async createCommune(commune: Commune) {
+      let payload = {commune: commune};
+      try {
+        let newCommune = await ApiService.post('communes', payload) as Commune;
+        this.communes.push(newCommune);
+      } catch (error) {
         this.mainState.uiState.showDashboardError(error.message);
-      });
-    }
-  
-    @action
-    deleteCommune = (id: number) => {
-      ApiService.destroy('communes/' + id).then((response) => {
-        this.communes.splice(this.communes.findIndex(commune => commune.id === id), 1);
-      }).catch((error) => {
-        this.mainState.uiState.showDashboardError(error.message);
-      });
-    }
-  
-    @action
-    getCommunes = (): Promise<any> => {
-      this.mainState.uiState.dataLoading = true;
-      return ApiService.get('communes').then((response) => {
-        this.communes = response as Commune[];
-      }).catch((error) => {
-        this.mainState.uiState.showDashboardError(error.message);
-      }).then(() => {
-        this.mainState.uiState.dataLoading = false;
-      });
+      }
     }
 
+    @action
+    async deleteCommune(id: number)  {
+      try {
+        await ApiService.destroy('communes/' + id);
+        this.communes.splice(this.communes.findIndex(commune => commune.id === id), 1);
+      } catch (error) {
+        this.mainState.uiState.showDashboardError(error.message);
+      }
+    }
+
+    @action
+    async getCommunes() {
+      try {
+        this.communes = await ApiService.get('/communes');
+      } catch (error) {
+        this.mainState.uiState.showDashboardError(error.message);
+      }
+    }
 }
