@@ -16,7 +16,7 @@ const ulStyles = {
 
 export class SmallErrorDisplay extends React.Component<{error: KolhoosiError}, {}> {
     render() {
-        if (!this.props.error.isError){
+        if (!this.props.error.isError) {
             return null;
         }
 

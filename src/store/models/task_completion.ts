@@ -1,9 +1,10 @@
-import {observable} from 'mobx';
-import {User} from './user';
-import {Task} from './task';
+import { observable } from 'mobx';
+import { User } from './user';
+import { Task } from './task';
+import { persist } from 'mobx-persist';
 
 export class TaskCompletion {
-    @observable user: User;
-    @observable task: Task;
-    @observable created_at: Date;
+    @persist @observable user: User;
+    @persist @observable task: Task;
+    @persist @observable created_at: Date;
 }

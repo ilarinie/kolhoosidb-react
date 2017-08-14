@@ -9,12 +9,12 @@ const loadingDivStyles = {
     textAlign: 'center'
 };
 
-export class LoadingScreen extends React.Component<{ loading: boolean }, {}>{
+export class LoadingScreen extends React.Component<{ loading: boolean }, {}> {
     render() {
         if (this.props.loading) {
             return (
                 <div style={loadingDivStyles}>
-                    <i className="fa fa-spinner fa-spin fa-5x"> </i>  
+                    <i className="fa fa-spinner fa-spin fa-5x"/>  
                 </div>
             );
         } else {

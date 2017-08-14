@@ -8,7 +8,7 @@ export const kolhoosiTheme = getMuiTheme({
         accent1Color: '#FFBF00',
         accent2Color: '#FFFF8D',
         accent3Color: '#9E9E9E',
-        textColor: 'gray',
+        textColor: '#9E9E9E',
         alternateTextColor: '#FFFF00',
     },
     fontFamily: 'Roboto, sans-serif'

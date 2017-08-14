@@ -1,10 +1,10 @@
 import { observer, inject } from 'mobx-react';
 import * as React from 'react';
-import { AppState } from '../../store/state';
+import { MainState } from '../../store/state';
 
-@inject('appState')
+@inject('mainState')
 @observer 
-export class ProfileComponent extends React.Component<{appState: AppState}, {}> {
+export class ProfileComponent extends React.Component<{mainState: MainState}, {}> {
     render() {
         return (
             <div>

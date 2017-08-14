@@ -1,6 +1,7 @@
 import { KolhoosiError } from './error';
 import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
 import createBrowserHistory from '../history';
+import { mainState } from './state';
 
 const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
 
@@ -48,6 +49,7 @@ const dataConfig = (data: object): {} => {
 const handleAxiosError = (error: any) => {
     if (error.response.status === 401) {
         console.log('redirecting to login..');
+        mainState.authState.token = '';
         createBrowserHistory.push('/login');
         throw new KolhoosiError(error.response.data.message, error.response.data.errors);
     } else if (error.response) {

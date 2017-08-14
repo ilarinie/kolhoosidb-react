@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
-import { AppState } from '../../../store/state';
+import { MainState } from '../../../store/state';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -10,7 +10,7 @@ import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
 const logo = require('../../../assets/logo.png');
 
-export class AppBarComponent extends React.Component<{appState: AppState}, {docked: boolean, mobile: boolean, drawerOpen: any}> {
+export class AppBarComponent extends React.Component<{mainState: MainState}, {docked: boolean, mobile: boolean, drawerOpen: any}> {
 
     constructor() {
         super();
@@ -23,13 +23,13 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
 
     render() {
         let communeName: string;
-        if (!this.props.appState.communeSelected) {
+        if (!this.props.mainState.communeState.communeSelected) {
             communeName = 'Your communes';
         } else {
-            communeName = this.props.appState.selectedCommune.name;
+            communeName = this.props.mainState.communeState.selectedCommune.name;
         }
         let adminMenuItems: any = null;
-        if (this.props.appState.communeSelected && this.props.appState.selectedCommune.current_user_admin) {
+        if (this.props.mainState.communeState.communeSelected && this.props.mainState.communeState.selectedCommune.current_user_admin) {
             adminMenuItems = (
                 <KolhoosiNavItem disabled={false} path="/adduser" text="Add users" onTouchTap={this.handleClose} />
             );
@@ -44,8 +44,8 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
                 />
                 <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={200} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
                     <img src={logo} style={{height: '64px', width: '100%'}} />
-                        <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/" text="Tasks" onTouchTap={this.handleClose} /> 
-                        <KolhoosiNavItem disabled={!this.props.appState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
+                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/" text="Tasks" onTouchTap={this.handleClose} /> 
+                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
                     <Divider />
                         {adminMenuItems}
                     <Divider />
@@ -106,12 +106,12 @@ export class AppBarComponent extends React.Component<{appState: AppState}, {dock
 
     deselectCommune = () => {
         this.handleClose();
-        this.props.appState.communeSelected = false;
+        this.props.mainState.communeState.communeSelected = false;
         createBrowserHistory.push('/communelist');
     }
 
     logout = () => {
         this.handleClose();
-        this.props.appState.logOut();
+        this.props.mainState.authState.logOut();
     }
 }

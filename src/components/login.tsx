@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppState } from '../store/state';
+import {  MainState } from '../store/state';
 import DevTools from 'mobx-react-devtools';
 import { observer, inject } from 'mobx-react';
 import { RegisterComponent } from './register';
@@ -10,12 +10,14 @@ import TextField from 'material-ui/TextField';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
 import Paper from 'material-ui/Paper';
+import createBrowserHistory from '../history';
+import { Redirect } from 'react-router-dom';
 
 const logo = require('../assets/logo.png');
 
-@inject('appState')
+@inject('mainState')
 @observer
-export class LoginComponent extends React.Component<{ appState: AppState }, {}> {
+export class LoginComponent extends React.Component<{ mainState: MainState }, {}> {
     containerStyle = {
         width: '370px',
         maxWidth: '95vw',
@@ -48,22 +50,28 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
     };
 
     render() {
+        // Jos huomataan että ollaan jo kirjauduttu, ohjataan samantien dashboardiin.
+        if (this.props.mainState.authState.token !== '') {
+            return ( <Redirect to="/" push={true} /> );
+        }
         return (
             <div style={{width: '100%'}}>
                 <div style={this.containerStyle}>
                     <Paper style={this.paperStyles} rounded={true} zDepth={2}>
                         <img style={{width: '100%'}} src={logo} />
                         <h4>Log in</h4>
-                        <SmallErrorDisplay error={this.props.appState.loginError} />
-                        <i className="fa fa-user" aria-hidden="true"/> <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" defaultValue="testeriija" />
+                        <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
+                        <i className="fa fa-user" aria-hidden="true"/>
+                        <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" defaultValue="testeriija" />
                         <br />
-                        <i className="fa fa-lock" aria-hidden="true" /><TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
+                        <i className="fa fa-lock" aria-hidden="true" />
+                        <TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
                         <br /><br />
-                        <SubmitButton loading={this.props.appState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
+                        <SubmitButton loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
                     </Paper>
                 </div>
                 <div style={this.containerStyle}>
-                    <RegisterComponent appState={this.props.appState} />
+                    <RegisterComponent mainState={this.props.mainState} />
                 </div>
             </div>
         );
@@ -71,14 +79,14 @@ export class LoginComponent extends React.Component<{ appState: AppState }, {}> 
 
     createUser = (asd: any) => {
         let user = asd as User;
-        this.props.appState.createUser(user);
+        this.props.mainState.userState.createUser(user);
     }
 
     login = () => {
         let username: string =  (document.getElementById('username') as HTMLInputElement).value;
         let password: string =  (document.getElementById('password') as HTMLInputElement).value;
         if (username && password) {
-            this.props.appState.logIn(username, password);
+            this.props.mainState.authState.logIn(username, password);
         }
     }
 
