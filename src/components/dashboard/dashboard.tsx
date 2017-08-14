@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { AppState } from '../../store/state';
+import { MainState } from '../../store/state';
 import { inject, observer } from 'mobx-react';
 import createBrowserHistory from '../../history';
 import { TasksComponent } from './tasks';
@@ -13,15 +13,15 @@ import DevTools from 'mobx-react-devtools';
 import KolhoosiSnackBar from '../util/kolhoosi-snackbar';
 import { AddUserComponent } from './add-user';
 
-@inject('appState')
+@inject('mainState')
 @observer
-export class Dashboard extends React.Component<{ appState: AppState }, {}> {
+export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
 
     render() {
         return (
             <div className="dashboard">
                 <DevTools />
-                <AppBarComponent appState={this.props.appState} />
+                <AppBarComponent mainState={this.props.mainState} />
                 <div className="content">
                     <Switch>
                         <CommuneSelectedRoute exact={true} path="/" component={TasksComponent} />
@@ -30,17 +30,17 @@ export class Dashboard extends React.Component<{ appState: AppState }, {}> {
                         <Route path="/communelist" component={Communelist} />
                     </Switch>
                 </div>
-                <KolhoosiSnackBar appState={this.props.appState} />
+                <KolhoosiSnackBar mainState={this.props.mainState} />
             </div>
         );
     }
 
     deselectCommune = () => {
-        this.props.appState.communeSelected = false;
+        this.props.mainState.communeState.communeSelected = false;
         createBrowserHistory.push('/communelist');
     }
 
     logOut = () => {
-        this.props.appState.logOut();
+        this.props.mainState.authState.logOut();
     }
 }

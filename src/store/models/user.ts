@@ -1,11 +1,12 @@
 import { observable } from 'mobx';
+import { persist } from 'mobx-persist';
 
 export class User {
-    @observable id?: number;
-    @observable username: string;
-    @observable name: string;
+    @persist @observable id?: number;
+    @persist @observable username: string;
+    @persist @observable name: string;
     password?: string;
     password_confirmation?: string;
-    @observable created_at: Date;
-    @observable updated_at: Date;
+    @persist @observable created_at: Date;
+    @persist @observable updated_at: Date;
 }

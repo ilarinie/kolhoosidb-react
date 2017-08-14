@@ -2,7 +2,7 @@ import * as React from 'react';
 import { KolhoosiTextField } from './util/kolhoosi-text-field';
 import RaisedButton from 'material-ui/RaisedButton';
 import update from 'immutability-helper';
-import { AppState } from '../store/state';
+import { MainState } from '../store/state';
 import { User } from '../store/models/user';
 import TextField from 'material-ui/TextField';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
@@ -12,9 +12,9 @@ import { SmallErrorDisplay } from './util/small-error-display';
 import { LoadingScreen } from './util/loading-screen';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
-@inject('appState')
+@inject('mainState')
 @observer
-export class RegisterComponent extends React.Component<{appState: AppState}, {user: any}> {
+export class RegisterComponent extends React.Component<{mainState: MainState}, {user: any}> {
     
     constructor(props: any) {
         super(props);
@@ -36,12 +36,12 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
         return (
             <Card>
                 <CardHeader
-                title="Register"
-                actAsExpander={true}
-                showExpandableButton={true}
+                    title="Register"
+                    actAsExpander={true}
+                    showExpandableButton={true}
                 />
                 <CardText expandable={true}>
-                <SmallErrorDisplay error={this.props.appState.registerError} />
+                <SmallErrorDisplay error={this.props.mainState.uiState.registerError} />
                 <ValidatorForm
                     onSubmit={this.handleSubmit}
                     onError={errors => this.showError(errors)}
@@ -91,7 +91,7 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
                         errorMessages={['Password confirmation is required']}
                         value={user.password_confirmation}
                     /><br />
-                    <SubmitButton loading={this.props.appState.registerLoading} label="Sign up" type="submit" />
+                    <SubmitButton loading={this.props.mainState.uiState.registerLoading} label="Sign up" type="submit" />
                 </ValidatorForm>
                 </CardText>
             </Card>
@@ -105,7 +105,7 @@ export class RegisterComponent extends React.Component<{appState: AppState}, {us
     }
 
     handleSubmit = () => {
-        this.props.appState.createUser(this.state.user);
+        this.props.mainState.userState.createUser(this.state.user);
     }
     
     showError = (error: any) => {

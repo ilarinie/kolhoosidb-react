@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { AppState } from '../../store/state';
+import { MainState } from '../../store/state';
 
-export class PurchasesComponent extends React.Component<{ appState: AppState }, {}> {
+export class PurchasesComponent extends React.Component<{ mainState: MainState }, {}> {
     render() {
         return (
             <div>purchaseja purchaseja</div>

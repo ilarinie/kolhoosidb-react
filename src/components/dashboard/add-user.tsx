@@ -1,20 +1,20 @@
-import { AppState } from '../../store/state';
+import { MainState } from '../../store/state';
 import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { LoadingScreen } from '../util/loading-screen';
-import { TextField, RaisedButton } from "material-ui";
+import { TextField, RaisedButton } from 'material-ui';
 
-@inject('appState')
+@inject('mainState')
 @observer
-export class AddUserComponent extends React.Component<{ appState: AppState }, {}>{
+export class AddUserComponent extends React.Component<{ mainState: MainState }, {}> {
     render() { 
-            let users = this.props.appState.all_users.map((user, index) => 
+            let users = this.props.mainState.userState.all_users.map((user, index) => (
             <li key={index}>
                 {user.username}             
             </li>
-        );
-        return (
-            <LoadingScreen loading={this.props.appState.dataLoading}>
+            ));
+            return (
+            <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
                 <div className="full-size-component">
                   <p>Invite user by username</p>
                   <TextField id="username" type="text" hintText="Give username" /> <br />
@@ -26,7 +26,7 @@ export class AddUserComponent extends React.Component<{ appState: AppState }, {}
     inviteUser = () => {
         let username: string =  (document.getElementById('username') as HTMLInputElement).value;
         if (username) {
-            this.props.appState.inviteUser(username);
+            this.props.mainState.userState.inviteUser(username);
         }
     }
 }
