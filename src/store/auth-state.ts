@@ -15,25 +15,24 @@ export class AuthState {
     }
 
     @action
-    logIn = (username: string, password: string) => {
+    async logIn(username: string, password: string) {
       this.mainState.uiState.loginLoading = true;
       this.mainState.uiState.loginError.isError = false;
-      ApiService.post('usertoken', { auth: { username: username, password: password}}).then((response) => {
-        sessionStorage.setItem('token', response.jwt);
+      try {
+        let response = await ApiService.post('usertoken', { auth: { username: username, password: password}});
         this.token = response.jwt;
-        this.mainState.uiState.loginLoading = false;
-        // this.loggedIn = true;
         createBrowserHistory.push('/communelist');
-      }).catch((error) => {
-        this.mainState.uiState.loginLoading = false;
+      } catch (error) {
         this.mainState.uiState.loginError = error;
-      });
+      } finally {
+        this.mainState.uiState.loginLoading = false;
+      }
+
     }
   
     @action
     logOut = () => {
       sessionStorage.clear();
-      // this.loggedIn = false;
       this.token = '';
       createBrowserHistory.push('/login');
     }
