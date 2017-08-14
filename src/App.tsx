@@ -12,12 +12,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { kolhoosiTheme } from './theme';
 import { create } from 'mobx-persist';
 
+// This will fetch the app state from localstorage.
 const hydrate = create({});
-
-// const appState: AppState = new AppState();
-
-// const state: MainState = mainState;
-
 hydrate('uiState', mainState.uiState);
 hydrate('userState', mainState.userState);
 hydrate('authState', mainState.authState);
@@ -80,19 +76,5 @@ mainState.authState.token !== '' ? (
     )
   )}/>
 );
-
-//console.log(appState.token !== '');
-
-/* tslint:enable */
-
-// if (localStorage.getItem('appState') !== null) {
-//     appState = JSON.parse(localStorage.getItem('appstate') as string) as AppState;
-// } else {
-//     appState = new AppState();
-// }
-
-// setInterval(() => {
-//   localStorage.setItem('apptate', JSON.stringify(appState));
-// },          5000);
 
 export default App;
