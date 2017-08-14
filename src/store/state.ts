@@ -3,7 +3,6 @@ import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
 import { Commune } from './models/commune';
 import { User } from './models/user';
-import { log, catAppState } from '../log-config';
 import { KolhoosiError } from './error';
 import { destroy } from './api-service';
 import { persist } from 'mobx-persist';
