@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
-
 body {
   margin: 0;
   padding: 0;
@@ -21,6 +19,8 @@ body {
 /* This will remove the stupid chrome yellow autofill */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 30px white inset;
+  box-shadow: 0 0 0 30px white inset;
+  -moz-box-shadow: 0 0 0 30px white inset;
 }
 
 
