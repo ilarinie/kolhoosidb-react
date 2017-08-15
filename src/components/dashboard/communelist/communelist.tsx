@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { CommuneCard } from './communecard';
 import { CommuneCreationComponent } from './communecreator';
 import { LoadingScreen } from '../../util/loading-screen';
-import { SmallErrorDisplay } from '../../util/small-error-display';
+import { Redirect } from 'react-router-dom';
 
 @inject('mainState')
 @observer
@@ -16,6 +16,10 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
     }
 
     render() {
+        if (this.props.mainState.communeState.communeSelected) {
+            return ( <Redirect to="/" />);
+        }
+
         let communes = this.props.mainState.communeState.communes.map((commune, index) => 
             <CommuneCard key={index} commune={commune} value={index} mainState={this.props.mainState} />
         );

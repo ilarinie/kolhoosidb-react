@@ -1,15 +1,9 @@
 import * as React from 'react';
-import { KolhoosiTextField } from './util/kolhoosi-text-field';
-import RaisedButton from 'material-ui/RaisedButton';
-import update from 'immutability-helper';
 import { MainState } from '../store/state';
-import { User } from '../store/models/user';
-import TextField from 'material-ui/TextField';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { inject, observer } from 'mobx-react';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
-import { LoadingScreen } from './util/loading-screen';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 @inject('mainState')

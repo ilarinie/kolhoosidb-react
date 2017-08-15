@@ -4,7 +4,6 @@ import { observable, action } from 'mobx';
 import { Commune } from './models/commune';
 import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
-import { KolhoosiError } from './error';
 
 export class CommuneState {
     mainState: MainState;

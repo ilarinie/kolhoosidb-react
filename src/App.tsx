@@ -1,13 +1,11 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
 import './App.css';
 import { Provider } from 'mobx-react';
-import DevTools from 'mobx-react-devtools';
 import { LoginComponent } from './components/login';
 import { Route, Router, Redirect, Switch } from 'react-router-dom';
 import { Dashboard } from './components/dashboard/dashboard';
 import createBrowserHistory from './history';
-import {  mainState, MainState } from './store/state';
+import {  mainState } from './store/state';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { kolhoosiTheme } from './theme';
 import { create } from 'mobx-persist';

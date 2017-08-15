@@ -8,11 +8,6 @@ import { TextField, RaisedButton } from 'material-ui';
 @observer
 export class AddUserComponent extends React.Component<{ mainState: MainState }, {}> {
     render() { 
-            let users = this.props.mainState.userState.all_users.map((user, index) => (
-            <li key={index}>
-                {user.username}             
-            </li>
-            ));
             return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
                 <div className="full-size-component">

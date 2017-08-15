@@ -1,5 +1,4 @@
 import * as React from 'react';
-import FontIcon from 'material-ui/FontIcon';
 
 const loadingDivStyles = {
     margin: '0 auto',

@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { Commune } from '../../../store/models/commune';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import { MainState, mainState } from '../../../store/state';
+import { Card, CardActions, CardHeader } from 'material-ui/Card';
+import { MainState } from '../../../store/state';
 import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
 
 export class CommuneCard extends React.Component<{commune: Commune, value: number, mainState: MainState}, {}> {
 

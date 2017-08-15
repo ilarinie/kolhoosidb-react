@@ -1,11 +1,9 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import { Link } from 'react-router-dom';
 import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
 const logo = require('../../../assets/logo.png');

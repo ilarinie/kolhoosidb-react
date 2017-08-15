@@ -1,16 +1,12 @@
 import * as React from 'react';
 import {  MainState } from '../store/state';
-import DevTools from 'mobx-react-devtools';
 import { observer, inject } from 'mobx-react';
 import { RegisterComponent } from './register';
-import { KolhoosiTextField } from './util/kolhoosi-text-field';
-import RaisedButton from 'material-ui/RaisedButton';
 import { User } from '../store/models/user';
 import TextField from 'material-ui/TextField';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
 import Paper from 'material-ui/Paper';
-import createBrowserHistory from '../history';
 import { Redirect } from 'react-router-dom';
 
 const logo = require('../assets/logo.png');
