@@ -11,7 +11,7 @@ import { kolhoosiTheme } from './theme';
 import { create } from 'mobx-persist';
 
 // This will fetch the app state from localstorage.
-const hydrate = create({});
+const hydrate = create({storage: localStorage});
 hydrate('uiState', mainState.uiState);
 hydrate('userState', mainState.userState);
 hydrate('authState', mainState.authState);

@@ -2,9 +2,8 @@ import * as React from 'react';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-import { MainState } from '../../../store/state';
 
-export class CommuneCreationComponent extends React.Component<{mainState: MainState}, {commune: any}> {
+export class CommuneCreationComponent extends React.Component<{submitCommune: any}, {commune: any}> {
 
     constructor(props: any) {
         super(props);
@@ -60,7 +59,7 @@ export class CommuneCreationComponent extends React.Component<{mainState: MainSt
     }
 
     handleSubmit = () => {
-        this.props.mainState.communeState.createCommune(this.state.commune);
+        this.props.submitCommune(this.state.commune);
     }
 
     handleError = (errors: any) => {

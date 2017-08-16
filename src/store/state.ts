@@ -11,7 +11,15 @@ export class MainState {
   communeState: CommuneState;
   taskState: TaskState;
 
-  constructor() {
+  constructor() { 
+    this.userState = new UserStore(this);
+    this.uiState = new UiState(this);
+    this.authState = new AuthState(this);
+    this.communeState = new CommuneState(this);
+    this.taskState = new TaskState(this);
+  }
+
+  reset = () => {
     this.userState = new UserStore(this);
     this.uiState = new UiState(this);
     this.authState = new AuthState(this);

@@ -2,12 +2,11 @@ import * as React from 'react';
 import { Task } from '../../../store/models/task';
 import { CardActions, Card, CardHeader, CardText } from 'material-ui/Card';
 import { observer } from 'mobx-react';
-import { MainState } from '../../../store/state';
 import * as moment from 'moment';
 import { RaisedButton } from 'material-ui';
 
 @observer
-export class TaskCard extends React.Component<{mainState: MainState, task: Task, index: number}, {loading: boolean} > {
+export class TaskCard extends React.Component<{completeTask: any, task: Task}, {loading: boolean} > {
 
     constructor(props: any) {
         super(props);
@@ -52,14 +51,14 @@ export class TaskCard extends React.Component<{mainState: MainState, task: Task,
 
     completeTask = () => {
         this.setState({loading: true});
-        this.props.mainState.taskState.completeTask(this.props.index).then(() => {
+        this.props.completeTask(this.props.task).then(() => {
             this.setState({loading: false});
         });
     }
 
 }
 
-class CompleteButton extends React.Component<{loading: boolean, label: string, completeTask: any}, {completed: boolean} >{
+class CompleteButton extends React.Component<{loading: boolean, label: string, completeTask: any}, {completed: boolean} > {
 
     constructor(props: any) {
         super(props);

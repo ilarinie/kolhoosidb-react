@@ -10,7 +10,8 @@ import { Communelist } from './communelist/communelist';
 import { CommuneSelectedRoute } from '../../App';
 import DevTools from 'mobx-react-devtools';
 import KolhoosiSnackBar from '../util/kolhoosi-snackbar';
-import { AddUserComponent } from './add-user';
+import { UserManagementComponent } from './user-management/user-management';
+import { ProfileComponent } from './profile/profile';
 
 @inject('mainState')
 @observer
@@ -25,8 +26,9 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
                     <Switch>
                         <CommuneSelectedRoute exact={true} path="/" component={TasksComponent} />
                         <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
-                        <CommuneSelectedRoute path="/adduser" component={AddUserComponent} />
+                        <CommuneSelectedRoute path="/manage-users" component={UserManagementComponent} />
                         <Route path="/communelist" component={Communelist} />
+                        <Route path="/profile" component={ProfileComponent} />
                     </Switch>
                 </div>
                 <KolhoosiSnackBar mainState={this.props.mainState} />

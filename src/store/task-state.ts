@@ -12,7 +12,7 @@ export class TaskState {
     }
 
     getSelectedCommuneId = () => {
-        if (this.mainState.communeState.selectedCommune){
+        if (this.mainState.communeState.selectedCommune) {
             return this.mainState.communeState.selectedCommune.id;
         }
         throw new KolhoosiError('Commune must be selected to do that', []);
@@ -46,7 +46,7 @@ export class TaskState {
             const commune_id = this.getSelectedCommuneId();
             await ApiService.destroy(`communes/${commune_id}/tasks/${task.id}`);
             this.mainState.communeState.selectedCommune.tasks.splice(this.mainState.communeState.selectedCommune.tasks.findIndex(oldTask => oldTask.id === task.id), 1);
-        } catch (error ){
+        } catch (error ) {
             this.mainState.uiState.showDashboardError(error.message);
         }
 
@@ -64,15 +64,18 @@ export class TaskState {
     }
 
     @action
-    async completeTask(index: number): Promise<any> {
+    async completeTask(task: Task): Promise<any> {
         try {
             const commune_id = this.getSelectedCommuneId();
-            const task = this.mainState.communeState.selectedCommune.tasks[index];
             let completion =  await ApiService.post(`communes/${commune_id}/tasks/${task.id}/complete`, {});
-            this.mainState.communeState.selectedCommune.tasks[index].completions.push(completion);
+            this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task)].completions.push(completion);
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         }
+    }
+
+    findTaskIndex = (task: Task) => {
+        return this.mainState.communeState.selectedCommune.tasks.findIndex(t => t.id === task.id);
     }
 
 }

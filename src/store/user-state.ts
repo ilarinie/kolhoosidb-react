@@ -2,8 +2,8 @@ import { MainState } from './state';
 import { observable, action } from 'mobx';
 import { persist } from 'mobx-persist';
 import * as ApiService from './api-service';
-// import { mainState } from './state';
 import { User } from './models/user';
+import { Invitation } from './models/invitation';
 
 export class UserStore {
   mainState: MainState;
@@ -11,7 +11,7 @@ export class UserStore {
   @persist('object') @observable current_user: User;
   @persist('list') @observable all_users: User[] = [];
 
-  constructor(mainState: MainState){
+  constructor(mainState: MainState) {
       this.mainState = mainState;
   }
 
@@ -60,10 +60,33 @@ export class UserStore {
   @action
   async inviteUser(username: string) {
     try {
-      await ApiService.post('invitation', {username: username, commune_id: this.mainState.communeState.selectedCommune.id});
+      await ApiService.post(`communes/${this.mainState.communeState.selectedCommune.id}/invite/`, {username: username});
+      this.mainState.communeState.refreshCommune();
       this.mainState.uiState.showDashboardError('Invitation sent.');
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
+    }
+  }
+
+  @action
+  async acceptInvitation(invitation: Invitation) {
+    try {
+      await ApiService.post(`invitations/${invitation.id}/accept`, {});
+      this.mainState.uiState.showDashboardError('Invitation accepted!');
+      this.mainState.userState.current_user.invitations.splice(this.mainState.userState.current_user.invitations.findIndex(inv => inv.id === invitation.id), 1);
+    } catch (error) {
+      this.mainState.uiState.showDashboardError('Accepting invitation failed, try again');
+    }
+  }
+
+  @action
+  async rejectInvitation(invitation: Invitation) {
+    try {
+      await ApiService.post(`invitations/${invitation.id}/reject`, {});
+      this.mainState.uiState.showDashboardError('Invitation rejected!');
+      this.mainState.userState.current_user.invitations.splice(this.mainState.userState.current_user.invitations.findIndex(inv => inv.id === invitation.id), 1);
+    } catch (error) {
+      this.mainState.uiState.showDashboardError('Accepting invitation failed, try again');
     }
   }
  
