@@ -3,6 +3,7 @@ import { User } from './user';
 import { Task } from './task';
 import { Purchase } from './purchase';
 import { persist } from 'mobx-persist';
+import { Invitation } from './invitation';
 
 export class Commune {
     @persist @observable id: number;
@@ -14,4 +15,5 @@ export class Commune {
     @persist @observable created_at?: Date;
     @persist @observable updated_at?: Date;
     @persist @observable current_user_admin: boolean;
+    @persist @observable invitations: Invitation[];
 }

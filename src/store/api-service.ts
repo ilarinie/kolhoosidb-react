@@ -1,5 +1,5 @@
 import { KolhoosiError } from './error';
-import axios, { AxiosRequestConfig, AxiosPromise } from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import createBrowserHistory from '../history';
 import { mainState } from './state';
 
@@ -22,7 +22,6 @@ export const get = (path: string): Promise<any> => {
 };
 
 export const post = (path: string, data: object): Promise<any> => {
-    console.log(dataConfig(data));
     return axios.post(API_URL + path, data, config()).then((response) => {
         return response.data;
     }).catch(handleAxiosError);

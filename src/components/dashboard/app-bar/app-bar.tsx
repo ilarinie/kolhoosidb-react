@@ -1,13 +1,12 @@
 import * as React from 'react';
-import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
 import AppBar from 'material-ui/AppBar';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import { Link } from 'react-router-dom';
 import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
+import { Subheader } from 'material-ui';
 const logo = require('../../../assets/logo.png');
 
 export class AppBarComponent extends React.Component<{mainState: MainState}, {docked: boolean, mobile: boolean, drawerOpen: any}> {
@@ -31,7 +30,11 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
         let adminMenuItems: any = null;
         if (this.props.mainState.communeState.communeSelected && this.props.mainState.communeState.selectedCommune.current_user_admin) {
             adminMenuItems = (
-                <KolhoosiNavItem disabled={false} path="/adduser" text="Add users" onTouchTap={this.handleClose} />
+                <div>
+                <Divider />
+                <Subheader>Admin tools</Subheader>
+                <KolhoosiNavItem disabled={false} path="/manage-users" text="Manage Users" onTouchTap={this.handleClose} />
+                </div>
             );
         }
 
@@ -49,6 +52,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                     <Divider />
                         {adminMenuItems}
                     <Divider />
+                        <KolhoosiNavItem disabled={false} path="/profile" text="Profile" onTouchTap={this.handleClose} />
                         <MenuItem onTouchTap={this.deselectCommune}>Switch communes</MenuItem>
                         <MenuItem onTouchTap={this.logout}>Log Out</MenuItem>
                 </Drawer>

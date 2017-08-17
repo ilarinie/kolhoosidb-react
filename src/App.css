@@ -2,8 +2,9 @@
   text-align: center;
 }
 .full-size-component {
-  width: 90vw;
+  width: 90%;
   margin: 0 auto;
+  padding: 30px;
 }
 
 .form-card {

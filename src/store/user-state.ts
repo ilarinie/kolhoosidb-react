@@ -2,16 +2,17 @@ import { MainState } from './state';
 import { observable, action } from 'mobx';
 import { persist } from 'mobx-persist';
 import * as ApiService from './api-service';
-// import { mainState } from './state';
 import { User } from './models/user';
+import { Invitation } from './models/invitation';
 
 export class UserStore {
   mainState: MainState;
 
   @persist('object') @observable current_user: User;
-  @persist('list') @observable all_users: User[] = [];
+  @persist('list') @observable users: User[] = [];
+  @persist('list') @observable admins: User[] = [];
 
-  constructor(mainState: MainState){
+  constructor(mainState: MainState) {
       this.mainState = mainState;
   }
 
@@ -28,6 +29,18 @@ export class UserStore {
       this.mainState.uiState.registerLoading = false;
     }
   }
+
+  @action
+  async getUsers(): Promise<any> {
+    try {
+      let response: any = await ApiService.get(`communes/${this.mainState.communeState.selectedCommune.id}/users`);
+      console.log(response);
+      this.admins = response.admins;
+      this.users = response.users;
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    }
+  } 
 
   @action
   async getUser(): Promise<any> {
@@ -56,12 +69,57 @@ export class UserStore {
     }
   }
 
+  @action
+  async removeUser(user: User) {
+    try {
+      await ApiService.destroy(`communes/${this.mainState.communeState.selectedCommune.id}/remove_user/${user.id}`);
+      this.getUsers();
+      this.mainState.uiState.showDashboardError('User removed');
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    }
+  }
+
   // invite user to commune
   @action
   async inviteUser(username: string) {
     try {
-      await ApiService.post('invitation', {username: username, commune_id: this.mainState.communeState.selectedCommune.id});
+      await ApiService.post(`communes/${this.mainState.communeState.selectedCommune.id}/invite/`, {username: username});
+      this.mainState.communeState.refreshCommune();
       this.mainState.uiState.showDashboardError('Invitation sent.');
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    }
+  }
+
+  @action
+  async acceptInvitation(invitation: Invitation) {
+    try {
+      await ApiService.post(`invitations/${invitation.id}/accept`, {});
+      this.mainState.uiState.showDashboardError('Invitation accepted!');
+      this.mainState.userState.current_user.invitations.splice(this.mainState.userState.current_user.invitations.findIndex(inv => inv.id === invitation.id), 1);
+    } catch (error) {
+      this.mainState.uiState.showDashboardError('Accepting invitation failed, try again');
+    }
+  }
+
+  @action
+  async rejectInvitation(invitation: Invitation) {
+    try {
+      await ApiService.post(`invitations/${invitation.id}/reject`, {});
+      this.mainState.uiState.showDashboardError('Invitation rejected!');
+      this.mainState.userState.current_user.invitations.splice(this.mainState.userState.current_user.invitations.findIndex(inv => inv.id === invitation.id), 1);
+    } catch (error) {
+      this.mainState.uiState.showDashboardError('Accepting invitation failed, try again');
+    }
+  }
+
+  @action
+  async cancelInvitation(invitation: Invitation) {
+    try {
+      await ApiService.destroy('invitations/' + invitation.id);
+      this.mainState.communeState.refreshCommune();
+      this.mainState.uiState.showDashboardError('Invitation cancelled.');
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     }

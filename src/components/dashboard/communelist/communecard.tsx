@@ -1,12 +1,9 @@
 import * as React from 'react';
 import { Commune } from '../../../store/models/commune';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
-import FlatButton from 'material-ui/FlatButton';
-import { MainState, mainState } from '../../../store/state';
+import { Card, CardActions, CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
-import FontIcon from 'material-ui/FontIcon';
 
-export class CommuneCard extends React.Component<{commune: Commune, value: number, mainState: MainState}, {}> {
+export class CommuneCard extends React.Component<{commune: Commune, selectCommune: any, deleteCommune: any}, {}> {
 
     render() {
         return (
@@ -24,10 +21,10 @@ export class CommuneCard extends React.Component<{commune: Commune, value: numbe
     }
 
     selectCommune = () => {
-        this.props.mainState.communeState.selectCommune(this.props.value);
+        this.props.selectCommune(this.props.commune);  
     }
 
     deleteCommune = () => {
-        this.props.mainState.communeState.deleteCommune(this.props.commune.id);
+        this.props.deleteCommune(this.props.commune);
     }
 }

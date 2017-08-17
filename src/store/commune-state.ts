@@ -4,7 +4,6 @@ import { observable, action } from 'mobx';
 import { Commune } from './models/commune';
 import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
-import { KolhoosiError } from './error';
 
 export class CommuneState {
     mainState: MainState;
@@ -18,11 +17,22 @@ export class CommuneState {
     }
     
     @action
-    selectCommune = (id: number) => {
-      if (this.communes[id] !== null) {
-        this.selectedCommune = this.communes[id];
-        this.communeSelected = true;
-        createBrowserHistory.push('/');
+    async selectCommune(commune: Commune)  {
+        try {
+          this.selectedCommune = await ApiService.get('communes/' + commune.id);
+          this.communeSelected = true;
+          createBrowserHistory.push('/');
+        } catch (error) {
+          this.mainState.uiState.showDashboardError(error.message);
+        }  
+    }
+
+    @action
+    async refreshCommune() {
+      try {
+        this.selectedCommune = await ApiService.get(`communes/${this.selectedCommune.id}`);
+      } catch (error) {
+        this.mainState.uiState.showDashboardError('Refreshing commune data failed, sorry :(');
       }
     }
 

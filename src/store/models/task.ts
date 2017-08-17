@@ -7,6 +7,6 @@ export class Task {
     @persist @observable name: string;
     @persist @observable priority: number;
     @persist @observable completions: TaskCompletion[];
-    @persist  @observable created_at: Date;
+    @persist @observable created_at: Date;
     @persist @observable updated_at: Date;
 }

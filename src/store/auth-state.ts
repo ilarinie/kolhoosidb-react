@@ -21,6 +21,7 @@ export class AuthState {
       try {
         let response = await ApiService.post('usertoken', { auth: { username: username, password: password}});
         this.token = response.jwt;
+        this.mainState.userState.current_user = response.user;
         createBrowserHistory.push('/communelist');
       } catch (error) {
         this.mainState.uiState.loginError = error;
@@ -32,8 +33,12 @@ export class AuthState {
   
     @action
     logOut = () => {
-      sessionStorage.clear();
       this.token = '';
+      
+      this.mainState.reset();
+      sessionStorage.clear();
+      localStorage.clear();
       createBrowserHistory.push('/login');
+      
     }
 }
