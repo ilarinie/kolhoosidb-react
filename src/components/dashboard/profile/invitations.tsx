@@ -10,6 +10,7 @@ export class InvitationsList extends React.Component<{ accept: any, reject: any,
         ));
         return (
             <div>
+                <h4>Following communes have invited you</h4>
                 {invitations}
             </div>
         );
