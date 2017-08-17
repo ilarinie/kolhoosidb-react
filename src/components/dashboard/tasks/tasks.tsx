@@ -35,10 +35,12 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, {l
         );
         return (
             <LoadingScreen loading={this.state.loading}>
-            <div className="full-size-component" >
+            <div className="full-size-component"  >
                 <h4>Tasks</h4>
                 {addTask}
-                {tasks}
+                <div style={{display: 'flex', justifyContent: 'center',  flexWrap: 'wrap', flexDirection: 'row'}}>
+                    {tasks}
+                </div>
                 <TaskCreator submitTask={this.submitTask} open={this.state.dialogOpen} />
             </div>
             </LoadingScreen>
@@ -52,13 +54,9 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, {l
     submitTask = (task: Task) => {
         this.setState({dialogOpen: false});
         if (task.id) {
-            this.props.mainState.taskState.updateTask(task).then(() => {
-                this.props.mainState.uiState.showDashboardError('Task added!');
-            });
+            this.props.mainState.taskState.updateTask(task);
         } else {
-            this.props.mainState.taskState.createTask(task).then(() => {
-                this.props.mainState.uiState.showDashboardError('Task added!');
-            });
+            this.props.mainState.taskState.createTask(task);
         }
     }
 
