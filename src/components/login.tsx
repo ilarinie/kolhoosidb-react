@@ -63,7 +63,8 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                         <i className="fa fa-lock" aria-hidden="true" />
                         <TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
                         <br /><br />
-                        <SubmitButton loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br />
+                        <SubmitButton loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
+                        <a style={{textDecoration: 'none'}} href="#" onClick={this.forgotPw} >Forgot password?</a>
                     </Paper>
                 </div>
                 <div style={this.containerStyle}>
@@ -71,6 +72,10 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                 </div>
             </div>
         );
+    }
+
+    forgotPw = () => {
+        alert('Too bad :(');
     }
 
     createUser = (asd: any) => {

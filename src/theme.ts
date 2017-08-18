@@ -9,7 +9,7 @@ export const kolhoosiTheme = getMuiTheme({
         accent2Color: '#FFFF8D',
         accent3Color: '#9E9E9E',
         textColor: '#000000',
-        alternateTextColor: '#FFFF00',
+        alternateTextColor: '#fff',
     },
     fontFamily: 'Roboto, sans-serif'
 });

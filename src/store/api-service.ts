@@ -34,15 +34,9 @@ export const destroy = (path: string): Promise<any> => {
 };
 
 export const put = (path: string, data: object) => {
-    return axios.put(API_URL + path, dataConfig(data)).then((response) => {
+    return axios.put(API_URL + path, data, config()).then((response) => {
         return response.data;
     }).catch(handleAxiosError);
-};
-
-const dataConfig = (data: object): {} => {
-    let dataConfiguration: any = config();
-    dataConfiguration.body = data;
-    return dataConfiguration;
 };
 
 const handleAxiosError = (error: any) => {

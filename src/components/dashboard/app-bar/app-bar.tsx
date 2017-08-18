@@ -7,8 +7,9 @@ import Divider from 'material-ui/Divider';
 import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
 import { Subheader } from 'material-ui';
+import { observer } from 'mobx-react';
 const logo = require('../../../assets/logo.png');
-
+@observer
 export class AppBarComponent extends React.Component<{mainState: MainState}, {docked: boolean, mobile: boolean, drawerOpen: any}> {
 
     constructor() {
@@ -33,7 +34,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                 <div>
                 <Divider />
                 <Subheader>Admin tools</Subheader>
-                <KolhoosiNavItem disabled={false} path="/manage-users" text="Manage Users" onTouchTap={this.handleClose} />
+                <KolhoosiNavItem disabled={false} path="/admin_panel" text="Manage Commune" onTouchTap={this.handleClose} />
                 </div>
             );
         }

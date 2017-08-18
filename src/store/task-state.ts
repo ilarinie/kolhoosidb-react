@@ -36,6 +36,7 @@ export class TaskState {
             let newTask = await ApiService.put(`communes/${commune_id}/tasks/${task.id}`, {task : task});
             this.mainState.communeState.selectedCommune.tasks[this.mainState.communeState.selectedCommune.tasks.findIndex(oldTask => oldTask.id === task.id)] = newTask;
         } catch (error) {
+            this.mainState.communeState.refreshCommune();
             this.mainState.uiState.showDashboardError(error.message);
         }
     }
@@ -46,6 +47,7 @@ export class TaskState {
             const commune_id = this.getSelectedCommuneId();
             await ApiService.destroy(`communes/${commune_id}/tasks/${task.id}`);
             this.mainState.communeState.selectedCommune.tasks.splice(this.mainState.communeState.selectedCommune.tasks.findIndex(oldTask => oldTask.id === task.id), 1);
+            // this.mainState.communeState.refreshCommune();
         } catch (error ) {
             this.mainState.uiState.showDashboardError(error.message);
         }

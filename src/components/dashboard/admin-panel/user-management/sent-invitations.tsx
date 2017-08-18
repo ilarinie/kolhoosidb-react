@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Invitation } from '../../../store/models/invitation';
 import { Card, CardHeader, CardActions } from 'material-ui/Card';
 import { RaisedButton } from 'material-ui';
+import { Invitation } from '../../../../store/models/invitation';
 
 export class SentInvitations extends React.Component<{ invitations: Invitation[], cancelInvitation: any}, {}> {
     render() {

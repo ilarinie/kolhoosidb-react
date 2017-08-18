@@ -1,14 +1,11 @@
 import * as React from 'react';
 import { AddUserComponent } from './add-user';
-import { observer, inject } from 'mobx-react';
-import { MainState } from '../../../store/state';
+import { MainState } from '../../../../store/state';
 import { SentInvitations } from './sent-invitations';
 import { UserListComponent } from './user-list';
-import { Invitation } from '../../../store/models/invitation';
-import { User } from '../../../store/models/user';
+import { Invitation } from '../../../../store/models/invitation';
+import { User } from '../../../../store/models/user';
 
-@inject('mainState')
-@observer
 export class UserManagementComponent extends React.Component<{mainState: MainState}, {}> {
 
     innerComponentContainer = {

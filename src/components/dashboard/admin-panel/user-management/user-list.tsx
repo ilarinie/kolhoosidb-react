@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { User } from '../../../store/models/user';
-export class UserListComponent extends React.Component<{users: User[], admins: User[], removeUser: any}, {} >{
+import { User } from '../../../../store/models/user';
+
+export class UserListComponent extends React.Component<{users: User[], admins: User[], removeUser: any}, {} > {
 
     render () {
         let users = this.props.users.map((user, index) => (
-            <UserEntry user={user} removeUser={this.props.removeUser} />
+            <UserEntry key={index} user={user} removeUser={this.props.removeUser} />
         ));
         let admins = this.props.admins.map((user, index) => (
             <li key={index}>{user.name}</li>

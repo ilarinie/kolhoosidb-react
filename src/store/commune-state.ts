@@ -46,6 +46,16 @@ export class CommuneState {
         this.mainState.uiState.showDashboardError(error.message);
       }
     }
+    @action
+    async updateCommune(commune: Commune) {
+      let payload = { commune: commune };
+      try {
+        this.selectedCommune = await ApiService.put('communes/' + this.selectedCommune.id, payload);
+        this.mainState.uiState.showDashboardError('Commune updated.');
+      } catch (error) {
+        this.mainState.uiState.showDashboardError(error.message);
+      }
+    }
 
     @action
     async deleteCommune(id: number)  {
