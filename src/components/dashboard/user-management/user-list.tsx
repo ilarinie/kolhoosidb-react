@@ -24,8 +24,8 @@ export class UserListComponent extends React.Component<{users: User[], admins: U
         );
     }
 
-    removeUser = () => {
-
+    removeUser = (user: User) => {
+        this.props.removeUser(user);
     }
 
 }
