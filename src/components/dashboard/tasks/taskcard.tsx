@@ -1,11 +1,9 @@
 import * as React from 'react';
 import { Task } from '../../../store/models/task';
 import { CardActions, Card, CardHeader, CardText } from 'material-ui/Card';
-import { observer } from 'mobx-react';
 import * as moment from 'moment';
 import { RaisedButton } from 'material-ui';
 
-@observer
 export class TaskCard extends React.Component<{completeTask: any, task: Task}, {loading: boolean} > {
 
     constructor(props: any) {
