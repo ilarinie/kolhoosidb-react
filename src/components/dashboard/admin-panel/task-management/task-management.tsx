@@ -23,6 +23,7 @@ export class TaskManagement extends React.Component<{mainState: MainState}, {edi
         ));
         return (
             <div className="full-size-component">
+                <RaisedButton label="New Task" onTouchTap={this.createTask} />
                 {tasks}
                 <TaskCreator 
                     handleClose={this.handleDialogClose}

@@ -6,15 +6,21 @@ import RaisedButton from 'material-ui/RaisedButton';
 export class CommuneCard extends React.Component<{commune: Commune, selectCommune: any, deleteCommune: any}, {}> {
 
     render() {
+        let deleteButton = null;
+        if (this.props.commune.current_user_admin) {
+            deleteButton = (
+                <RaisedButton label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
+            );
+        }
         return (
-            <Card style={{ width: '90%', margin: '20px auto' }}>
+            <Card style={{ width: '300px', margin: '20px auto' }}>
                 <CardHeader
                     title={this.props.commune.name}
                     subtitle={this.props.commune.description}
                 />
                 <CardActions>
                     <RaisedButton label="Select" onTouchTap={this.selectCommune} />
-                    <RaisedButton disabled={!this.props.commune.current_user_admin} label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
+                    {deleteButton}
                 </CardActions>    
             </Card>
         );

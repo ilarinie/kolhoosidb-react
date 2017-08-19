@@ -7,18 +7,17 @@ import { Task } from '../../../store/models/task';
 
 @inject('mainState')
 @observer
-export class TasksComponent extends React.Component<{ mainState: MainState }, {loading: boolean, dialogOpen: boolean} > {
+export class TasksComponent extends React.Component<{ mainState: MainState }, {dialogOpen: boolean} > {
 
     constructor(props: any) {
         super(props);
         this.state = {
-            loading: true,
             dialogOpen: false
         };
     }
 
     componentDidMount() {
-        this.props.mainState.taskState.getTasks().then(() => this.setState({loading: false}));
+        this.props.mainState.taskState.getTasks();
     }
 
     render() {
@@ -26,7 +25,7 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, {l
             <TaskCard completeTask={this.completeTask} task={task} key={index}/>
         ));
         return (
-            <LoadingScreen loading={this.state.loading}>
+            <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
             <div className="full-size-component"  >
                 <h4>Tasks</h4>
                 <div style={{display: 'flex', justifyContent: 'center',  flexWrap: 'wrap', flexDirection: 'row'}}>

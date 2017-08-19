@@ -11,6 +11,8 @@ export class UiState {
   @persist @observable registerLoading: boolean = false;
   @persist @observable dataLoading: boolean = false;
 
+  @persist('list') @observable locationHistory: string[] = [];
+
   // Error indicators and errors
   @persist('object') @observable loginError: KolhoosiError = new KolhoosiError('', []);
   @persist('object') @observable registerError: KolhoosiError = new KolhoosiError('', []);

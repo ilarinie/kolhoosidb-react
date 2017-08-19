@@ -70,9 +70,12 @@ export class CommuneState {
     @action
     async getCommunes() {
       try {
+        this.mainState.uiState.dataLoading = true;
         this.communes = await ApiService.get('/communes');
       } catch (error) {
         this.mainState.uiState.showDashboardError(error.message);
+      } finally {
+        this.mainState.uiState.dataLoading = false;
       }
     }
 }
