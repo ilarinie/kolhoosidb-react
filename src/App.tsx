@@ -15,14 +15,14 @@ const hydrate = create({storage: localStorage});
 hydrate('uiState', mainState.uiState).then((uiState) => {
   if (uiState.locationHistory.length !== 0) {
     createBrowserHistory.push(uiState.locationHistory[uiState.locationHistory.length - 1 ]);
-    doShit();
+    returnToLastVisitedPage();
   }
 });
 hydrate('userState', mainState.userState);
 hydrate('authState', mainState.authState);
 hydrate('communeState', mainState.communeState);
 
-const doShit = () =>  {
+const returnToLastVisitedPage = () =>  {
   createBrowserHistory.listen(location => {
     mainState.uiState.locationHistory.push(location.pathname);
   });
