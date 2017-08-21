@@ -50,6 +50,8 @@ export class TaskState {
             // this.mainState.communeState.refreshCommune();
         } catch (error ) {
             this.mainState.uiState.showDashboardError(error.message);
+        } finally {
+            this.mainState.uiState.dataLoading = false;
         }
 
     }
@@ -57,10 +59,13 @@ export class TaskState {
     @action
     async getTasks() {
         try {
+            this.mainState.uiState.dataLoading = true;
             const commune_id = this.getSelectedCommuneId();
             this.mainState.communeState.selectedCommune.tasks = await ApiService.get(`communes/${commune_id}/tasks`);
         } catch (error ) {
             this.mainState.uiState.showDashboardError(error.message);
+        } finally {
+            this.mainState.uiState.dataLoading = false;
         }
 
     }

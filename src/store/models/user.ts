@@ -6,6 +6,7 @@ export class User {
     @persist @observable id?: number;
     @persist @observable username: string;
     @persist @observable name: string;
+    @persist @observable email: string;
     password?: string;
     password_confirmation?: string;
     @persist @observable created_at: Date;

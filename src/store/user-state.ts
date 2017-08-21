@@ -54,11 +54,23 @@ export class UserStore {
   @action
   async updateUser(user: User) {
     try {
-      this.current_user = await ApiService.put('/users/' + this.current_user.id, user);
+      let response = await ApiService.put('/users/' + this.current_user.id, user);
+      this.current_user = response.user;
+      this.mainState.uiState.showDashboardError('Profile updated.');
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     }
   }
+
+  async changePassword(password: string, password_confirmation: string) {
+    try {
+      await ApiService.post('users/change_password', {password: password, password_confirmation: password_confirmation});
+      this.mainState.uiState.showDashboardError('Password changed.');
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    }
+  }
+
   @action
   async deleteUser() {
     try {

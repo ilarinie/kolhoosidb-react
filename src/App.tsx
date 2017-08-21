@@ -12,10 +12,21 @@ import { create } from 'mobx-persist';
 
 // This will fetch the app state from localstorage.
 const hydrate = create({storage: localStorage});
-hydrate('uiState', mainState.uiState);
+hydrate('uiState', mainState.uiState).then((uiState) => {
+  if (uiState.locationHistory.length !== 0) {
+    createBrowserHistory.push(uiState.locationHistory[uiState.locationHistory.length - 1 ]);
+    returnToLastVisitedPage();
+  }
+});
 hydrate('userState', mainState.userState);
 hydrate('authState', mainState.authState);
 hydrate('communeState', mainState.communeState);
+
+const returnToLastVisitedPage = () =>  {
+  createBrowserHistory.listen(location => {
+    mainState.uiState.locationHistory.push(location.pathname);
+  });
+};
 
 class App extends React.Component<{}, {}> {
   render(): any {

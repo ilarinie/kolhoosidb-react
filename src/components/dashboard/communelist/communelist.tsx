@@ -9,25 +9,12 @@ import { Redirect } from 'react-router-dom';
 
 @inject('mainState')
 @observer
-export class Communelist extends React.Component<{ mainState: MainState }, {loading: boolean}> {
+export class Communelist extends React.Component<{ mainState: MainState }, {}> {
     
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            loading: false
-        };
-    }
     componentDidMount() {
-        // This is kind of a hack, we want the communelist to redirect to 
-        setTimeout(() => {
-            if (!this.props.mainState.communeState.communeSelected) {
-                this.setState({loading: true});
-                this.props.mainState.communeState.getCommunes().then(() => {
-                    this.setState({loading: false});
-                });
-                }
-        },         500);
-
+        if (!this.props.mainState.communeState.communeSelected) {
+            this.props.mainState.communeState.getCommunes();
+        }
     }
 
     render() {
@@ -39,12 +26,11 @@ export class Communelist extends React.Component<{ mainState: MainState }, {load
             <CommuneCard key={index} commune={commune} selectCommune={this.selectCommune} deleteCommune={this.deleteCommune} />
         );
         return (
-            <LoadingScreen loading={this.state.loading}>
-            <div>
-                    {communes}
-                <hr />
+            <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
+                <div style={{display: 'flex', flexWrap: 'wrap'}}>
+                        {communes}
+                </div>
                 <CommuneCreationComponent submitCommune={this.submitCommune} />
-            </div>
             </LoadingScreen>
         );
     }
