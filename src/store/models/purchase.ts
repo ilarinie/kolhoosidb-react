@@ -3,6 +3,7 @@ import { User } from './user';
 import { persist } from 'mobx-persist';
 
 export class Purchase {
+    @persist @observable id: number;
     @persist @observable user: User;
     @persist @observable amount: number;
     @persist @observable created_at: number;
