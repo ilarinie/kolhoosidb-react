@@ -4,7 +4,7 @@ import { inject, observer } from 'mobx-react';
 import createBrowserHistory from '../../history';
 import { TasksComponent } from './tasks/tasks';
 import { Route, Switch } from 'react-router-dom';
-import { PurchasesComponent } from './purchases';
+import { PurchasesComponent } from './purchases/purchases';
 import { AppBarComponent } from './app-bar/app-bar';
 import { Communelist } from './communelist/communelist';
 import { CommuneSelectedRoute } from '../../App';
