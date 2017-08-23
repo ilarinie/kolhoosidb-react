@@ -20,7 +20,9 @@ export class PurchaseState {
     async getBudget() {
         try {
             this.mainState.uiState.dataLoading = true;
-            this.mainState.communeState.selectedCommune.budget = await ApiService.get(`communes/${this.selectedCommuneId()}/budget`);
+            let budget = await ApiService.get(`communes/${this.selectedCommuneId()}/budget`);
+            budget.users.sort((a, b) => {return b.total - a.total; });
+            this.mainState.communeState.selectedCommune.budget = budget;
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         } finally {
