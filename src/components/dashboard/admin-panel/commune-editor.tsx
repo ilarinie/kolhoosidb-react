@@ -4,6 +4,9 @@ import { observer } from 'mobx-react';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { Commune } from '../../../store/models/commune';
 import { SubmitButton } from '../../util/submit-button';
+import { PurchaseCategory } from '../../../store/models/purchase_category';
+import { TextField } from 'material-ui';
+import RaisedButton from 'material-ui/RaisedButton';
 
 @observer
 export class CommuneEditor extends React.Component<{mainState: MainState}, {commune: Commune, loading: boolean}> {
@@ -24,8 +27,16 @@ export class CommuneEditor extends React.Component<{mainState: MainState}, {comm
     }
 
     render() {
+        let cats = null;
+        if (this.props.mainState.communeState.selectedCommune.purchase_categories) {
+            cats = this.props.mainState.communeState.selectedCommune.purchase_categories.map((cat, index) => (
+                <li key={index}>{cat.name}</li>
+            ));
+        }
+
         const commune = this.state.commune;
         return (
+            <div>
             <ValidatorForm onSubmit={this.handleSubmit}>
                 <TextValidator
                     floatingLabelText="Commune name"
@@ -49,7 +60,18 @@ export class CommuneEditor extends React.Component<{mainState: MainState}, {comm
                 /><br />
                 <SubmitButton loading={this.state.loading} label="Save" type="submit" />
             </ValidatorForm>
+            <h4> Add purchase category </h4>
+            <PurchaseCategoryCreator createCategory={this.createCategory} />
+            <h4> Categories </h4>
+            <ul>
+                {cats}
+            </ul>
+            </div>
         );
+    }
+
+    createCategory = (purchaseCategory: PurchaseCategory) => {
+        this.props.mainState.purchaseState.createPurchaseCategory(purchaseCategory);
     }
 
     handleSubmit = () => {
@@ -59,4 +81,40 @@ export class CommuneEditor extends React.Component<{mainState: MainState}, {comm
         });
     }
 
+}
+
+export class PurchaseCategoryCreator extends React.Component<{createCategory: any}, {purchaseCategory: PurchaseCategory}>{
+    constructor(props: any) {
+        super(props);
+        let category: any = {};
+        category.name = '';
+        this.state = {
+            purchaseCategory: category
+        };
+    }
+
+    render() {
+        return (
+            <div>
+                <TextField
+                    name="name"
+                    type="text"
+                    value={this.state.purchaseCategory.name}
+                    id="cat"
+                    onChange={this.handleChange}
+                />
+                <RaisedButton label="Create" onTouchTap={this.createCategory} />
+            </div>
+        );
+    }
+
+    handleChange = (event) => {
+        const { purchaseCategory } = this.state;
+        purchaseCategory[event.target.name] = event.target.value;
+        this.setState({purchaseCategory});
+    }
+
+    createCategory = () => {
+        this.props.createCategory(this.state.purchaseCategory);
+    }
 }
