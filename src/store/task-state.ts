@@ -2,10 +2,12 @@ import { MainState } from './state';
 import { Task } from './models/task';
 import * as ApiService from './api-service';
 import { KolhoosiError } from './error';
-import { action } from 'mobx';
+import { action, observable } from 'mobx';
 
 export class TaskState {
     mainState: MainState;
+
+    @observable taskLoading: number = 0;
 
     constructor(mainState: MainState) {
         this.mainState = mainState;
@@ -73,11 +75,14 @@ export class TaskState {
     @action
     async completeTask(task: Task): Promise<any> {
         try {
+            this.taskLoading = task.id;
             const commune_id = this.getSelectedCommuneId();
             let completion =  await ApiService.post(`communes/${commune_id}/tasks/${task.id}/complete`, {});
             this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task)].completions.push(completion);
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
+        } finally {
+            this.taskLoading = 0;
         }
     }
 
