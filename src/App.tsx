@@ -5,24 +5,25 @@ import { LoginComponent } from './components/login';
 import { Route, Router, Redirect, Switch } from 'react-router-dom';
 import { Dashboard } from './components/dashboard/dashboard';
 import createBrowserHistory from './history';
-import {  mainState } from './store/state';
+import { mainState } from './store/state';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { kolhoosiTheme } from './theme';
 import { create } from 'mobx-persist';
 
 // This will fetch the app state from localstorage.
-const hydrate = create({storage: localStorage});
+const hydrate = create({ storage: localStorage });
 hydrate('uiState', mainState.uiState).then((uiState) => {
+  console.log('asdasd');
   if (uiState.locationHistory.length !== 0) {
-    createBrowserHistory.push(uiState.locationHistory[uiState.locationHistory.length - 1 ]);
-    returnToLastVisitedPage();
+    createBrowserHistory.push(uiState.locationHistory[uiState.locationHistory.length - 1]);
   }
+  startLocationHistoryListen();
 });
 hydrate('userState', mainState.userState);
 hydrate('authState', mainState.authState);
 hydrate('communeState', mainState.communeState);
 
-const returnToLastVisitedPage = () =>  {
+const startLocationHistoryListen = () => {
   createBrowserHistory.listen(location => {
     mainState.uiState.locationHistory.push(location.pathname);
   });
@@ -32,7 +33,7 @@ class App extends React.Component<{}, {}> {
   render(): any {
     return (
       <div>
-        <MuiThemeProvider 
+        <MuiThemeProvider
           muiTheme={kolhoosiTheme}
         >
           <Provider mainState={mainState}>
@@ -53,37 +54,37 @@ class App extends React.Component<{}, {}> {
 const DashboardRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
     mainState.authState.token !== '' ?
-     ( <Component {...props} /> ) :
-     ( <Redirect to={{pathname: '/login', state: { from: props.location } }}/>)
-    )}
+      (<Component {...props} />) :
+      (<Redirect to={{ pathname: '/login', state: { from: props.location } }} />)
+  )}
   />
 );
 
 export const CommuneSelectedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-  mainState.communeState.communeSelected ? (
-      <Component {...props}/>
+    mainState.communeState.communeSelected ? (
+      <Component {...props} />
     ) : (
-      <Redirect to={{
-        pathname: '/communelist',
-        state: { from: props.location }
-      }}/>
-    )
-  )}/>
+        <Redirect to={{
+          pathname: '/communelist',
+          state: { from: props.location }
+        }} />
+      )
+  )} />
 );
 
 export const LoginRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-mainState.authState.token !== '' ? (
+    mainState.authState.token !== '' ? (
       <Redirect to={{
         pathname: '/communelist',
         state: { from: props.location }
-        }}/>
-      
+      }} />
+
     ) : (
-      <Component {...props}/>
-    )
-  )}/>
+        <Component {...props} />
+      )
+  )} />
 );
 
 export default App;

@@ -1,23 +1,35 @@
 import * as React from 'react';
-import { Card, CardHeader, CardActions } from 'material-ui/Card';
+import { Card, CardHeader, CardActions, CardText } from 'material-ui/Card';
 import { RaisedButton } from 'material-ui';
 import { Invitation } from '../../../../store/models/invitation';
 
-export class SentInvitations extends React.Component<{ invitations: Invitation[], cancelInvitation: any}, {}> {
+export class SentInvitations extends React.Component<{ invitations: Invitation[], cancelInvitation: any }, {}> {
     render() {
         let invitations = this.props.invitations.map((invitation, index) => (
             <InvitationCard invitation={invitation} key={index} cancelInvitation={this.props.cancelInvitation} />
         ));
+        let title = (<p><i className="fa fa-envelope" style={{ marginRight: '10px' }} />Sent invitations ({invitations.length})</p>);
+        if (invitations.length === 0) {
+            invitations = [(<div key={0}>No pending invitations</div>)];
+        }
         return (
-            <div>
-                <h4>Sent Invitations</h4>
-                {invitations}
-            </div>
+            <Card>
+                <CardHeader
+                    title={title}
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                <CardText
+                    expandable={true}
+                >
+                    {invitations}
+                </CardText>
+            </Card>
         );
     }
 }
 
-class InvitationCard extends React.Component<{ invitation: Invitation, cancelInvitation: any}, {} > {
+class InvitationCard extends React.Component<{ invitation: Invitation, cancelInvitation: any }, {}> {
     render() {
         return (
             <Card>
@@ -28,7 +40,7 @@ class InvitationCard extends React.Component<{ invitation: Invitation, cancelInv
                     <RaisedButton label="Cancel" onTouchTap={this.cancel} />
                 </CardActions>
             </Card>
-            
+
         );
     }
 

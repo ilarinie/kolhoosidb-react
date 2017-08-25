@@ -3,11 +3,11 @@ import { Commune } from '../../../store/models/commune';
 import { Card, CardActions, CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 
-export class CommuneCard extends React.Component<{commune: Commune, selectCommune: any, deleteCommune: any}, {}> {
+export class CommuneCard extends React.Component<{ commune: Commune, selectCommune: any, deleteCommune: any }, {}> {
 
     render() {
         let deleteButton = null;
-        if (this.props.commune.current_user_admin) {
+        if (this.props.commune.is_owner) {
             deleteButton = (
                 <RaisedButton label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
             );
@@ -21,13 +21,13 @@ export class CommuneCard extends React.Component<{commune: Commune, selectCommun
                 <CardActions>
                     <RaisedButton label="Select" onTouchTap={this.selectCommune} />
                     {deleteButton}
-                </CardActions>    
+                </CardActions>
             </Card>
         );
     }
 
     selectCommune = () => {
-        this.props.selectCommune(this.props.commune);  
+        this.props.selectCommune(this.props.commune);
     }
 
     deleteCommune = () => {

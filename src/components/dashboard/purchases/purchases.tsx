@@ -6,6 +6,12 @@ import { PurchaseCreator } from './purchasecreator';
 import { Purchase } from '../../../store/models/purchase';
 import { Table, TableRow, TableHeaderColumn, TableHeader, TableBody, TableRowColumn } from 'material-ui';
 
+const currencyFormatter = new Intl.NumberFormat('fi-FI', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+});
 @inject('mainState')
 @observer
 export class PurchasesComponent extends React.Component<{ mainState: MainState }, {}> {
@@ -27,7 +33,7 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
             rows = this.props.mainState.communeState.selectedCommune.budget.users.map((user, index) => (
                 <TableRow key={index}>
                     <TableRowColumn>{user.name}</TableRowColumn>
-                    <TableRowColumn>{user.total}</TableRowColumn>
+                    <TotalColumn total={user.total} />
                     <DiffColumn diff={(user.total - this.props.mainState.communeState.selectedCommune.budget.commune_avg)} />
                 </TableRow>
             ));
@@ -45,11 +51,11 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
                             enableSelectAll={false}
                             adjustForCheckbox={false}
                         >
-                        <TableRow>
-                            <TableHeaderColumn>Name</TableHeaderColumn>
-                            <TableHeaderColumn>Total Purchases</TableHeaderColumn>
-                            <TableHeaderColumn>Differential</TableHeaderColumn>
-                        </TableRow>
+                            <TableRow>
+                                <TableHeaderColumn>Name</TableHeaderColumn>
+                                <TableHeaderColumn>Total Purchases</TableHeaderColumn>
+                                <TableHeaderColumn>Differential</TableHeaderColumn>
+                            </TableRow>
                         </TableHeader>
                         <TableBody
                             displayRowCheckbox={false}
@@ -69,13 +75,13 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
     }
 }
 
-class DiffColumn extends React.Component<{diff: number}, {}> {
+class DiffColumn extends React.Component<{ diff: number }, {}> {
 
     rowStyle;
 
     constructor(props: any) {
         super(props);
-        if (this.props.diff < 0){
+        if (this.props.diff < 0) {
             this.rowStyle = {
                 background: 'red'
             };
@@ -85,10 +91,20 @@ class DiffColumn extends React.Component<{diff: number}, {}> {
             };
         }
     }
-    
+
     render() {
-        return(
-            <TableRowColumn style={this.rowStyle}>{this.props.diff}</TableRowColumn>
+        let diff = currencyFormatter.format(this.props.diff);
+        return (
+            <TableRowColumn style={this.rowStyle}>{diff}</TableRowColumn>
+        );
+    }
+}
+
+class TotalColumn extends React.Component<{ total: number }, {}> {
+    render() {
+        let total = currencyFormatter.format(this.props.total);
+        return (
+            <TableRowColumn >{total}</TableRowColumn>
         );
     }
 }

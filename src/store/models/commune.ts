@@ -20,4 +20,5 @@ export class Commune {
     @persist @observable invitations: Invitation[];
     @persist @observable budget: Budget;
     @persist @observable purchase_categories: PurchaseCategory[];
+    @persist @observable is_owner: boolean;
 }
