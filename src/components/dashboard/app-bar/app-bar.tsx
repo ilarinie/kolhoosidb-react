@@ -48,7 +48,8 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                 />
                 <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={200} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
                     <img src={logo} style={{height: '64px', width: '100%'}} />
-                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/" text="Tasks" onTouchTap={this.handleClose} /> 
+                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/" text="Dashboard" onTouchTap={this.handleClose}  />
+                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/tasks" text="Tasks" onTouchTap={this.handleClose} /> 
                         <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
                     <Divider />
                         {adminMenuItems}
@@ -87,7 +88,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
         this.setSmall();
       }
       mediaQuery.addListener((mq) => {
-        if (mq.matches) {
+        if   (mq.matches) {
           this.setLarge();
         } else {
           this.setSmall();

@@ -3,8 +3,13 @@ import { PurchaseCategory } from '../../../store/models/purchase_category';
 import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card } from 'material-ui';
 import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
+import {KolhoosiCardTitle } from '../../util/card-title';
 
-export class PurchaseCreator extends React.Component<{ categories: PurchaseCategory[], submitPurchase: any }, { purchase: Purchase}> {
+export class PurchaseCreator extends React.Component < {
+    categories: PurchaseCategory[],
+    submitPurchase: any,
+    expandable: boolean
+}, {purchase: Purchase} > {
 
     constructor(props: any) {
         super(props);
@@ -25,15 +30,17 @@ export class PurchaseCreator extends React.Component<{ categories: PurchaseCateg
                 <MenuItem key={index} value={cat.id} primaryText={cat.name} />
             ));
         }
+        let title = <KolhoosiCardTitle title="Add a purchase." className="fa fa-plus" />;
 
         return (
             <Card>
                 <CardHeader
-                    title="Add a purchase"
-                    actAsExpander={true}
+                    title={title}
+                    actAsExpander={this.props.expandable}
+                    showExpandableButton={this.props.expandable}
                 />
                 <CardText
-                    expandable={true}
+                    expandable={this.props.expandable}
                 >
                     <ValidatorForm
                         onSubmit={this.handleSubmit}
@@ -44,7 +51,7 @@ export class PurchaseCreator extends React.Component<{ categories: PurchaseCateg
                             floatingLabelText="Amount"
                             onChange={this.handleChange}
                             value={purchase.amount}
-                        /><br/>
+                        /><i className="fa fa-eur" /><br/>
                         <TextValidator
                             name="description"
                             type="text"

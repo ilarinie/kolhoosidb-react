@@ -6,6 +6,7 @@ import { persist } from 'mobx-persist';
 import { Invitation } from './invitation';
 import { Budget } from './budget';
 import { PurchaseCategory } from './purchase_category';
+import { FeedItem } from './feed_item';
 
 export class Commune {
     @persist @observable id: number;
@@ -20,4 +21,6 @@ export class Commune {
     @persist @observable invitations: Invitation[];
     @persist @observable budget: Budget;
     @persist @observable purchase_categories: PurchaseCategory[];
+    @persist @observable is_owner: boolean;
+    @observable feed: FeedItem[];
 }

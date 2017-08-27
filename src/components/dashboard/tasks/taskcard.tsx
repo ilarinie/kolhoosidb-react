@@ -26,10 +26,11 @@ export class TaskCard extends React.Component<{completeTask: any, task: Task}, {
             latest_completion = <div>Never done yet </div>;
         }
         return (
-            <Card style={{ width: '400px', margin: '20px auto' }}>
+            <Card style={{ width: '400px', margin: '10px 10px' }}>
             <CardHeader
                 title={this.props.task.name}
                 subtitle={'Priority: ' + this.props.task.priority}
+                showExpandableButton={true}
                 actAsExpander={true}
             />
             <CardText>

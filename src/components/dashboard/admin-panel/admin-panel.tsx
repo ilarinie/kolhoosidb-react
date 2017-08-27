@@ -4,11 +4,17 @@ import { observer, inject } from 'mobx-react';
 import { UserManagementComponent } from './user-management/user-management';
 import { Tabs, Tab } from 'material-ui';
 import { TaskManagement } from './task-management/task-management';
-import { CommuneEditor } from './commune-editor';
+import { CommuneEditor } from './commune-editor/commune-editor';
 
 @inject('mainState')
 @observer
-export class AdminPanel extends React.Component<{mainState: MainState}, {}> {
+export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
+
+    constructor(props: any) {
+        super(props);
+
+    }
+
     render() {
         return (
             <div className="full-size-component">

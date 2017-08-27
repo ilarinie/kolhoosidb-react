@@ -12,6 +12,7 @@ import DevTools from 'mobx-react-devtools';
 import KolhoosiSnackBar from '../util/kolhoosi-snackbar';
 import { ProfileComponent } from './profile/profile';
 import { AdminPanel } from './admin-panel/admin-panel';
+import { DashboardComponent } from './dashboard-component/dashboard-component';
 
 @inject('mainState')
 @observer
@@ -23,12 +24,13 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
                 <DevTools />
                 <AppBarComponent mainState={this.props.mainState} />
                 <div className="content">
-                    <Switch>
-                        <CommuneSelectedRoute exact={true} path="/" component={TasksComponent} />
-                        <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
-                        <CommuneSelectedRoute path="/admin_panel" component={AdminPanel} />
-                        <Route path="/communelist" component={Communelist} />
-                        <Route path="/profile" component={ProfileComponent} />
+                    <Switch key={location.pathname} >
+                            <CommuneSelectedRoute exact={true} path="/" component={DashboardComponent} />
+                            <CommuneSelectedRoute path="/tasks" component={TasksComponent} />
+                            <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
+                            <CommuneSelectedRoute path="/admin_panel" component={AdminPanel} />
+                            <Route path="/communelist" component={Communelist} />
+                            <Route path="/profile" component={ProfileComponent} />
                     </Switch>
                 </div>
                 <KolhoosiSnackBar mainState={this.props.mainState} />

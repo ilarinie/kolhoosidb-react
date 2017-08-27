@@ -7,7 +7,7 @@ import { Task } from '../../../store/models/task';
 
 @inject('mainState')
 @observer
-export class TasksComponent extends React.Component<{ mainState: MainState }, {dialogOpen: boolean} > {
+export class TasksComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -27,8 +27,8 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, {d
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
             <div className="full-size-component"  >
-                <h4>Tasks</h4>
-                <div style={{display: 'flex', justifyContent: 'center',  flexWrap: 'wrap', flexDirection: 'row'}}>
+                <h1>Tasks</h1>
+                <div style={{display: 'flex',  flexWrap: 'wrap'}}>
                     {tasks}
                 </div>
             </div>
@@ -37,6 +37,6 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, {d
     }
 
     completeTask = (task: Task): Promise<any> => {
-       return  this.props.mainState.taskState.completeTask(task);
+        return this.props.mainState.taskState.completeTask(task);
     }
 }

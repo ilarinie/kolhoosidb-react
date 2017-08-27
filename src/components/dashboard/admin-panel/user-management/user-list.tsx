@@ -1,26 +1,47 @@
 import * as React from 'react';
 import { User } from '../../../../store/models/user';
+import { Card, CardText, CardActions } from 'material-ui';
+import { CardHeader } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 
-export class UserListComponent extends React.Component<{users: User[], admins: User[], removeUser: any}, {} > {
+export class UserListComponent extends React.Component<{ users: User[], admins: User[], removeUser: any }, {}> {
 
-    render () {
+    render() {
         let users = this.props.users.map((user, index) => (
             <UserEntry key={index} user={user} removeUser={this.props.removeUser} />
         ));
         let admins = this.props.admins.map((user, index) => (
-            <li key={index}>{user.name}</li>
+            <AdminEntry key={index} user={user} removeUser={this.props.removeUser} />
         ));
-
+        let adminTitle = (<p><i className="fa fa-star" style={{ marginRight: '10px' }} />Admins ({admins.length})</p>);
+        let userTitle = (<p><i className="fa fa-user-circle" style={{ marginRight: '10px' }} />Users ({users.length})</p>);
         return (
             <div>
-                <h5>Admins</h5>
-                <ul>
-                    {admins}
-                </ul>
-                <h5>Users</h5>
-                <ul>
-                    {users}
-                </ul>
+                <h3>Communes' users</h3>
+                <Card>
+                    <CardHeader
+                        title={adminTitle}
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                    />
+                    <CardText
+                        expandable={true}
+                    >
+                        {admins}
+                    </CardText>
+                </Card>
+                <Card style={{ marginTop: '10px' }}>
+                    <CardHeader
+                        title={userTitle}
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                    />
+                    <CardText
+                        expandable={true}
+                    >
+                        {users}
+                    </CardText>
+                </Card>
             </div>
         );
     }
@@ -31,10 +52,51 @@ export class UserListComponent extends React.Component<{users: User[], admins: U
 
 }
 
-export class UserEntry extends React.Component<{user: User, removeUser: any}, {} > {
+export class UserEntry extends React.Component<{ user: User, removeUser: any }, {}> {
     render() {
         return (
-            <li>{this.props.user.name}  <button onClick={this.removeUser}>remove</button></li>
+            <Card>
+                <CardHeader
+                    title={this.props.user.name}
+                    subtitle="Expand for actions"
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                <CardText
+                    expandable={true}
+                >
+                    <CardActions>
+                        <RaisedButton onTouchTap={this.removeUser} label="Remove" />
+                        <RaisedButton label="Promote" />
+                    </CardActions>
+                </CardText>
+            </Card>
+        );
+    }
+    removeUser = () => {
+        this.props.removeUser(this.props.user);
+    }
+}
+
+export class AdminEntry extends React.Component<{ user: User, removeUser: any }, {}> {
+    render() {
+        return (
+            <Card>
+                <CardHeader
+                    title={this.props.user.name}
+                    subtitle="Expand for actions"
+                    actAsExpander={true}
+                    showExpandableButton={true}
+                />
+                <CardText
+                    expandable={true}
+                >
+                    <CardActions>
+                        <RaisedButton onTouchTap={this.removeUser} label="Remove" />
+                        <RaisedButton label="Demote" />
+                    </CardActions>
+                </CardText>
+            </Card>
         );
     }
     removeUser = () => {

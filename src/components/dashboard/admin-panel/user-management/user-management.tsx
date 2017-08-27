@@ -5,12 +5,14 @@ import { SentInvitations } from './sent-invitations';
 import { UserListComponent } from './user-list';
 import { Invitation } from '../../../../store/models/invitation';
 import { User } from '../../../../store/models/user';
+import { observer } from 'mobx-react';
 
-export class UserManagementComponent extends React.Component<{mainState: MainState}, {}> {
+@observer
+export class UserManagementComponent extends React.Component<{ mainState: MainState }, {}> {
 
     innerComponentContainer = {
-        border: '1px solid grey',
-        padding: '10px'
+        paddingTop: '10px',
+        paddingBottom: '10px'
     };
 
     componentDidMount() {
@@ -19,7 +21,7 @@ export class UserManagementComponent extends React.Component<{mainState: MainSta
 
     render() {
         return (
-            <div className="full-size-component">
+            <div>
                 <div style={this.innerComponentContainer}>
                     <AddUserComponent inviteUser={this.inviteUser} />
                 </div>
