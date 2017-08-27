@@ -13,7 +13,7 @@ import KolhoosiSnackBar from '../util/kolhoosi-snackbar';
 import { ProfileComponent } from './profile/profile';
 import { AdminPanel } from './admin-panel/admin-panel';
 import { DashboardComponent } from './dashboard-component/dashboard-component';
-import { RouteTransition } from 'react-router-transition';
+
 @inject('mainState')
 @observer
 export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
@@ -24,13 +24,6 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
                 <DevTools />
                 <AppBarComponent mainState={this.props.mainState} />
                 <div className="content">
-                <RouteTransition 
-                        pathname={location.pathname}
-                        atEnter={{ opacity: 0 }}
-                        atLeave={{ opacity: 0 }}
-                        atActive={{ opacity: 1 }}
-                       runOnMount={true}
-                > 
                     <Switch key={location.pathname} >
                             <CommuneSelectedRoute exact={true} path="/" component={DashboardComponent} />
                             <CommuneSelectedRoute path="/tasks" component={TasksComponent} />
@@ -39,7 +32,6 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
                             <Route path="/communelist" component={Communelist} />
                             <Route path="/profile" component={ProfileComponent} />
                     </Switch>
-                </RouteTransition>
                 </div>
                 <KolhoosiSnackBar mainState={this.props.mainState} />
             </div>

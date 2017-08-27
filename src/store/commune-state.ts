@@ -21,6 +21,15 @@ export class CommuneState {
   }
 
   @action
+  async getFeed() {
+    try {
+      this.selectedCommune.feed = await ApiService.get('communes/' + this.selectedCommune.id + '/activity_feed');
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    }
+  }  
+
+  @action
   async selectCommune(commune: Commune) {
     try {
       this.selectedCommune = await ApiService.get('communes/' + commune.id);

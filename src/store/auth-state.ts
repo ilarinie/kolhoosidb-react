@@ -20,10 +20,15 @@ export class AuthState {
       this.mainState.uiState.loginError.isError = false;
       try {
         let response = await ApiService.post('usertoken', { auth: { username: username, password: password}});
+        console.log(response);
+        
         this.token = response.jwt;
+        
         this.mainState.userState.current_user = response.user;
+        console.log(this.mainState.userState);
         createBrowserHistory.push('/communelist');
       } catch (error) {
+        console.log(error);
         this.mainState.uiState.loginError = error;
       } finally {
         this.mainState.uiState.loginLoading = false;

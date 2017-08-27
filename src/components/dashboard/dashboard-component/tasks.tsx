@@ -25,12 +25,12 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
     render() {
 
         let tasks = this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => (
-            <TaskRow 
-                completeTask={this.completeTask} 
-                task={task} 
+            <TaskRow
+                completeTask={this.completeTask}
+                task={task}
                 key={index}
-                loading={this.props.mainState.taskState.taskLoading === task.id} 
-            />
+                loading={this.props.mainState.taskState.taskLoading === task.id}
+        /> 
         ));
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
@@ -43,10 +43,12 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
                         displaySelectAll={false}
                         adjustForCheckbox={false}
                     >
-                        <TableHeaderColumn>Task</TableHeaderColumn>
-                        <TableHeaderColumn>Should be done</TableHeaderColumn>
-                        <TableHeaderColumn>Last done by</TableHeaderColumn>
-                        <TableHeaderColumn>Complete</TableHeaderColumn>
+                        <TableRow>        
+                            <TableHeaderColumn>Task</TableHeaderColumn>
+                            <TableHeaderColumn>Should be done</TableHeaderColumn>
+                            <TableHeaderColumn>Last done by</TableHeaderColumn>
+                            <TableHeaderColumn>Complete</TableHeaderColumn>
+                        </TableRow>        
                     </TableHeader>
                     <TableBody
                         displayRowCheckbox={false}
@@ -73,7 +75,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
         if (this.props.task.completions.length !== 0) {
             let comp = this.props.task.completions[this.props.task.completions.length - 1];
             latest_completion = comp.name;
-            when_to_do = moment(comp.created_at).add(this.props.task.priority, 'minutes').fromNow();
+            when_to_do = moment(comp.created_at).add(this.props.task.priority, 'hours').fromNow();
             completed = (new Date(comp.created_at).getTime() + 1000 ) > Date.now();
         } else {
             latest_completion = <div>Never done yet </div>;

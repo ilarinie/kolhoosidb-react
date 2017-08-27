@@ -88,7 +88,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
         this.setSmall();
       }
       mediaQuery.addListener((mq) => {
-        if (mq.matches) {
+        if   (mq.matches) {
           this.setLarge();
         } else {
           this.setSmall();
