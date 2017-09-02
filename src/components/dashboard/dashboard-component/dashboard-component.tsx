@@ -15,14 +15,6 @@ export class DashboardComponent extends React.Component<{mainState: MainState}, 
         flexWrap: 'wrap' as 'wrap'
     };
 
-    innerContainerStyles = {
-        margin: '10px 10px',
-        width: '500px',
-        padding: '20px',
-        border: '0.5px solid lightgray',
-        borderRadius: '5px'
-    };
-
     getFeed = () => {
         this.props.mainState.communeState.getFeed();
     }
@@ -30,27 +22,65 @@ export class DashboardComponent extends React.Component<{mainState: MainState}, 
     render() {
         return (
             <div style={{width: '100%'}}>
-                <h1 style={{margin: '20px'}}>KolhoosiDB Dashboard</h1>
                 <div style={this.mainContainerStyles}>
-                    <div style={this.innerContainerStyles}>
-                        <DashboardUserInfo user={this.props.mainState.userState.current_user} />
-                    </div>    
-                    <div style={this.innerContainerStyles}>
-                        <h4>Tasks</h4>
-                        <DashboardTasksComponent mainState={this.props.mainState}/>
-                    </div>
-                    <div style={this.innerContainerStyles}>
-                        <h4>Budget</h4>
+                    <DashboardItemContainer title="Tasks">
+                        <DashboardTasksComponent mainState={this.props.mainState} />
+                    </DashboardItemContainer>
+                    <DashboardItemContainer title="Budget">
                         <DashboardPurchasesComponent mainState={this.props.mainState}/>
-                        </div>
-                    <div style={this.innerContainerStyles}>
+                    </DashboardItemContainer>
+                    <DashboardItemContainer title="Activity feed">
                             <DashboardActivityFeed 
                                 feed={this.props.mainState.communeState.selectedCommune.feed}
                                 getFeed={this.getFeed}
                             />
-                    </div>    
+                    </DashboardItemContainer>
+                    <DashboardItemContainer title="Info">
+                        <DashboardUserInfo user={this.props.mainState.userState.current_user} />
+                    </DashboardItemContainer>    
                 </div>
             </div>
+        );
+    }
+}
+
+export class DashboardItemContainer extends React.Component<{title: string}, {}> {
+
+    innerContainerStyles = {
+        margin: '10px 10px',
+        width: '450px',
+        border: '0.5px solid lightgray',
+        borderRadius: '5px',
+    };
+
+    innerContainerHeaderStyles = {
+        textAlign: 'center',
+        background: '#FF0025',
+        borderRadius: '5px',
+        paddingTop: '5px',
+        color: 'white'
+    };
+
+    innerContainerContentStyles = {
+        padding: '20px',
+        overflowY: 'auto' as 'auto',
+        maxHeight: '300px'
+    };
+    
+    render() {
+        return (
+            <div style={this.innerContainerStyles}>
+            <div
+                id="otsikkorivi"
+                style={this.innerContainerHeaderStyles}
+            >
+                {this.props.title}
+                <hr />
+            </div>
+            <div style={this.innerContainerContentStyles}>
+                {this.props.children}
+            </div>
+        </div>
         );
     }
 }

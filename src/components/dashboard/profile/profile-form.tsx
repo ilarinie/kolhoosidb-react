@@ -43,6 +43,8 @@ export class ProfileForm extends React.Component<{user: User, handleSubmit: any,
                             name="password"
                             id="pw"
                             floatingLabelText="Password"
+                            validators={['required', 'matchRegexp:^.{8,}']}
+                            errorMessages={[ 'Password must be at least 8 characters long.']}
                         /><br />
                         <TextValidator
                             type="password"

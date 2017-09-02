@@ -8,9 +8,7 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
     handle: any;
 
     componentDidMount() {
-        this.handle = setInterval(() => {
-            this.props.getFeed();
-        },                        10000);
+        this.props.getFeed();
     }
 
     componentWillUnmount() {
@@ -27,7 +25,6 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
 
         return (
             <div>
-                <h4>Activity feed</h4>
                 <ul>
                     {feed}
                 </ul>

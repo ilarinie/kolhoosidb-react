@@ -58,10 +58,10 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                         <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
                         <i className="fa fa-user" aria-hidden="true"/>
-                        <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" defaultValue="testeriija" />
+                        <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" />
                         <br />
                         <i className="fa fa-lock" aria-hidden="true" />
-                        <TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
+                        <TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password"/>
                         <br /><br />
                         <SubmitButton loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
                         <a style={{textDecoration: 'none'}} href="#" onClick={this.forgotPw} >Forgot password?</a>
