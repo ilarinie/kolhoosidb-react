@@ -25,8 +25,12 @@ export class AuthState {
         this.token = response.jwt;
         
         this.mainState.userState.current_user = response.user;
-        console.log(this.mainState.userState);
-        createBrowserHistory.push('/communelist');
+        
+        if (this.mainState.userState.current_user.default_commune_id) {
+          this.mainState.communeState.selectCommune(this.mainState.userState.current_user.default_commune_id);
+        } else {
+          createBrowserHistory.push('/communelist');
+        }
       } catch (error) {
         console.log(error);
         this.mainState.uiState.loginError = error;

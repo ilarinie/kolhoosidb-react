@@ -12,6 +12,7 @@ export class User {
     password_confirmation?: string;
     @persist @observable created_at: Date;
     @persist @observable updated_at: Date;
+    @persist @observable default_commune_id: number;
     @persist('list') @observable invitations: Invitation[];
     @persist('list') @observable sent_refunds: Refund[];
     @persist('list') @observable received_refunds: Refund[];

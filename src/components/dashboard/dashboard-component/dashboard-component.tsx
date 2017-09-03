@@ -12,6 +12,7 @@ export class DashboardComponent extends React.Component<{mainState: MainState}, 
 
     mainContainerStyles = {
         display: 'flex',
+        alignItems: 'flex-start' as 'flex-start',
         flexWrap: 'wrap' as 'wrap'
     };
 
@@ -44,29 +45,49 @@ export class DashboardComponent extends React.Component<{mainState: MainState}, 
     }
 }
 
-export class DashboardItemContainer extends React.Component<{title: string}, {}> {
+export class DashboardItemContainer extends React.Component<{title: string}, {open: boolean}> {
 
     innerContainerStyles = {
         margin: '10px 10px',
         width: '450px',
         border: '0.5px solid lightgray',
-        borderRadius: '5px',
+        boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     };
-
+    
     innerContainerHeaderStyles = {
         textAlign: 'center',
-        background: '#FF0025',
-        borderRadius: '5px',
+        // background: '#FF0025',
+         background: '-webkit-linear-gradient(90deg, rgba(255,0,37,1) 0%, rgba(222,15,0,1) 100%)',
         paddingTop: '5px',
         color: 'white'
     };
-
+    
     innerContainerContentStyles = {
         padding: '20px',
         overflowY: 'auto' as 'auto',
-        maxHeight: '300px'
+        maxHeight: '300px',
+        color: '#333'
     };
-    
+
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            open: true
+        };
+    }
+ 
+    getInnerContainerContentStyles = () => {
+        if (this.state.open) {
+            return this.innerContainerContentStyles;
+        } else {
+            return { display: 'none' };
+        }
+    }
+
+    toggleOpen = () => {
+        this.setState({ open: !this.state.open });
+        return false;
+    }
     render() {
         return (
             <div style={this.innerContainerStyles}>
@@ -74,10 +95,13 @@ export class DashboardItemContainer extends React.Component<{title: string}, {}>
                 id="otsikkorivi"
                 style={this.innerContainerHeaderStyles}
             >
-                {this.props.title}
+                    {this.props.title}
+                    <div style={{ float: 'right', marginRight: '10px' }}>
+                        <span style={{cursor: 'pointer'}}onClick={this.toggleOpen}>_</span>
+                    </div>    
                 <hr />
             </div>
-            <div style={this.innerContainerContentStyles}>
+            <div style={this.getInnerContainerContentStyles()}>
                 {this.props.children}
             </div>
         </div>

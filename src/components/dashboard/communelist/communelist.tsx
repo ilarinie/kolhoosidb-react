@@ -36,7 +36,7 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
     }
 
     selectCommune = (commune: Commune) => {
-        this.props.mainState.communeState.selectCommune(commune);
+        this.props.mainState.communeState.selectCommune(commune.id);
     }
 
     deleteCommune = (commune: Commune) => {

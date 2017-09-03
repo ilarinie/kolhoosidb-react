@@ -6,7 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
-import { Subheader } from 'material-ui';
+import { Subheader, FontIcon } from 'material-ui';
 import { observer } from 'mobx-react';
 const logo = require('../../../assets/logo.png');
 @observer
@@ -34,7 +34,14 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                 <div>
                 <Divider />
                 <Subheader>Admin tools</Subheader>
-                <KolhoosiNavItem disabled={false} path="/admin_panel" text="Manage Commune" onTouchTap={this.handleClose} />
+                <KolhoosiNavItem
+                        disabled={false}
+                        path="/admin_panel"
+                        text="Manage Commune"
+                        onTouchTap={this.handleClose}
+                        iconClassName="fa fa-lock"
+                        iconColor="lightgray"
+                />
                 </div>
             );
         }
@@ -46,17 +53,53 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                     onLeftIconButtonTouchTap={this.toggleOpenDrawer}
                     showMenuIconButton={this.state.mobile}
                 />
-                <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={200} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
+                <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={250} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
                     <img src={logo} style={{height: '64px', width: '100%'}} />
-                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/" text="Dashboard" onTouchTap={this.handleClose}  />
-                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/tasks" text="Tasks" onTouchTap={this.handleClose} /> 
-                        <KolhoosiNavItem disabled={!this.props.mainState.communeState.communeSelected} path="/purchases" text="Purchases" onTouchTap={this.handleClose} />
+                    <KolhoosiNavItem
+                        disabled={!this.props.mainState.communeState.communeSelected}
+                        path="/"
+                        text="Dashboard"
+                        onTouchTap={this.handleClose}
+                        iconClassName="fa fa-tachometer"
+                        iconColor="lightgray"
+                    />
+                    <KolhoosiNavItem
+                        disabled={!this.props.mainState.communeState.communeSelected}
+                        path="/tasks"
+                        text="Tasks"
+                        onTouchTap={this.handleClose}
+                        iconClassName="fa fa-tasks"
+                        iconColor="lightgray"
+                    /> 
+                    <KolhoosiNavItem
+                        disabled={!this.props.mainState.communeState.communeSelected}
+                        path="/purchases"
+                        text="Purchases"
+                        onTouchTap={this.handleClose}
+                        iconClassName="fa fa-eur"
+                        iconColor="lightgray"
+                    />
                     <Divider />
                         {adminMenuItems}
                     <Divider />
-                        <KolhoosiNavItem disabled={false} path="/profile" text="Profile" onTouchTap={this.handleClose} />
-                        <MenuItem onTouchTap={this.deselectCommune}>Switch communes</MenuItem>
-                        <MenuItem onTouchTap={this.logout}>Log Out</MenuItem>
+                    <KolhoosiNavItem
+                        disabled={false}
+                        path="/profile"
+                        text="Profile"
+                        onTouchTap={this.handleClose}
+                        iconClassName="fa fa-user"
+                        iconColor="lightgray"
+                    />
+                    <MenuItem
+                        leftIcon={<FontIcon className="fa fa-star-o" />}
+                        primaryText="Switch Communes"
+                        onTouchTap={this.deselectCommune}
+                    />
+                    <MenuItem
+                        leftIcon={<FontIcon className="fa fa-sign-out" />}    
+                        primaryText="Log Out"
+                        onTouchTap={this.logout}
+                    />
                 </Drawer>
             </div>
         );

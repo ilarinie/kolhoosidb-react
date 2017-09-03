@@ -30,14 +30,14 @@ export class CommuneState {
   }  
 
   @action
-  async selectCommune(commune: Commune) {
-    try {
-      this.selectedCommune = await ApiService.get('communes/' + commune.id);
-      this.communeSelected = true;
-      createBrowserHistory.push('/');
-    } catch (error) {
-      this.mainState.uiState.showDashboardError(error.message);
-    }
+  async selectCommune(id: number) {
+      try {
+        this.selectedCommune = await ApiService.get('communes/' + id);
+        this.communeSelected = true;
+        createBrowserHistory.push('/');
+      } catch (error) {
+        this.mainState.uiState.showDashboardError(error.message);
+      }
   }
 
   @action

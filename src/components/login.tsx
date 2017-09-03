@@ -57,13 +57,15 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                         <img style={{width: '100%'}} src={logo} />
                         <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
+                        <form onSubmit={this.login}>
                         <i className="fa fa-user" aria-hidden="true"/>
                         <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" />
                         <br />
                         <i className="fa fa-lock" aria-hidden="true" />
                         <TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password"/>
                         <br /><br />
-                        <SubmitButton loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
+                        <SubmitButton type="submit" loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
+                        </form>    
                         <a style={{textDecoration: 'none'}} href="#" onClick={this.forgotPw} >Forgot password?</a>
                     </Paper>
                 </div>
@@ -83,7 +85,8 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
         this.props.mainState.userState.createUser(user);
     }
 
-    login = () => {
+    login = (event: any) => {
+        event.preventDefault();
         let username: string =  (document.getElementById('username') as HTMLInputElement).value;
         let password: string =  (document.getElementById('password') as HTMLInputElement).value;
         if (username && password) {

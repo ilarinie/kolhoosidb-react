@@ -4,8 +4,8 @@ import createBrowserHistory from '../history';
 import { mainState } from './state';
 
 // const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
-const API_URL = 'https://kolhoosidb-api.ilarinieminen.me/';
-// const API_URL = 'http://localhost:3001/';
+// const API_URL = 'https://kolhoosidb-api.ilarinieminen.me/';
+const API_URL = 'http://localhost:3001/';
 
 const config = (): AxiosRequestConfig => {
     return {

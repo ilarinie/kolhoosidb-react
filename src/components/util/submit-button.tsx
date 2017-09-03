@@ -6,11 +6,11 @@ export class SubmitButton extends React.Component<{ label: string, loading: bool
     render() {
         if (this.props.loading) {
             return (
-                <RaisedButton disabled={true} ><i style={{color: 'red'}} className="fa fa-star fa-spin" /></RaisedButton>
+                <RaisedButton type={this.props.type || ''}disabled={true} ><i style={{color: 'red'}} className="fa fa-star fa-spin" /></RaisedButton>
             );
         } else {
             return (
-                <RaisedButton label={this.props.label} onTouchTap={this.props.onTouchTap} type={this.props.type}/>
+                <RaisedButton type={this.props.type || ''}label={this.props.label} onTouchTap={this.props.onTouchTap} />
            );
         }
 

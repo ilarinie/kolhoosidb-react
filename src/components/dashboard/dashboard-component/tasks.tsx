@@ -53,7 +53,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
         let late = true;
         if (this.props.task.completions.length !== 0) {
             let comp = this.props.task.completions[this.props.task.completions.length - 1];
-            when_to_do = 'Should be done in ' + moment(comp.created_at).add(this.props.task.priority, 'hours').fromNow();
+            when_to_do = 'Should be done ' + moment(comp.created_at).add(this.props.task.priority, 'hours').fromNow();
             completed = (new Date(comp.created_at).getTime() + 1000 ) > Date.now();
             late = moment(comp.created_at).add(this.props.task.priority, 'hours').isAfter();
         }
