@@ -21,7 +21,6 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
     render() {
         return (
             <div className="dashboard">
-                <DevTools />
                 <AppBarComponent mainState={this.props.mainState} />
                 <div className="content">
                     <Switch key={location.pathname} >
