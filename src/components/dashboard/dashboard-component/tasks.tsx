@@ -31,11 +31,11 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
                 task={task}
                 key={index}
                 loading={this.props.mainState.taskState.taskLoading === task.id}
-            /> 
+            />
         ));
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                        {tasks}
+                {tasks}
             </LoadingScreen>
         );
     }
@@ -45,7 +45,7 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
     }
 }
 @observer
-export class TaskRow extends React.Component<{ task: Task, completeTask: any, loading: boolean }, {loading: boolean, completed: boolean}> {
+export class TaskRow extends React.Component<{ task: Task, completeTask: any, loading: boolean }, { loading: boolean, completed: boolean }> {
 
     render() {
         let when_to_do = null;
@@ -53,12 +53,18 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
         let late = true;
         if (this.props.task.completions.length !== 0) {
             let comp = this.props.task.completions[this.props.task.completions.length - 1];
-            when_to_do = 'Should be done ' + moment(comp.created_at).add(this.props.task.priority, 'hours').fromNow();
-            completed = (new Date(comp.created_at).getTime() + 1000 ) > Date.now();
-            late = moment(comp.created_at).add(this.props.task.priority, 'hours').isAfter();
+            if (this.props.task.priority) {
+                when_to_do = 'Should be done ' + moment(comp.created_at).add(this.props.task.priority, 'hours').fromNow();
+                late = moment(comp.created_at).add(this.props.task.priority, 'hours').isAfter();
+            } else {
+                when_to_do = 'No priority set.';
+            }
+
+            completed = (new Date(comp.created_at).getTime() + 1000) > Date.now();
+
         }
         if (!late) {
-            when_to_do = 'Late';
+            when_to_do = <p style={{ color: 'red' }}>Late</p>;
         }
 
         return (
@@ -77,27 +83,27 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
     }
 
     completeTask = () => {
-             this.props.completeTask(this.props.task);
-     }
+        this.props.completeTask(this.props.task);
+    }
 }
 
 export interface CompleteButtonProps {
-    loading:  boolean;
+    loading: boolean;
     label: string;
     onTouchTap: any;
     completed: any;
 }
 
-export class CompleteButton extends React.Component<CompleteButtonProps,  {}> {
+export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
 
     render() {
         if (this.props.completed) {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true} ><i className="fa fa-check" style={{color: 'green'}}/></RaisedButton>
+                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true} ><i className="fa fa-check" style={{ color: 'green' }} /></RaisedButton>
             );
         } else if (this.props.loading) {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }}  disabled={true}><i className="fa fa-spinner fa-spin" style={{ color: 'yellow'}}/></RaisedButton>
+                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true}><i className="fa fa-spinner fa-spin" style={{ color: 'yellow' }} /></RaisedButton>
             );
         } else {
             return (

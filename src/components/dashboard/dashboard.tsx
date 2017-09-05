@@ -24,12 +24,12 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
                 <AppBarComponent mainState={this.props.mainState} />
                 <div className="content">
                     <Switch key={location.pathname} >
-                            <CommuneSelectedRoute exact={true} path="/" component={DashboardComponent} />
-                            <CommuneSelectedRoute path="/tasks" component={TasksComponent} />
-                            <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
-                            <CommuneSelectedRoute path="/admin_panel" component={AdminPanel} />
-                            <Route path="/communelist" component={Communelist} />
-                            <Route path="/profile" component={ProfileComponent} />
+                        <CommuneSelectedRoute exact={true} path="/" component={DashboardComponent} />
+                        <CommuneSelectedRoute path="/tasks" component={TasksComponent} />
+                        <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
+                        <CommuneSelectedRoute path="/admin_panel" component={AdminPanel} />
+                        <Route path="/communelist" component={Communelist} />
+                        <Route path="/profile" component={ProfileComponent} />
                     </Switch>
                 </div>
                 <KolhoosiSnackBar mainState={this.props.mainState} />

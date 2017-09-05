@@ -4,7 +4,7 @@ import { CardActions, Card, CardHeader, CardText } from 'material-ui/Card';
 import * as moment from 'moment';
 import { RaisedButton } from 'material-ui';
 
-export class TaskCard extends React.Component<{completeTask: any, task: Task}, {loading: boolean} > {
+export class TaskCard extends React.Component<{ completeTask: any, task: Task }, { loading: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -13,7 +13,7 @@ export class TaskCard extends React.Component<{completeTask: any, task: Task}, {
         };
         this.completeTask.bind(this);
     }
-    
+
     render() {
         let completions = this.props.task.completions.map((completion, index) => (
             <li key={index}>{completion.name} - {completion.created_at}</li>
@@ -25,39 +25,40 @@ export class TaskCard extends React.Component<{completeTask: any, task: Task}, {
         } else {
             latest_completion = <div>Never done yet </div>;
         }
+        let prio = (this.props.task.priority ? 'Priority: ' + moment.duration(this.props.task.priority, 'hours').humanize() : 'No priority set.');
         return (
             <Card style={{ width: '400px', margin: '10px 10px' }}>
-            <CardHeader
-                title={this.props.task.name}
-                subtitle={'Priority: ' + this.props.task.priority}
-                showExpandableButton={true}
-                actAsExpander={true}
-            />
-            <CardText>
-                {latest_completion}
-            </CardText>
-            <CardActions>
-                <CompleteButton loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
-            </CardActions>
-            <CardText expandable={true}>
-                <ul>
-                    {completions}
-                </ul>
-            </CardText>    
-        </Card>
+                <CardHeader
+                    title={this.props.task.name}
+                    subtitle={prio}
+                    showExpandableButton={true}
+                    actAsExpander={true}
+                />
+                <CardText>
+                    {latest_completion}
+                </CardText>
+                <CardActions>
+                    <CompleteButton loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
+                </CardActions>
+                <CardText expandable={true}>
+                    <ul>
+                        {completions}
+                    </ul>
+                </CardText>
+            </Card>
         );
     }
 
     completeTask = () => {
-        this.setState({loading: true});
+        this.setState({ loading: true });
         this.props.completeTask(this.props.task).then(() => {
-            this.setState({loading: false});
+            this.setState({ loading: false });
         });
     }
 
 }
 
-class CompleteButton extends React.Component<{loading: boolean, label: string, completeTask: any}, {completed: boolean} > {
+class CompleteButton extends React.Component<{ loading: boolean, label: string, completeTask: any }, { completed: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -69,24 +70,24 @@ class CompleteButton extends React.Component<{loading: boolean, label: string, c
     render() {
         if (this.props.loading) {
             return (
-                <RaisedButton disabled={true}><i style={{color: 'red'}} className="fa fa-star fa-spin" /></RaisedButton>
+                <RaisedButton disabled={true}><i style={{ color: 'red' }} className="fa fa-star fa-spin" /></RaisedButton>
             );
         } else if (this.state.completed) {
             return (
-                <RaisedButton  disabled={true}><i style={{color: 'green'}} className="fa fa-check"/></RaisedButton>
+                <RaisedButton disabled={true}><i style={{ color: 'green' }} className="fa fa-check" /></RaisedButton>
             );
         } else {
             return (
                 <RaisedButton label={this.props.label} onTouchTap={this.completeTask} />
-            );   
+            );
         }
     }
 
     completeTask = () => {
-        this.setState({completed: true});
+        this.setState({ completed: true });
         this.props.completeTask();
         setTimeout(() => {
-            this.setState({completed: false});
+            this.setState({ completed: false });
         },         5000);
     }
 

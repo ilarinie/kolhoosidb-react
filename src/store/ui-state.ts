@@ -3,6 +3,7 @@ import { action, observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { KolhoosiError } from './error';
 import { getMuiTheme } from 'material-ui/styles';
+import { DashboardActivityFeed } from '../components/dashboard/dashboard-component/dashboard_activity_feed';
 export class UiState {
 
   mainState: MainState;
