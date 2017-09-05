@@ -1,17 +1,17 @@
 import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
 
-export class LatestActivityComponent extends React.Component<{feed: any}, {}> {
+export class LatestActivityComponent extends React.Component<{ feed: any }, {}> {
     constructor(props: any) {
         super(props);
-        
+
     }
     render() {
         let feed = this.props.feed.map((item, index) => {
-            if (typeof item === 'Purchase') {
-                return <div>asd</div>;
+            if (item.amount) {
+                return <div>{item.amount}</div>;
             } else {
-                return <p>asd</p>;
+                return <div>{item.name}</div>;
             }
         });
         return (

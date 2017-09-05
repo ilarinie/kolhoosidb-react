@@ -1,6 +1,6 @@
 import * as React from 'react';
 import './App.css';
-import { Provider } from 'mobx-react';
+import { Provider, observer, inject } from 'mobx-react';
 import { LoginComponent } from './components/login';
 import { Route, Router, Redirect, Switch } from 'react-router-dom';
 import { Dashboard } from './components/dashboard/dashboard';
@@ -9,12 +9,15 @@ import { mainState } from './store/state';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { kolhoosiTheme } from './theme';
 import { create } from 'mobx-persist';
+import { SelectField, MenuItem, RaisedButton } from 'material-ui';
+import { UiState } from './store/ui-state';
+import { observable } from 'mobx';
 
 mainState.reset();
 // This will fetch the app state from localstorage.
 const hydrate = create({ storage: localStorage });
 hydrate('uiState', mainState.uiState).then((uiState) => {
-  console.log('asdasd');
+
   if (uiState.locationHistory.length !== 0) {
     createBrowserHistory.push(uiState.locationHistory[uiState.locationHistory.length - 1]);
   }
@@ -31,14 +34,11 @@ const startLocationHistoryListen = () => {
     mainState.uiState.locationHistory.push(location.pathname);
   });
 };
-
 class App extends React.Component<{}, {}> {
   render(): any {
     return (
       <div>
-        <MuiThemeProvider
-          muiTheme={kolhoosiTheme}
-        >
+        <ThemeObserver uiState={mainState.uiState}>
           <Provider mainState={mainState}>
             <Router history={createBrowserHistory}>
               <Switch>
@@ -47,7 +47,7 @@ class App extends React.Component<{}, {}> {
               </Switch>
             </Router>
           </Provider>
-        </MuiThemeProvider>
+        </ThemeObserver>
       </div>
     );
   }
@@ -89,5 +89,62 @@ export const LoginRoute = ({ component: Component, ...rest }) => (
       )
   )} />
 );
+
+
+
+@inject('uiState')
+@observer
+export class ThemeObserver extends React.Component<{ uiState: UiState }, {}> {
+  constructor(props: any) {
+    super(props);
+
+  }
+  render() {
+    return (
+      <MuiThemeProvider muiTheme={mainState.uiState.getKolhoosiTheme()}
+      >
+        {this.props.children}
+      </MuiThemeProvider>
+    )
+  }
+}
+
+export class ThemeSelector extends React.Component<{}, { value: number }> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      value: 0
+    }
+  }
+  render() {
+    const { value } = this.state;
+    let themes = mainState.uiState.themes.map((theme, index) => (
+      <MenuItem value={index} key={index} primaryText={theme} />
+    ));
+    return (
+      <div>
+        <SelectField
+          floatingLabelText="Theme"
+          value={value}
+          onChange={this.handleChange}
+        >
+          {themes}
+        </SelectField>
+        <RaisedButton label="select" onTouchTap={this.selectTheme} />
+      </div>
+    )
+  }
+
+  handleChange = (event, index, value) => {
+    let val = this.state.value;
+    val = value;
+    this.setState({ value: val });
+  }
+
+  selectTheme = () => {
+    mainState.uiState.switchTheme('asd');
+  }
+
+}
 
 export default App;

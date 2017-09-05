@@ -13,3 +13,7 @@ export const kolhoosiTheme = getMuiTheme({
     },
     fontFamily: 'Roboto, sans-serif'
 });
+
+export const darkTheme = getMuiTheme({
+
+})

@@ -8,9 +8,10 @@ import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
 import { Subheader, FontIcon } from 'material-ui';
 import { observer } from 'mobx-react';
+import { ThemeChooser } from './theme-chooser';
 const logo = require('../../../assets/logo.png');
 @observer
-export class AppBarComponent extends React.Component<{mainState: MainState}, {docked: boolean, mobile: boolean, drawerOpen: any}> {
+export class AppBarComponent extends React.Component<{ mainState: MainState }, { docked: boolean, mobile: boolean, drawerOpen: any }> {
 
     constructor() {
         super();
@@ -32,16 +33,16 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
         if (this.props.mainState.communeState.communeSelected && this.props.mainState.communeState.selectedCommune.current_user_admin) {
             adminMenuItems = (
                 <div>
-                <Divider />
-                <Subheader>Admin tools</Subheader>
-                <KolhoosiNavItem
+                    <Divider />
+                    <Subheader>Admin tools</Subheader>
+                    <KolhoosiNavItem
                         disabled={false}
                         path="/admin_panel"
                         text="Manage Commune"
                         onTouchTap={this.handleClose}
                         iconClassName="fa fa-lock"
                         iconColor="lightgray"
-                />
+                    />
                 </div>
             );
         }
@@ -52,9 +53,10 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                     title={communeName}
                     onLeftIconButtonTouchTap={this.toggleOpenDrawer}
                     showMenuIconButton={this.state.mobile}
+                    iconElementRight={<ThemeChooser uiState={this.props.mainState.uiState} />}
                 />
                 <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={250} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
-                    <img src={logo} style={{height: '64px', width: '100%'}} />
+                    <img src={logo} style={{ height: '64px', width: '100%' }} />
                     <KolhoosiNavItem
                         disabled={!this.props.mainState.communeState.communeSelected}
                         path="/"
@@ -70,7 +72,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                         onTouchTap={this.handleClose}
                         iconClassName="fa fa-tasks"
                         iconColor="lightgray"
-                    /> 
+                    />
                     <KolhoosiNavItem
                         disabled={!this.props.mainState.communeState.communeSelected}
                         path="/purchases"
@@ -80,7 +82,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                         iconColor="lightgray"
                     />
                     <Divider />
-                        {adminMenuItems}
+                    {adminMenuItems}
                     <Divider />
                     <KolhoosiNavItem
                         disabled={false}
@@ -96,7 +98,7 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
                         onTouchTap={this.deselectCommune}
                     />
                     <MenuItem
-                        leftIcon={<FontIcon className="fa fa-sign-out" />}    
+                        leftIcon={<FontIcon className="fa fa-sign-out" />}
                         primaryText="Log Out"
                         onTouchTap={this.logout}
                     />
@@ -113,44 +115,44 @@ export class AppBarComponent extends React.Component<{mainState: MainState}, {do
             drawerOpen: !this.state.drawerOpen
         });
     }
-    
+
     setSmall = () => {
-        this.setState({drawerOpen: false, docked: false, mobile: true});
+        this.setState({ drawerOpen: false, docked: false, mobile: true });
     }
-    
+
     setLarge = () => {
-        this.setState({drawerOpen: true, docked: true, mobile: false});
+        this.setState({ drawerOpen: true, docked: true, mobile: false });
     }
-    
+
     // This will either make the drawer docked (desktop) or hidden (mobile)
     componentDidMount() {
-      const mediaQuery = window.matchMedia('(min-width: 768px)');
-      if (mediaQuery.matches) {
-        this.setLarge();
-      } else {
-        this.setSmall();
-      }
-      mediaQuery.addListener((mq) => {
-        if   (mq.matches) {
-          this.setLarge();
+        const mediaQuery = window.matchMedia('(min-width: 768px)');
+        if (mediaQuery.matches) {
+            this.setLarge();
         } else {
-          this.setSmall();
+            this.setSmall();
         }
-      });
+        mediaQuery.addListener((mq) => {
+            if (mq.matches) {
+                this.setLarge();
+            } else {
+                this.setSmall();
+            }
+        });
     }
 
     handleClose = () => {
         if (!this.state.docked) {
-        this.setState({
-            drawerOpen: false
-        });
-    }
+            this.setState({
+                drawerOpen: false
+            });
+        }
     }
 
     handleDrawer = () => {
-            this.setState({
-                drawerOpen: !this.state.drawerOpen
-            });
+        this.setState({
+            drawerOpen: !this.state.drawerOpen
+        });
     }
 
     deselectCommune = () => {

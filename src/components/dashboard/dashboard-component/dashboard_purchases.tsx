@@ -21,7 +21,7 @@ import { currencyFormatter } from '../../util/currencyFormatter';
 
 @inject('mainState')
 @observer
-export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState }, {dialogOpen: boolean}> {
+export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -32,11 +32,11 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
     }
 
     handleClose = () => {
-        this.setState({dialogOpen: false});
+        this.setState({ dialogOpen: false });
     }
 
     openDialog = () => {
-        this.setState({dialogOpen: true});
+        this.setState({ dialogOpen: true });
     }
 
     componentDidMount() {
@@ -55,10 +55,10 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
                         <i className="fa fa-plus-circle" /> Add a Purchase
                     </RaisedButton>
                     <PurchaseCreatorDialog
-                        categories={this.props.mainState.communeState.selectedCommune.purchase_categories} 
-                        submitPurchase={this.submitPurchase} 
+                        categories={this.props.mainState.communeState.selectedCommune.purchase_categories}
+                        submitPurchase={this.submitPurchase}
                         dialogOpen={this.state.dialogOpen}
-                        handleClose={this.handleClose}     
+                        handleClose={this.handleClose}
                     />
                 </div>
             );
@@ -67,7 +67,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
         let rows = null;
         if (this.props.mainState.communeState.selectedCommune.budget && this.props.mainState.communeState.selectedCommune.budget.users) {
             rows = this.props.mainState.communeState.selectedCommune.budget.users.map((user, index) => (
-                <BudgetRow 
+                <BudgetRow
                     user={user}
                     key={index}
                     diff={(user.total - this.props.mainState.communeState.selectedCommune.budget.commune_avg)}
@@ -77,8 +77,8 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
 
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                    {rows}
-                    {creator}
+                {rows}
+                {creator}
             </LoadingScreen>
         );
     }
@@ -88,7 +88,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
     }
 }
 
-export class BudgetRow extends React.Component<{user: any, diff: any}, {}> {
+export class BudgetRow extends React.Component<{ user: any, diff: any }, {}> {
     constructor(props: any) {
         super(props);
     }
@@ -117,7 +117,7 @@ export class BudgetRow extends React.Component<{user: any, diff: any}, {}> {
                 </p>
                 <hr />
             </div>
-            
+
         );
     }
 }
