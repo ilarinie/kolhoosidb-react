@@ -64,7 +64,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
 
         }
         if (!late) {
-            when_to_do = <p style={{ color: 'red' }}>Late</p>;
+            when_to_do = <span style={{ color: 'red' }}>Late</span>;
         }
 
         return (

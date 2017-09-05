@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { MainState } from '../../store/state';
+import { MainState, mainState } from '../../store/state';
 import { inject, observer } from 'mobx-react';
 import createBrowserHistory from '../../history';
 import { TasksComponent } from './tasks/tasks';
@@ -13,6 +13,7 @@ import KolhoosiSnackBar from '../util/kolhoosi-snackbar';
 import { ProfileComponent } from './profile/profile';
 import { AdminPanel } from './admin-panel/admin-panel';
 import { DashboardComponent } from './dashboard-component/dashboard-component';
+import { XpScroller } from '../util/xp-scroller';
 
 @inject('mainState')
 @observer

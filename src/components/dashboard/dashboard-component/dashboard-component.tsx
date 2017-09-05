@@ -5,8 +5,8 @@ import { DashboardTasksComponent } from './tasks';
 import { DashboardPurchasesComponent } from './dashboard_purchases';
 import { DashboardActivityFeed } from './dashboard_activity_feed';
 import { DashboardUserInfo } from './dashboard_userinfo';
-import { ThemeSelector } from '../../../App';
 import { UiState } from '../../../store/ui-state';
+import { XpScroller } from '../../util/xp-scroller';
 
 @inject('mainState')
 @observer
@@ -24,11 +24,14 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
     getFeed = () => {
         this.props.mainState.communeState.getFeed();
     }
+    getTopList = () => {
+        this.props.mainState.communeState.getTopList();
+    }
 
     render() {
         return (
             <div style={{ width: '100%' }}>
-                <div style={this.mainContainerStyles}>
+                <div style={this.mainContainerStyles}>  
                     <DashboardItemContainer uiState={this.props.mainState.uiState} title="Tasks">
                         <DashboardTasksComponent mainState={this.props.mainState} />
                     </DashboardItemContainer>
@@ -41,6 +44,17 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
                             getFeed={this.getFeed}
                         />
                     </DashboardItemContainer>
+                    <DashboardItemContainer
+                        uiState={this.props.mainState.uiState}
+                        title="Top Lists"
+                    >
+                        <XpScroller
+                            getTopLists={this.getTopList}    
+                            weekly={this.props.mainState.communeState.weeklyTop}
+                            monthly={this.props.mainState.communeState.montlyTop}
+                            all_time={this.props.mainState.communeState.allTimeTop}
+                        />
+                    </DashboardItemContainer>  
                     <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
                         <DashboardUserInfo user={this.props.mainState.userState.current_user} />
                     </DashboardItemContainer>

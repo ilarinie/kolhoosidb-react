@@ -109,42 +109,4 @@ export class ThemeObserver extends React.Component<{ uiState: UiState }, {}> {
   }
 }
 
-export class ThemeSelector extends React.Component<{}, { value: number }> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      value: 0
-    }
-  }
-  render() {
-    const { value } = this.state;
-    let themes = mainState.uiState.themes.map((theme, index) => (
-      <MenuItem value={index} key={index} primaryText={theme} />
-    ));
-    return (
-      <div>
-        <SelectField
-          floatingLabelText="Theme"
-          value={value}
-          onChange={this.handleChange}
-        >
-          {themes}
-        </SelectField>
-        <RaisedButton label="select" onTouchTap={this.selectTheme} />
-      </div>
-    )
-  }
-
-  handleChange = (event, index, value) => {
-    let val = this.state.value;
-    val = value;
-    this.setState({ value: val });
-  }
-
-  selectTheme = () => {
-    mainState.uiState.switchTheme('asd');
-  }
-
-}
-
 export default App;

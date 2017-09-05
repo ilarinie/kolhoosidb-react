@@ -41,20 +41,17 @@ export class UiState {
 
   @action
   switchTheme = (theme: string) => {
-    console.log('teema: ' + theme);
     this.chosenTheme = theme;
     window.location.reload();
   }
 
   getKolhoosiTheme = () => {
-    console.log(this.chosenTheme);
     switch (this.chosenTheme) {
       case 'darkBase':
         return getMuiTheme(darkBaseTheme);
       case 'lightBase':
         return getMuiTheme();
       case 'dark':
-        console.log('dark returned');
         return getMuiTheme({
           palette: {
             primary1Color: '#2f4f4f',
@@ -79,7 +76,6 @@ export class UiState {
 
         });
       default:
-        console.log('default returned');
         return getMuiTheme({
           palette: {
             primary1Color: '#FF0025',
@@ -88,7 +84,7 @@ export class UiState {
             accent1Color: '#FFBF00',
             accent2Color: '#FFFF8D',
             accent3Color: '#9E9E9E',
-            textColor: '#000000',
+            textColor: '#030303',
             alternateTextColor: '#fff',
           },
           fontFamily: 'Roboto, sans-serif'

@@ -4,6 +4,7 @@ import { observable, action } from 'mobx';
 import { Commune } from './models/commune';
 import createBrowserHistory from '../history';
 import * as ApiService from './api-service';
+import { TopListItem } from './models/top_list_item';
 
 export class CommuneState {
   mainState: MainState;
@@ -11,6 +12,10 @@ export class CommuneState {
   @persist @observable communeSelected: boolean = false;
   @persist('object') @observable selectedCommune: Commune;
   @persist('list') @observable communes: Commune[] = [];
+
+  @observable weeklyTop: TopListItem[] = [];
+  @observable montlyTop: TopListItem[] = [];
+  @observable allTimeTop: TopListItem[] = [];
 
   constructor(mainState: MainState) {
     this.mainState = mainState;
@@ -26,6 +31,19 @@ export class CommuneState {
       this.selectedCommune.feed = await ApiService.get('communes/' + this.selectedCommune.id + '/activity_feed');
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
+    }
+  }  
+
+  @action
+  async getTopList() {
+    try {
+      const response = await ApiService.get('communes/' + this.selectedCommune.id + '/top_list');
+      console.log(response);
+      this.weeklyTop = response.weekly;
+      this.montlyTop = response.monthly;
+      this.allTimeTop = response.from_beginning;
+    } catch (error) {
+      console.log(error);
     }
   }  
 
