@@ -36,7 +36,7 @@ export class UiState {
     this.showSnackbar = true;
     setTimeout(() => {
       this.showSnackbar = false;
-    }, 4000);
+    },         4000);
   }
 
   @action

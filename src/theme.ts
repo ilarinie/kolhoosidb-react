@@ -16,4 +16,4 @@ export const kolhoosiTheme = getMuiTheme({
 
 export const darkTheme = getMuiTheme({
 
-})
+});

@@ -3,13 +3,13 @@ import { PurchaseCategory } from '../../../store/models/purchase_category';
 import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card } from 'material-ui';
 import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
-import {KolhoosiCardTitle } from '../../util/card-title';
+import { KolhoosiCardTitle } from '../../util/card-title';
 
-export class PurchaseCreator extends React.Component < {
+export class PurchaseCreator extends React.Component<{
     categories: PurchaseCategory[],
     submitPurchase: any,
     expandable: boolean
-}, {purchase: Purchase} > {
+}, { purchase: Purchase }> {
 
     constructor(props: any) {
         super(props);
@@ -22,7 +22,7 @@ export class PurchaseCreator extends React.Component < {
         };
     }
 
-    render () {
+    render() {
         const { purchase } = this.state;
         let cats = null;
         if (this.props.categories.length !== 0) {
@@ -51,21 +51,21 @@ export class PurchaseCreator extends React.Component < {
                             floatingLabelText="Amount"
                             onChange={this.handleChange}
                             value={purchase.amount}
-                        /><i className="fa fa-eur" /><br/>
+                        /><i className="fa fa-eur" /><br />
                         <TextValidator
                             name="description"
                             type="text"
                             floatingLabelText="Description"
                             onChange={this.handleChange}
                             value={purchase.description}
-                        /><br/>
+                        /><br />
                         <SelectField
                             floatingLabelText="Category"
                             value={purchase.purchase_category_id}
                             onChange={this.handleCatChange}
                         >
                             {cats}
-                        </SelectField><br/>
+                        </SelectField><br />
                         <RaisedButton label="Create" type="submit" />
                     </ValidatorForm>
                 </CardText>
@@ -80,12 +80,12 @@ export class PurchaseCreator extends React.Component < {
     handleCatChange = (event, index, value) => {
         const { purchase } = this.state;
         purchase.purchase_category_id = value;
-        this.setState({purchase: purchase});
+        this.setState({ purchase: purchase });
     }
 
     handleChange = (event) => {
         const { purchase } = this.state;
         purchase[event.target.name] = event.target.value;
-        this.setState({purchase: purchase});
-    } 
+        this.setState({ purchase: purchase });
+    }
 }
