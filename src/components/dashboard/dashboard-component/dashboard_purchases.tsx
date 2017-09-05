@@ -17,10 +17,11 @@ import { PurchaseCreator } from '../purchases/purchasecreator';
 import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
+import { currencyFormatter } from '../../util/currencyFormatter';
 
 @inject('mainState')
 @observer
-export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState }, {dialogOpen: boolean}> {
+export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -31,11 +32,11 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
     }
 
     handleClose = () => {
-        this.setState({dialogOpen: false});
+        this.setState({ dialogOpen: false });
     }
 
     openDialog = () => {
-        this.setState({dialogOpen: true});
+        this.setState({ dialogOpen: true });
     }
 
     componentDidMount() {
@@ -47,13 +48,18 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
         if (this.props.mainState.communeState.selectedCommune.purchase_categories && this.props.mainState.communeState.selectedCommune.purchase_categories.length !== 0) {
             creator = (
                 <div>
-                    <RaisedButton style={{width: '100%', margin: '0 auto'}} onTouchTap={this.openDialog}><i className="fa fa-plus-circle" /></RaisedButton>
-                <PurchaseCreatorDialog
-                     categories={this.props.mainState.communeState.selectedCommune.purchase_categories} 
-                     submitPurchase={this.submitPurchase} 
-                     dialogOpen={this.state.dialogOpen}
-                     handleClose={this.handleClose}     
-                />
+                    <RaisedButton
+                        style={{ width: '100%', margin: '0 auto' }}
+                        onTouchTap={this.openDialog}
+                    >
+                        <i className="fa fa-plus-circle" /> Add a Purchase
+                    </RaisedButton>
+                    <PurchaseCreatorDialog
+                        categories={this.props.mainState.communeState.selectedCommune.purchase_categories}
+                        submitPurchase={this.submitPurchase}
+                        dialogOpen={this.state.dialogOpen}
+                        handleClose={this.handleClose}
+                    />
                 </div>
             );
         }
@@ -61,44 +67,58 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
         let rows = null;
         if (this.props.mainState.communeState.selectedCommune.budget && this.props.mainState.communeState.selectedCommune.budget.users) {
             rows = this.props.mainState.communeState.selectedCommune.budget.users.map((user, index) => (
-                <TableRow key={index}>
-                    <TableRowColumn>{user.name}</TableRowColumn>
-                    <TotalColumn total={user.total} />
-                    <DiffColumn diff={(user.total - this.props.mainState.communeState.selectedCommune.budget.commune_avg)} />
-                </TableRow>
+                <BudgetRow
+                    user={user}
+                    key={index}
+                    diff={(user.total - this.props.mainState.communeState.selectedCommune.budget.commune_avg)}
+                />
             ));
         }
 
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                <div className="full-size-component" >
-                    <Table>
-                        <TableHeader
-                            displaySelectAll={false}
-                            enableSelectAll={false}
-                            adjustForCheckbox={false}
-                        >
-                            <TableRow>
-                                <TableHeaderColumn>Name</TableHeaderColumn>
-                                <TableHeaderColumn>Total Purchases</TableHeaderColumn>
-                                <TableHeaderColumn>Differential</TableHeaderColumn>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody
-                            displayRowCheckbox={false}
-                            stripedRows={false}
-                        >
-                            {rows}
-                        </TableBody>
-                    </Table><br />
-                    {creator}
-                </div>
+                {rows}
+                {creator}
             </LoadingScreen>
         );
     }
 
     submitPurchase = (purchase: Purchase) => {
         this.props.mainState.purchaseState.createPurchase(purchase);
+    }
+}
+
+export class BudgetRow extends React.Component<{ user: any, diff: any }, {}> {
+    constructor(props: any) {
+        super(props);
+    }
+
+    getDiffColor() {
+        if (this.props.diff < 0 && -20 < this.props.diff) {
+            return 'yellow';
+        } else if (this.props.diff < 0) {
+            return 'red';
+        } else {
+            return 'green';
+        }
+    }
+
+    render() {
+        let total = currencyFormatter.format(this.props.user.total);
+        let diff = currencyFormatter.format(this.props.diff);
+        return (
+            <div style={{ padding: '5px' }}>
+                {this.props.user.name}<br />
+                <small>Total purchases: {total}</small><br />
+                <p
+                    style={{ color: this.getDiffColor(), float: 'right', marginTop: '-27px', fontFamily: 'Lucida Console, Monospace' }}
+                >
+                    <b>{diff}</b>
+                </p>
+                <hr />
+            </div>
+
+        );
     }
 }
 

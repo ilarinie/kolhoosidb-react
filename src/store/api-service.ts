@@ -3,17 +3,18 @@ import axios, { AxiosRequestConfig } from 'axios';
 import createBrowserHistory from '../history';
 import { mainState } from './state';
 
-// const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
-const API_URL = 'http://localhost:3001/';
+const API_URL = 'https://kolhoosidb-api.herokuapp.com/';
+// const API_URL = 'https://kolhoosidb-api.ilarinieminen.me/';
+// const API_URL = 'http://localhost:3001/';
 
 const config = (): AxiosRequestConfig => {
     return {
-        headers:  {
-        'Authorization': 'Bearer ' + mainState.authState.token,
-        'Accept': 'application/json',
-        'Content-type': 'application/json'
-    }
-} as AxiosRequestConfig;
+        headers: {
+            'Authorization': 'Bearer ' + mainState.authState.token,
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        }
+    } as AxiosRequestConfig;
 };
 
 export const get = (path: string): Promise<any> => {

@@ -8,7 +8,7 @@ export class ProfileForm extends React.Component<{user: User, handleSubmit: any,
     render () {
         return (
             <div>
-                <Card style={{maxWidth: '400px'}}>
+                <Card>
                     <CardHeader
                         title="Edit Profile"
                     />
@@ -32,7 +32,8 @@ export class ProfileForm extends React.Component<{user: User, handleSubmit: any,
                         </ValidatorForm>
                     </CardText>
                 </Card>
-                <Card style={{maxWidth: '400px'}}>
+                <hr />
+                <Card>
                     <CardHeader
                         title="Change password"
                     />
@@ -43,6 +44,8 @@ export class ProfileForm extends React.Component<{user: User, handleSubmit: any,
                             name="password"
                             id="pw"
                             floatingLabelText="Password"
+                            validators={['required', 'matchRegexp:^.{8,}']}
+                            errorMessages={[ 'Password must be at least 8 characters long.']}
                         /><br />
                         <TextValidator
                             type="password"

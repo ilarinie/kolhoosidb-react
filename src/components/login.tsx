@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {  MainState } from '../store/state';
+import { MainState, mainState } from '../store/state';
 import { observer, inject } from 'mobx-react';
 import { RegisterComponent } from './register';
 import { User } from '../store/models/user';
@@ -8,6 +8,7 @@ import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
 import Paper from 'material-ui/Paper';
 import { Redirect } from 'react-router-dom';
+import { ComponentThemeWrapper } from './util/componentThemeWrapper';
 
 const logo = require('../assets/logo.png');
 
@@ -48,29 +49,31 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
     render() {
         // Jos huomataan että ollaan jo kirjauduttu, ohjataan samantien dashboardiin.
         if (this.props.mainState.authState.token !== '') {
-            return ( <Redirect to="/" push={true} /> );
+            return (<Redirect to="/" push={true} />);
         }
         return (
-            <div style={{width: '100%'}}>
+            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
                 <div style={this.containerStyle}>
                     <Paper style={this.paperStyles} rounded={true} zDepth={2}>
-                        <img style={{width: '100%'}} src={logo} />
+                        <img style={{ width: '100%' }} src={logo} />
                         <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
-                        <i className="fa fa-user" aria-hidden="true"/>
-                        <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" defaultValue="testeriija" />
-                        <br />
-                        <i className="fa fa-lock" aria-hidden="true" />
-                        <TextField  style={this.textFieldStyle} id="password" type="password" hintText="Password" defaultValue="testaaja"/>
-                        <br /><br />
-                        <SubmitButton loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
-                        <a style={{textDecoration: 'none'}} href="#" onClick={this.forgotPw} >Forgot password?</a>
+                        <form onSubmit={this.login}>
+                            <i className="fa fa-user" aria-hidden="true" />
+                            <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" />
+                            <br />
+                            <i className="fa fa-lock" aria-hidden="true" />
+                            <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
+                            <br /><br />
+                            <SubmitButton type="submit" loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
+                        </form>
+                        <a style={{ textDecoration: 'none' }} href="#" onClick={this.forgotPw} >Forgot password?</a>
                     </Paper>
                 </div>
                 <div style={this.containerStyle}>
                     <RegisterComponent mainState={this.props.mainState} />
                 </div>
-            </div>
+            </ComponentThemeWrapper>
         );
     }
 
@@ -83,9 +86,10 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
         this.props.mainState.userState.createUser(user);
     }
 
-    login = () => {
-        let username: string =  (document.getElementById('username') as HTMLInputElement).value;
-        let password: string =  (document.getElementById('password') as HTMLInputElement).value;
+    login = (event: any) => {
+        event.preventDefault();
+        let username: string = (document.getElementById('username') as HTMLInputElement).value;
+        let password: string = (document.getElementById('password') as HTMLInputElement).value;
         if (username && password) {
             this.props.mainState.authState.logIn(username, password);
         }

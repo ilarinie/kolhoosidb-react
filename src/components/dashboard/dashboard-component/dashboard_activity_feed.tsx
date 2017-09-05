@@ -8,9 +8,7 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
     handle: any;
 
     componentDidMount() {
-        this.handle = setInterval(() => {
-            this.props.getFeed();
-        },                        10000);
+        this.props.getFeed();
     }
 
     componentWillUnmount() {
@@ -19,18 +17,28 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
 
     render() {
         let feed = this.props.feed.map((feedItem, index) => (
-            <li
-                key={index}
-                style={{listStyle: 'none'}}
-            ><b>{feedItem.actorname}</b> {getAction(feedItem)} a {feedItem.trackablename} {moment(feedItem.created_at).fromNow()}</li>
+            <FeedItemComponent key={index} feedItem={feedItem} />
         ));
 
         return (
             <div>
-                <h4>Activity feed</h4>
-                <ul>
                     {feed}
-                </ul>
+            </div>
+        );
+    }
+}
+
+export class FeedItemComponent extends React.Component<{feedItem: FeedItem}, {}> {
+    constructor(props: any) {
+        super(props);
+        
+    }
+    render() {
+        return (
+            <div>
+                {this.props.feedItem.actorname} {getAction(this.props.feedItem)} {this.props.feedItem.trackablename}<br />
+                <small>{moment(this.props.feedItem.created_at).fromNow()}</small>
+                <hr />
             </div>
         );
     }

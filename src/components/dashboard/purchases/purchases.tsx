@@ -7,7 +7,8 @@ import { Purchase } from '../../../store/models/purchase';
 import { Table, TableRow, TableHeaderColumn, TableHeader, TableBody, TableRowColumn } from 'material-ui';
 import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
-import {currencyFormatter} from '../../util/currencyFormatter';
+import { currencyFormatter } from '../../util/currencyFormatter';
+import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 
 @inject('mainState')
 @observer
@@ -21,8 +22,8 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
         let creator = null;
         if (this.props.mainState.communeState.selectedCommune.purchase_categories && this.props.mainState.communeState.selectedCommune.purchase_categories.length !== 0) {
             creator = (
-                <PurchaseCreator 
-                    categories={this.props.mainState.communeState.selectedCommune.purchase_categories} 
+                <PurchaseCreator
+                    categories={this.props.mainState.communeState.selectedCommune.purchase_categories}
                     submitPurchase={this.submitPurchase}
                     expandable={true}
                 />
@@ -41,32 +42,35 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
         }
 
         return (
+
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                <div className="full-size-component" >
-                    <h1> Purchases </h1>
-                    <h4> Total Purchases: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_total)} </h4>
-                    <h4> Average per user: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_avg)} </h4>
-                    <Table>
-                        <TableHeader
-                            displaySelectAll={false}
-                            enableSelectAll={false}
-                            adjustForCheckbox={false}
-                        >
-                            <TableRow>
-                                <TableHeaderColumn>Name</TableHeaderColumn>
-                                <TableHeaderColumn>Total Purchases</TableHeaderColumn>
-                                <TableHeaderColumn>Differential</TableHeaderColumn>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody
-                            displayRowCheckbox={false}
-                            stripedRows={false}
-                        >
-                            {rows}
-                        </TableBody>
-                    </Table><br />
-                    {creator}
-                </div>
+                <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+                    <div>
+                        <h1> Purchases </h1>
+                        <h4> Total Purchases: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_total)} </h4>
+                        <h4> Average per user: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_avg)} </h4>
+                        <Table>
+                            <TableHeader
+                                displaySelectAll={false}
+                                enableSelectAll={false}
+                                adjustForCheckbox={false}
+                            >
+                                <TableRow>
+                                    <TableHeaderColumn>Name</TableHeaderColumn>
+                                    <TableHeaderColumn>Total Purchases</TableHeaderColumn>
+                                    <TableHeaderColumn>Differential</TableHeaderColumn>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody
+                                displayRowCheckbox={false}
+                                stripedRows={false}
+                            >
+                                {rows}
+                            </TableBody>
+                        </Table><br />
+                        {creator}
+                    </div>
+                </ComponentThemeWrapper>
             </LoadingScreen>
         );
     }
