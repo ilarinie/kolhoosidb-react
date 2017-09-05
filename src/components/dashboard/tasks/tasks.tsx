@@ -4,6 +4,7 @@ import { LoadingScreen } from '../../util/loading-screen';
 import { observer, inject } from 'mobx-react';
 import { TaskCard } from './taskcard';
 import { Task } from '../../../store/models/task';
+import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 
 @inject('mainState')
 @observer
@@ -22,17 +23,19 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, { 
 
     render() {
         let tasks = this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => (
-            <TaskCard completeTask={this.completeTask} task={task} key={index}/>
+            <TaskCard completeTask={this.completeTask} task={task} key={index} />
         ));
         return (
-            <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-            <div className="full-size-component"  >
-                <h1>Tasks</h1>
-                <div style={{display: 'flex',  flexWrap: 'wrap'}}>
-                    {tasks}
-                </div>
-            </div>
-            </LoadingScreen>
+            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+                <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
+                    <div className="full-size-component"  >
+                        <h1>Tasks</h1>
+                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                            {tasks}
+                        </div>
+                    </div>
+                </LoadingScreen>
+            </ComponentThemeWrapper>
         );
     }
 

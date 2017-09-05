@@ -5,6 +5,7 @@ import { UserManagementComponent } from './user-management/user-management';
 import { Tabs, Tab } from 'material-ui';
 import { TaskManagement } from './task-management/task-management';
 import { CommuneEditor } from './commune-editor/commune-editor';
+import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 
 @inject('mainState')
 @observer
@@ -17,7 +18,7 @@ export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
 
     render() {
         return (
-            <div className="full-size-component">
+            <ComponentThemeWrapper uiState={this.props.mainState.uiState} >
                 <Tabs>
                     <Tab label="User Management">
                         <UserManagementComponent mainState={this.props.mainState} />
@@ -29,7 +30,7 @@ export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
                         <CommuneEditor mainState={this.props.mainState} />
                     </Tab>
                 </Tabs>
-            </div>
+            </ComponentThemeWrapper>
         );
     }
 }

@@ -8,6 +8,7 @@ import { ProfileForm } from './profile-form';
 import { FullWidthCardWrapper } from '../../util/full-width-card-wrapper';
 import { SetDefaultCommuneComponent } from './set-commune';
 import { LatestActivityComponent } from './latest-activity';
+import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 
 @inject('mainState')
 @observer
@@ -28,38 +29,40 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
 
     render() {
         return (
-            <div className="full-size-component" style={this.containerStyle} >
-                <FullWidthCardWrapper
-                    title="Invitations"
-                    iconClassName="fa fa-letter"
-                    hidden={this.props.mainState.userState.current_user.invitations.length === 0}
-                >
-                    <InvitationsList accept={this.acceptInvitation} reject={this.rejectInvitation} invitations={this.props.mainState.userState.current_user.invitations} />
-                </FullWidthCardWrapper>
-                <FullWidthCardWrapper
-                    title="Edit profile"
-                    iconClassName="fa fa-user"
-                    hidden={false}
-                >
-                    <ProfileForm
-                        user={this.state.user}
-                        handlePwChange={this.handlePwChange}
-                        handleChange={this.handleFormChange}
-                        handleSubmit={this.handleProfileSubmit}
-                    />
-                </FullWidthCardWrapper>
-                <FullWidthCardWrapper
-                    title="Set default commune"
-                    iconClassName="fa fa-star-o"
-                    hidden={false}
-                >
-                    <SetDefaultCommuneComponent
-                        communes={this.props.mainState.communeState.communes}
-                        saveDefaultCommune={this.saveDefaultCommune}
-                        user={this.props.mainState.userState.current_user}
-                    />
-                </FullWidthCardWrapper>
-            </div>
+            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+                <div style={this.containerStyle} >
+                    <FullWidthCardWrapper
+                        title="Invitations"
+                        iconClassName="fa fa-letter"
+                        hidden={this.props.mainState.userState.current_user.invitations.length === 0}
+                    >
+                        <InvitationsList accept={this.acceptInvitation} reject={this.rejectInvitation} invitations={this.props.mainState.userState.current_user.invitations} />
+                    </FullWidthCardWrapper>
+                    <FullWidthCardWrapper
+                        title="Edit profile"
+                        iconClassName="fa fa-user"
+                        hidden={false}
+                    >
+                        <ProfileForm
+                            user={this.state.user}
+                            handlePwChange={this.handlePwChange}
+                            handleChange={this.handleFormChange}
+                            handleSubmit={this.handleProfileSubmit}
+                        />
+                    </FullWidthCardWrapper>
+                    <FullWidthCardWrapper
+                        title="Set default commune"
+                        iconClassName="fa fa-star-o"
+                        hidden={false}
+                    >
+                        <SetDefaultCommuneComponent
+                            communes={this.props.mainState.communeState.communes}
+                            saveDefaultCommune={this.saveDefaultCommune}
+                            user={this.props.mainState.userState.current_user}
+                        />
+                    </FullWidthCardWrapper>
+                </div>
+            </ComponentThemeWrapper>
         );
     }
 

@@ -15,7 +15,10 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
     mainContainerStyles = {
         display: 'flex',
         alignItems: 'flex-start' as 'flex-start',
-        flexWrap: 'wrap' as 'wrap'
+        flexWrap: 'wrap' as 'wrap',
+        justifyContent: 'flex-start' as 'flex-start',
+        minHeight: '100vh',
+        background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
     };
 
     getFeed = () => {
@@ -53,6 +56,7 @@ export class DashboardItemContainer extends React.Component<{ title: string, uiS
         margin: '10px 10px',
         width: '450px',
         border: '0.5px solid lightgray',
+        borderColor: this.props.uiState.getKolhoosiTheme().palette.borderColor,
         boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     };
 
@@ -68,7 +72,8 @@ export class DashboardItemContainer extends React.Component<{ title: string, uiS
         padding: '20px',
         overflowY: 'auto' as 'auto',
         maxHeight: '300px',
-        color: '#333'
+        color: this.props.uiState.getKolhoosiTheme().palette.textColor,
+        background: this.props.uiState.getKolhoosiTheme().palette.canvasColor
     };
 
     constructor(props: any) {

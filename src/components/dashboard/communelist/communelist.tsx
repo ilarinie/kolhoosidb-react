@@ -6,11 +6,12 @@ import { CommuneCreationComponent } from './communecreator';
 import { LoadingScreen } from '../../util/loading-screen';
 import { Commune } from '../../../store/models/commune';
 import { Redirect } from 'react-router-dom';
+import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 
 @inject('mainState')
 @observer
 export class Communelist extends React.Component<{ mainState: MainState }, {}> {
-    
+
     componentDidMount() {
         if (!this.props.mainState.communeState.communeSelected) {
             this.props.mainState.communeState.getCommunes();
@@ -22,16 +23,18 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
             return <Redirect to="/" />;
         }
 
-        let communes = this.props.mainState.communeState.communes.map((commune, index) => 
+        let communes = this.props.mainState.communeState.communes.map((commune, index) =>
             <CommuneCard key={index} commune={commune} selectCommune={this.selectCommune} deleteCommune={this.deleteCommune} />
         );
         return (
-            <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                <div style={{display: 'flex', flexWrap: 'wrap'}}>
+            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+                <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                         {communes}
-                </div>
-                <CommuneCreationComponent submitCommune={this.submitCommune} />
-            </LoadingScreen>
+                    </div>
+                    <CommuneCreationComponent submitCommune={this.submitCommune} />
+                </LoadingScreen>
+            </ComponentThemeWrapper>
         );
     }
 

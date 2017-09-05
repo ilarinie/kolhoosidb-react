@@ -2,8 +2,9 @@ import { MainState } from './state';
 import { action, observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { KolhoosiError } from './error';
-import { getMuiTheme } from 'material-ui/styles';
+import { getMuiTheme, darkBaseTheme } from 'material-ui/styles';
 import { DashboardActivityFeed } from '../components/dashboard/dashboard-component/dashboard_activity_feed';
+
 export class UiState {
 
   mainState: MainState;
@@ -14,7 +15,7 @@ export class UiState {
   @persist @observable dataLoading: boolean = false;
   @persist @observable chosenTheme: string = '';
 
-  themes: string[] = ['dark', 'default'];
+  themes: string[] = ['dark', 'default', 'darkBase', 'lightBase'];
 
   @persist('list') @observable locationHistory: string[] = [];
 
@@ -48,6 +49,10 @@ export class UiState {
   getKolhoosiTheme = () => {
     console.log(this.chosenTheme);
     switch (this.chosenTheme) {
+      case 'darkBase':
+        return getMuiTheme(darkBaseTheme);
+      case 'lightBase':
+        return getMuiTheme();
       case 'dark':
         console.log('dark returned');
         return getMuiTheme({
