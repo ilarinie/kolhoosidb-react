@@ -9,6 +9,7 @@ import { FullWidthCardWrapper } from '../../util/full-width-card-wrapper';
 import { SetDefaultCommuneComponent } from './set-commune';
 import { LatestActivityComponent } from './latest-activity';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
+import { ThemeChooser } from './theme-chooser';
 
 @inject('mainState')
 @observer
@@ -61,6 +62,17 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                             user={this.props.mainState.userState.current_user}
                         />
                     </FullWidthCardWrapper>
+                    <FullWidthCardWrapper
+                        title="Set default theme"
+                        iconClassName="fa fa-star-o"
+                        hidden={false}
+                    >
+                        <ThemeChooser
+                            themes={this.props.mainState.uiState.themes}
+                            chosen_theme={this.props.mainState.userState.current_user.default_theme}
+                            chooseTheme={this.saveDefaultTheme}
+                        />    
+                    </FullWidthCardWrapper>
                 </div>
             </ComponentThemeWrapper>
         );
@@ -92,6 +104,13 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
         let user: User = this.props.mainState.userState.current_user;
         user.default_commune_id = id;
         this.props.mainState.userState.updateUser(user);
+    }
+
+    saveDefaultTheme = (theme: string) => {
+        let user: User = this.props.mainState.userState.current_user;
+        user.default_theme = theme;
+        this.props.mainState.userState.updateUser(user);
+        this.props.mainState.uiState.switchTheme(user.default_theme);
     }
 
 }

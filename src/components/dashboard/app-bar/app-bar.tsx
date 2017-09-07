@@ -8,7 +8,6 @@ import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
 import { Subheader, FontIcon } from 'material-ui';
 import { observer } from 'mobx-react';
-import { ThemeChooser } from './theme-chooser';
 const logo = require('../../../assets/logo.png');
 @observer
 export class AppBarComponent extends React.Component<{ mainState: MainState }, { docked: boolean, mobile: boolean, drawerOpen: any }> {
@@ -53,7 +52,6 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                     title={communeName}
                     onLeftIconButtonTouchTap={this.toggleOpenDrawer}
                     showMenuIconButton={this.state.mobile}
-                    iconElementRight={<ThemeChooser uiState={this.props.mainState.uiState} />}
                 />
                 <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={250} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
                     <img src={logo} style={{ height: '64px', width: '100%' }} />

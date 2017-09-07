@@ -13,7 +13,6 @@ export class UiState {
   @persist @observable dashboardLoading: boolean = false;
   @persist @observable registerLoading: boolean = false;
   @persist @observable dataLoading: boolean = false;
-  @persist @observable chosenTheme: string = '';
 
   themes: string[] = ['dark', 'default', 'darkBase', 'lightBase'];
 
@@ -41,12 +40,17 @@ export class UiState {
 
   @action
   switchTheme = (theme: string) => {
-    this.chosenTheme = theme;
     window.location.reload();
   }
 
   getKolhoosiTheme = () => {
-    switch (this.chosenTheme) {
+    let theme;
+    if (this.mainState.userState.current_user) {
+      theme = this.mainState.userState.current_user.default_theme;
+    } else {
+      theme = 'default';
+    }
+    switch (theme ) {
       case 'darkBase':
         return getMuiTheme(darkBaseTheme);
       case 'lightBase':

@@ -8,7 +8,6 @@ import { Task } from '../../../store/models/task';
 import * as moment from 'moment';
 import RaisedButton from 'material-ui/RaisedButton';
 
-@inject('mainState')
 @observer
 export class DashboardTasksComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
 
