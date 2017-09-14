@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
-import { DashboardTasksComponent } from './tasks';
+import { DashboardTasksComponent } from './dashboard-tasks';
 import { DashboardPurchasesComponent } from './dashboard_purchases';
 import { DashboardActivityFeed } from './dashboard_activity_feed';
 import { DashboardUserInfo } from './dashboard_userinfo';
@@ -20,6 +20,10 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
         minHeight: '100vh',
         background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
     };
+
+    componentDidMount() {
+        this.props.mainState.uiState.getDashboardContents();
+    }
 
     getFeed = () => {
         this.props.mainState.communeState.getFeed();

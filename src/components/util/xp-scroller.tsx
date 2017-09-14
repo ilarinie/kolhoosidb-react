@@ -17,7 +17,7 @@ export class XpScroller extends React.Component<XpScrollerProps, {}> {
     }
 
     componentDidMount() {
-        this.props.getTopLists();
+        // this.props.getTopLists();
     }
     render() {
         return (

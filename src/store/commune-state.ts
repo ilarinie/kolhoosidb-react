@@ -38,12 +38,11 @@ export class CommuneState {
   async getTopList() {
     try {
       const response = await ApiService.get('communes/' + this.selectedCommune.id + '/top_list');
-      console.log(response);
       this.weeklyTop = response.weekly;
       this.montlyTop = response.monthly;
       this.allTimeTop = response.from_beginning;
     } catch (error) {
-      console.log(error);
+      this.mainState.uiState.showDashboardError(error.message);
     }
   }  
 

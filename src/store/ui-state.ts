@@ -13,6 +13,7 @@ export class UiState {
   @persist @observable dashboardLoading: boolean = false;
   @persist @observable registerLoading: boolean = false;
   @persist @observable dataLoading: boolean = false;
+  @persist @observable dashboardDataRefreshed: number;
 
   themes: string[] = ['dark', 'default', 'darkBase', 'lightBase'];
 
@@ -27,6 +28,27 @@ export class UiState {
 
   constructor(mainState: MainState) {
     this.mainState = mainState;
+  }
+
+  @action
+  async getDashboardContents() {
+    if (this.dashboardDataRefreshed && this.dashboardDataRefreshed + 60000 > Date.now()) {
+      return;
+    }
+    this.dataLoading = true;
+    try {
+      await Promise.all([
+        this.mainState.taskState.getTasks(),
+        this.mainState.purchaseState.getBudget(),
+        this.mainState.communeState.getTopList(),
+        this.mainState.communeState.getFeed()
+      ]);
+      this.dashboardDataRefreshed = Date.now();
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    } finally {
+      this.dataLoading = false;
+    }
   }
 
   @action
@@ -50,7 +72,7 @@ export class UiState {
     } else {
       theme = 'default';
     }
-    switch (theme ) {
+    switch ( theme ) {
       case 'darkBase':
         return getMuiTheme(darkBaseTheme);
       case 'lightBase':

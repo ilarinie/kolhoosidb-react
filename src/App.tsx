@@ -25,9 +25,7 @@ hydrate('uiState', mainState.uiState).then((uiState) => {
 });
 hydrate('userState', mainState.userState);
 hydrate('authState', mainState.authState);
-hydrate('communeState', mainState.communeState).then(() => {
-  console.log('hydrated');
-});
+hydrate('communeState', mainState.communeState);
 
 const startLocationHistoryListen = () => {
   createBrowserHistory.listen(location => {

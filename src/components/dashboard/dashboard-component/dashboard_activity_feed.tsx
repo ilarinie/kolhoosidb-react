@@ -8,7 +8,7 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
     handle: any;
 
     componentDidMount() {
-        this.props.getFeed();
+        // this.props.getFeed();
     }
 
     componentWillUnmount() {

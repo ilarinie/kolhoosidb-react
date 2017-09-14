@@ -40,7 +40,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
     }
 
     componentDidMount() {
-        this.props.mainState.purchaseState.getBudget();
+        // this.props.mainState.purchaseState.getBudget();
     }
 
     render() {

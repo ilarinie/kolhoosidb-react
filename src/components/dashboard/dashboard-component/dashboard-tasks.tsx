@@ -19,12 +19,28 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
     }
 
     componentDidMount() {
-        this.props.mainState.taskState.getTasks();
+        // this.props.mainState.taskState.getTasks();
     }
 
     render() {
+        let orderedTasks = this.props.mainState.communeState.selectedCommune.tasks.sort((a, b) => {
+            if (!a.priority) {
+                return 1;
+            }
+            if (!b.priority) {
+                return -1;
+            }
+            if (a.completions.length === 0) {
+                return -1;
+            }
+            if (b.completions.length === 0) {
+                return 1;
+            }
+            return (moment(a.completions[a.completions.length - 1].created_at).add(a.priority, 'hours').valueOf())
+                - (moment(b.completions[b.completions.length - 1].created_at).add(b.priority, 'hours').valueOf());
 
-        let tasks = this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => (
+        });
+        let tasks = orderedTasks.map((task, index) => (
             <TaskRow
                 completeTask={this.completeTask}
                 task={task}

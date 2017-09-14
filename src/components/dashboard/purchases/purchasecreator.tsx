@@ -5,11 +5,17 @@ import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
 import { KolhoosiCardTitle } from '../../util/card-title';
 
-export class PurchaseCreator extends React.Component<{
-    categories: PurchaseCategory[],
-    submitPurchase: any,
-    expandable: boolean
-}, { purchase: Purchase }> {
+interface PurchaseCreatorProps {
+    categories: PurchaseCategory[];
+    submitPurchase: any;
+    expandable: boolean;
+}
+
+export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { purchase: Purchase }> {
+
+    textFieldStyle = {
+        width: '95%'
+    };
 
     constructor(props: any) {
         super(props);
@@ -30,46 +36,39 @@ export class PurchaseCreator extends React.Component<{
                 <MenuItem key={index} value={cat.id} primaryText={cat.name} />
             ));
         }
-        let title = <KolhoosiCardTitle title="Add a purchase." className="fa fa-plus" />;
-
         return (
-            <Card>
-                <CardHeader
-                    title={title}
-                    actAsExpander={this.props.expandable}
-                    showExpandableButton={this.props.expandable}
-                />
-                <CardText
-                    expandable={this.props.expandable}
+            <div>
+                <h2>Create a new purchase</h2>
+                <ValidatorForm
+                    onSubmit={this.handleSubmit}
                 >
-                    <ValidatorForm
-                        onSubmit={this.handleSubmit}
+                    <TextValidator
+                        style={this.textFieldStyle}
+                        name="amount"
+                        type="number"
+                        floatingLabelText="Amount"
+                        onChange={this.handleChange}
+                        value={purchase.amount}
+                    /><i className="fa fa-eur" /><br />
+                    <TextValidator
+                        style={this.textFieldStyle}
+                        name="description"
+                        type="text"
+                        floatingLabelText="Description"
+                        onChange={this.handleChange}
+                        value={purchase.description}
+                    /><br />
+                    <SelectField
+                        style={this.textFieldStyle}    
+                        floatingLabelText="Category"
+                        value={purchase.purchase_category_id}
+                        onChange={this.handleCatChange}
                     >
-                        <TextValidator
-                            name="amount"
-                            type="number"
-                            floatingLabelText="Amount"
-                            onChange={this.handleChange}
-                            value={purchase.amount}
-                        /><i className="fa fa-eur" /><br />
-                        <TextValidator
-                            name="description"
-                            type="text"
-                            floatingLabelText="Description"
-                            onChange={this.handleChange}
-                            value={purchase.description}
-                        /><br />
-                        <SelectField
-                            floatingLabelText="Category"
-                            value={purchase.purchase_category_id}
-                            onChange={this.handleCatChange}
-                        >
-                            {cats}
-                        </SelectField><br />
-                        <RaisedButton label="Create" type="submit" />
-                    </ValidatorForm>
-                </CardText>
-            </Card>
+                        {cats}
+                    </SelectField><br />
+                    <RaisedButton label="Create" type="submit" />
+                </ValidatorForm>
+            </div>
         );
     }
 

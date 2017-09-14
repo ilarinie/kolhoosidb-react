@@ -14,8 +14,8 @@ export class Task {
 
     constructor() {
         this.name = '';
-        this.priority = 0;
-        this.reward = 0;
+        this.priority = null;
+        this.reward = null;
     }
 
 }
