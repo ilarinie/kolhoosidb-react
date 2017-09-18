@@ -6,11 +6,11 @@ import createBrowserHistory from '../history';
 
 export class AuthState {
   mainState: MainState;
-  
+
   @persist @observable token: string = '';
 
   constructor(mainState: MainState) {
-      this.mainState = mainState;
+    this.mainState = mainState;
   }
 
   @action
@@ -18,7 +18,7 @@ export class AuthState {
     this.mainState.uiState.loginLoading = true;
     this.mainState.uiState.loginError.isError = false;
     try {
-      let response = await ApiService.post('usertoken', { auth: { username: username, password: password}});
+      let response = await ApiService.post('usertoken', { auth: { username: username, password: password } });
       this.token = response.jwt;
       this.mainState.userState.current_user = response.user;
       if (this.mainState.userState.current_user.default_commune_id) {
@@ -36,11 +36,15 @@ export class AuthState {
 
   @action
   logOut = () => {
+    this.clearStorage();
+    createBrowserHistory.push('/login');
+  }
+
+  @action
+  clearStorage = () => {
     this.token = '';
     this.mainState.reset();
     sessionStorage.clear();
     localStorage.clear();
-    createBrowserHistory.push('/login');
-    
   }
 }

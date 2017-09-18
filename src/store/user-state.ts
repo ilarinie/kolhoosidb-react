@@ -13,7 +13,7 @@ export class UserStore {
   @persist('list') @observable admins: User[] = [];
 
   constructor(mainState: MainState) {
-      this.mainState = mainState;
+    this.mainState = mainState;
   }
 
   async createUser(user: User): Promise<any> {
@@ -21,6 +21,7 @@ export class UserStore {
     this.mainState.uiState.registerLoading = true;
     try {
       await ApiService.post('users', { user: user });
+      this.mainState.authState.clearStorage();
       this.mainState.authState.logIn(user.username, user.password || '');
     } catch (error) {
       this.mainState.uiState.registerError = error;
@@ -40,7 +41,7 @@ export class UserStore {
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     }
-  } 
+  }
 
   @action
   async getUser(): Promise<any> {
@@ -64,7 +65,7 @@ export class UserStore {
 
   async changePassword(password: string, password_confirmation: string) {
     try {
-      await ApiService.post('users/change_password', {password: password, password_confirmation: password_confirmation});
+      await ApiService.post('users/change_password', { password: password, password_confirmation: password_confirmation });
       this.mainState.uiState.showDashboardError('Password changed.');
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
@@ -96,7 +97,7 @@ export class UserStore {
   @action
   async inviteUser(username: string) {
     try {
-      await ApiService.post(`communes/${this.mainState.communeState.selectedCommune.id}/invite/`, {username: username});
+      await ApiService.post(`communes/${this.mainState.communeState.selectedCommune.id}/invite/`, { username: username });
       this.mainState.communeState.refreshCommune();
       this.mainState.uiState.showDashboardError('Invitation sent.');
     } catch (error) {
@@ -136,5 +137,5 @@ export class UserStore {
       this.mainState.uiState.showDashboardError(error.message);
     }
   }
- 
+
 }
