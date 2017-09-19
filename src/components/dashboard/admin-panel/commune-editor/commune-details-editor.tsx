@@ -18,36 +18,29 @@ export class CommuneDetailsEditor extends React.Component<{ commune: Commune, su
     render() {
         const { commune } = this.state;
         return (
-            <FullWidthCardWrapper
-                title="Edit commune details"
-                icon={<FaCogs />}
-                hidden={false}
-            >
-                <ValidatorForm onSubmit={this.handleSubmit}>
-                    <TextValidator
-                        floatingLabelText="Commune name"
-                        name="name"
-                        type="text"
-                        value={commune.name}
-                        onChange={this.handleChange}
-                        validators={['required']}
-                        errorMessages={['Name is requred']}
-                    /><br />
-                    <TextValidator
-                        floatingLabelText="Commune description"
-                        name="description"
-                        type="text"
-                        multiLine={true}
-                        rows={2}
-                        value={commune.description}
-                        onChange={this.handleChange}
-                        validators={['required']}
-                        errorMessages={['Description is requred']}
-                    /><br />
-                    <SubmitButton loading={false} label="Save" type="submit" />
-                </ValidatorForm>
-            </FullWidthCardWrapper>
-
+            <ValidatorForm onSubmit={this.handleSubmit}>
+                <TextValidator
+                    floatingLabelText="Commune name"
+                    name="name"
+                    type="text"
+                    value={commune.name}
+                    onChange={this.handleChange}
+                    validators={['required']}
+                    errorMessages={['Name is requred']}
+                /><br />
+                <TextValidator
+                    floatingLabelText="Commune description"
+                    name="description"
+                    type="text"
+                    multiLine={true}
+                    rows={2}
+                    value={commune.description}
+                    onChange={this.handleChange}
+                    validators={['required']}
+                    errorMessages={['Description is requred']}
+                /><br />
+                <SubmitButton loading={false} label="Save" type="submit" />
+            </ValidatorForm>
         );
     }
 

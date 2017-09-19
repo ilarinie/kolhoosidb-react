@@ -6,10 +6,11 @@ import { UserListComponent } from './user-list';
 import { Invitation } from '../../../../store/models/invitation';
 import { User } from '../../../../store/models/user';
 import { observer } from 'mobx-react';
+import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
+import { FaEnvelope, FaSignIn } from 'react-icons/lib/fa';
 
 @observer
 export class UserManagementComponent extends React.Component<{ mainState: MainState }, {}> {
-
 
     componentDidMount() {
         this.props.mainState.userState.getUsers();
@@ -18,8 +19,18 @@ export class UserManagementComponent extends React.Component<{ mainState: MainSt
     render() {
         return (
             <div>
-                <AddUserComponent inviteUser={this.inviteUser} />
-                <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
+                <FullWidthCardWrapper
+                    title="Invite user"
+                    icon={<FaSignIn />}
+                >
+                    <AddUserComponent inviteUser={this.inviteUser} />
+                </FullWidthCardWrapper>
+                <FullWidthCardWrapper
+                    title="Sent invitations"
+                    icon={<FaEnvelope />}
+                >
+                    <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
+                </FullWidthCardWrapper>
                 <UserListComponent removeUser={this.removeUser} users={this.props.mainState.userState.users} admins={this.props.mainState.userState.admins} />
             </div>
         );

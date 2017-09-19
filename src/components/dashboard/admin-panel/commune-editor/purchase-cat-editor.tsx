@@ -40,12 +40,8 @@ export class PurchaseCategoryEditor extends React.Component<PurchaseCategoryEdit
                 </Card>
             ));
         }
-        let title = (<p><FaPencil style={{ marginRight: '10px' }} /> Edit purchase categories</p>);
         return (
-            <FullWidthCardWrapper
-                title="Edit purchase categories"
-                icon={<FaPencil />}
-            >
+            <div>
                 <h4>Current categories</h4>
                 {cats}
                 <Card style={{ marginTop: '20px' }}>
@@ -70,7 +66,7 @@ export class PurchaseCategoryEditor extends React.Component<PurchaseCategoryEdit
                         </CardActions>
                     </CardText>
                 </Card>
-            </FullWidthCardWrapper>
+            </div>
         );
     }
 

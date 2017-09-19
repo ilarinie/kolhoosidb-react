@@ -14,12 +14,7 @@ export class SentInvitations extends React.Component<{ invitations: Invitation[]
             invitations = [(<div key={0}>No pending invitations</div>)];
         }
         return (
-            <FullWidthCardWrapper
-                title="Sent invitations"
-                icon={<FaEnvelope />}
-            >
-                {invitations}
-            </FullWidthCardWrapper>
+            <div>{invitations}</div>
         );
     }
 }

@@ -10,13 +10,10 @@ import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 export class AddUserComponent extends React.Component<{ inviteUser: any }, {}> {
     render() {
         return (
-            <FullWidthCardWrapper
-                title="Invite user"
-                icon={<FaSignIn />}
-            >
+            <div>
                 <TextField id="username" type="text" hintText="Username" /> <br />
                 <RaisedButton label="Send invitation" onTouchTap={this.inviteUser} />
-            </FullWidthCardWrapper>
+            </div>
         );
     }
     inviteUser = () => {
