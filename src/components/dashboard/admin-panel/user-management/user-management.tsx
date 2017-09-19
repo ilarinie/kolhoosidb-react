@@ -10,10 +10,6 @@ import { observer } from 'mobx-react';
 @observer
 export class UserManagementComponent extends React.Component<{ mainState: MainState }, {}> {
 
-    innerComponentContainer = {
-        paddingTop: '10px',
-        paddingBottom: '10px'
-    };
 
     componentDidMount() {
         this.props.mainState.userState.getUsers();
@@ -22,15 +18,9 @@ export class UserManagementComponent extends React.Component<{ mainState: MainSt
     render() {
         return (
             <div>
-                <div style={this.innerComponentContainer}>
-                    <AddUserComponent inviteUser={this.inviteUser} />
-                </div>
-                <div style={this.innerComponentContainer}>
-                    <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
-                </div>
-                <div style={this.innerComponentContainer}>
-                    <UserListComponent removeUser={this.removeUser} users={this.props.mainState.userState.users} admins={this.props.mainState.userState.admins} />
-                </div>
+                <AddUserComponent inviteUser={this.inviteUser} />
+                <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
+                <UserListComponent removeUser={this.removeUser} users={this.props.mainState.userState.users} admins={this.props.mainState.userState.admins} />
             </div>
         );
     }

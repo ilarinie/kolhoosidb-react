@@ -4,6 +4,7 @@ import { Card, CardText, CardActions } from 'material-ui';
 import { CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FaStar, FaUser } from 'react-icons/lib/fa';
+import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 
 export class UserListComponent extends React.Component<{ users: User[], admins: User[], removeUser: any }, {}> {
 
@@ -19,30 +20,18 @@ export class UserListComponent extends React.Component<{ users: User[], admins: 
         return (
             <div>
                 <h3>Communes' users</h3>
-                <Card>
-                    <CardHeader
-                        title={adminTitle}
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                    />
-                    <CardText
-                        expandable={true}
-                    >
-                        {admins}
-                    </CardText>
-                </Card>
-                <Card style={{ marginTop: '10px' }}>
-                    <CardHeader
-                        title={userTitle}
-                        actAsExpander={true}
-                        showExpandableButton={true}
-                    />
-                    <CardText
-                        expandable={true}
-                    >
-                        {users}
-                    </CardText>
-                </Card>
+                <FullWidthCardWrapper
+                    title="Admins"
+                    icon={<FaStar />}
+                >
+                    {admins}
+                </FullWidthCardWrapper>
+                <FullWidthCardWrapper
+                    title="Users"
+                    icon={<FaUser />}
+                >
+                    {users}
+                </FullWidthCardWrapper>
             </div>
         );
     }

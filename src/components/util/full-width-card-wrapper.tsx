@@ -5,7 +5,7 @@ import { CardHeader, CardText } from 'material-ui';
 interface FullWidthCardWrapperProps {
     title: string;
     icon: any;
-    hidden: boolean;
+    hidden?: boolean;
 }
 
 interface FullWidthCardWrapperState {

@@ -5,6 +5,7 @@ import { Commune } from '../../../../store/models/commune';
 import { CardHeader, Card } from 'material-ui';
 import { CardText } from 'material-ui/Card';
 import { FaCogs } from 'react-icons/lib/fa';
+import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 
 export class CommuneDetailsEditor extends React.Component<{ commune: Commune, submitCommuneChanges: any }, { commune: Commune }> {
     constructor(props: any) {
@@ -16,42 +17,36 @@ export class CommuneDetailsEditor extends React.Component<{ commune: Commune, su
     }
     render() {
         const { commune } = this.state;
-        let title = (<p><FaCogs style={{ marginRight: '10px' }} /> Edit commune details</p>);
         return (
-            <Card>
-                <CardHeader
-                    title={title}
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                />
-                <CardText
-                    expandable={true}
-                >
-                    <ValidatorForm onSubmit={this.handleSubmit}>
-                        <TextValidator
-                            floatingLabelText="Commune name"
-                            name="name"
-                            type="text"
-                            value={commune.name}
-                            onChange={this.handleChange}
-                            validators={['required']}
-                            errorMessages={['Name is requred']}
-                        /><br />
-                        <TextValidator
-                            floatingLabelText="Commune description"
-                            name="description"
-                            type="text"
-                            multiLine={true}
-                            rows={2}
-                            value={commune.description}
-                            onChange={this.handleChange}
-                            validators={['required']}
-                            errorMessages={['Description is requred']}
-                        /><br />
-                        <SubmitButton loading={false} label="Save" type="submit" />
-                    </ValidatorForm>
-                </CardText>
-            </Card>
+            <FullWidthCardWrapper
+                title="Edit commune details"
+                icon={<FaCogs />}
+                hidden={false}
+            >
+                <ValidatorForm onSubmit={this.handleSubmit}>
+                    <TextValidator
+                        floatingLabelText="Commune name"
+                        name="name"
+                        type="text"
+                        value={commune.name}
+                        onChange={this.handleChange}
+                        validators={['required']}
+                        errorMessages={['Name is requred']}
+                    /><br />
+                    <TextValidator
+                        floatingLabelText="Commune description"
+                        name="description"
+                        type="text"
+                        multiLine={true}
+                        rows={2}
+                        value={commune.description}
+                        onChange={this.handleChange}
+                        validators={['required']}
+                        errorMessages={['Description is requred']}
+                    /><br />
+                    <SubmitButton loading={false} label="Save" type="submit" />
+                </ValidatorForm>
+            </FullWidthCardWrapper>
 
         );
     }

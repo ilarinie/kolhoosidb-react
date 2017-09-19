@@ -3,29 +3,20 @@ import { observer, inject } from 'mobx-react';
 import { TextField, RaisedButton, Card, CardActions } from 'material-ui';
 import { CardHeader, CardText } from 'material-ui/Card';
 import { FaSignIn } from 'react-icons/lib/fa';
+import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 
 @inject('mainState')
 @observer
 export class AddUserComponent extends React.Component<{ inviteUser: any }, {}> {
     render() {
-        let title = (<p><FaSignIn style={{ marginRight: '10px' }} /> Invite user </p>);
         return (
-            <Card>
-                <CardHeader
-                    title={title}
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                />
-                <CardText
-                    expandable={true}
-                >
-                    <TextField id="username" type="text" hintText="Username" /> <br />
-                    <CardActions>
-                        <RaisedButton label="Send invitation" onTouchTap={this.inviteUser} />
-                    </CardActions>
-                </CardText>
-
-            </Card>
+            <FullWidthCardWrapper
+                title="Invite user"
+                icon={<FaSignIn />}
+            >
+                <TextField id="username" type="text" hintText="Username" /> <br />
+                <RaisedButton label="Send invitation" onTouchTap={this.inviteUser} />
+            </FullWidthCardWrapper>
         );
     }
     inviteUser = () => {
