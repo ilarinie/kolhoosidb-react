@@ -4,7 +4,7 @@ import { CardHeader, CardText } from 'material-ui';
 
 interface FullWidthCardWrapperProps {
     title: string;
-    iconClassName: string;
+    icon: any;
     hidden: boolean;
 }
 
@@ -29,7 +29,7 @@ export class FullWidthCardWrapper extends React.Component<FullWidthCardWrapperPr
     }
 
     render() {
-        let title = (<p style={{ fontFamily: 'Roboto' }}><i  className={this.props.iconClassName} style={{ marginRight: '10px' }}> {this.props.title}</i></p>);
+        let title = (<div style={{ padding: '10px 0' }}><span style={{ marginRight: '10px' }}>{this.props.icon} </span>  <span>{this.props.title}</span></div>);
         return (
             <Card style={this.getCardStyle()}>
                 <CardHeader
@@ -42,7 +42,7 @@ export class FullWidthCardWrapper extends React.Component<FullWidthCardWrapperPr
                 >
                     {this.props.children}
                 </CardText>
-            </Card>    
+            </Card>
         );
     }
 }

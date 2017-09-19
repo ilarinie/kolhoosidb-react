@@ -3,6 +3,7 @@ import { User } from '../../../../store/models/user';
 import { Card, CardText, CardActions } from 'material-ui';
 import { CardHeader } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import { FaStar, FaUser } from 'react-icons/lib/fa';
 
 export class UserListComponent extends React.Component<{ users: User[], admins: User[], removeUser: any }, {}> {
 
@@ -13,8 +14,8 @@ export class UserListComponent extends React.Component<{ users: User[], admins: 
         let admins = this.props.admins.map((user, index) => (
             <AdminEntry key={index} user={user} removeUser={this.props.removeUser} />
         ));
-        let adminTitle = (<p><i className="fa fa-star" style={{ marginRight: '10px' }} />Admins ({admins.length})</p>);
-        let userTitle = (<p><i className="fa fa-user-circle" style={{ marginRight: '10px' }} />Users ({users.length})</p>);
+        let adminTitle = (<p><FaStar style={{ marginRight: '10px' }} />Admins ({admins.length})</p>);
+        let userTitle = (<p><FaUser style={{ marginRight: '10px' }} />Users ({users.length})</p>);
         return (
             <div>
                 <h3>Communes' users</h3>

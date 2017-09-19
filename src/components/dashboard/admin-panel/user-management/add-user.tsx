@@ -2,12 +2,13 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { TextField, RaisedButton, Card, CardActions } from 'material-ui';
 import { CardHeader, CardText } from 'material-ui/Card';
+import { FaSignIn } from 'react-icons/lib/fa';
 
 @inject('mainState')
 @observer
 export class AddUserComponent extends React.Component<{ inviteUser: any }, {}> {
     render() {
-        let title = (<p><i className="fa fa-sign-in" style={{ marginRight: '10px' }} /> Invite user </p>);
+        let title = (<p><FaSignIn style={{ marginRight: '10px' }} /> Invite user </p>);
         return (
             <Card>
                 <CardHeader

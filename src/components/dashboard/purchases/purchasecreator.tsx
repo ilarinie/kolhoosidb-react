@@ -4,6 +4,7 @@ import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card } from 
 import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
 import { KolhoosiCardTitle } from '../../util/card-title';
+import { FaEur } from 'react-icons/lib/fa';
 
 interface PurchaseCreatorProps {
     categories: PurchaseCategory[];
@@ -49,7 +50,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                         floatingLabelText="Amount"
                         onChange={this.handleChange}
                         value={purchase.amount}
-                    /><i className="fa fa-eur" /><br />
+                    /><FaEur /><br />
                     <TextValidator
                         style={this.textFieldStyle}
                         name="description"
@@ -59,7 +60,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                         value={purchase.description}
                     /><br />
                     <SelectField
-                        style={this.textFieldStyle}    
+                        style={this.textFieldStyle}
                         floatingLabelText="Category"
                         value={purchase.purchase_category_id}
                         onChange={this.handleCatChange}

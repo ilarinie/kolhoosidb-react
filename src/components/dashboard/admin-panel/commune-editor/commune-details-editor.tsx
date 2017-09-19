@@ -4,6 +4,7 @@ import { SubmitButton } from '../../../util/submit-button';
 import { Commune } from '../../../../store/models/commune';
 import { CardHeader, Card } from 'material-ui';
 import { CardText } from 'material-ui/Card';
+import { FaCogs } from 'react-icons/lib/fa';
 
 export class CommuneDetailsEditor extends React.Component<{ commune: Commune, submitCommuneChanges: any }, { commune: Commune }> {
     constructor(props: any) {
@@ -15,7 +16,7 @@ export class CommuneDetailsEditor extends React.Component<{ commune: Commune, su
     }
     render() {
         const { commune } = this.state;
-        let title = (<p><i className="fa fa-cogs" style={{ marginRight: '10px' }} /> Edit commune details</p>);
+        let title = (<p><FaCogs style={{ marginRight: '10px' }} /> Edit commune details</p>);
         return (
             <Card>
                 <CardHeader
