@@ -10,6 +10,7 @@ import { SetDefaultCommuneComponent } from './set-commune';
 import { LatestActivityComponent } from './latest-activity';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 import { ThemeChooser } from './theme-chooser';
+import { FaUser, FaEnvelopeO, FaStarO } from 'react-icons/lib/fa';
 
 @inject('mainState')
 @observer
@@ -34,14 +35,14 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                 <div style={this.containerStyle} >
                     <FullWidthCardWrapper
                         title="Invitations"
-                        iconClassName="fa fa-letter"
+                        icon={<FaEnvelopeO />}
                         hidden={this.props.mainState.userState.current_user.invitations.length === 0}
                     >
                         <InvitationsList accept={this.acceptInvitation} reject={this.rejectInvitation} invitations={this.props.mainState.userState.current_user.invitations} />
                     </FullWidthCardWrapper>
                     <FullWidthCardWrapper
                         title="Edit profile"
-                        iconClassName="fa fa-user"
+                        icon={<FaUser />}
                         hidden={false}
                     >
                         <ProfileForm
@@ -53,7 +54,7 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                     </FullWidthCardWrapper>
                     <FullWidthCardWrapper
                         title="Set default commune"
-                        iconClassName="fa fa-star-o"
+                        icon={<FaStarO />}
                         hidden={false}
                     >
                         <SetDefaultCommuneComponent
@@ -64,14 +65,14 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                     </FullWidthCardWrapper>
                     <FullWidthCardWrapper
                         title="Set default theme"
-                        iconClassName="fa fa-star-o"
+                        icon={<FaStarO />}
                         hidden={false}
                     >
                         <ThemeChooser
                             themes={this.props.mainState.uiState.themes}
                             chosen_theme={this.props.mainState.userState.current_user.default_theme}
                             chooseTheme={this.saveDefaultTheme}
-                        />    
+                        />
                     </FullWidthCardWrapper>
                 </div>
             </ComponentThemeWrapper>

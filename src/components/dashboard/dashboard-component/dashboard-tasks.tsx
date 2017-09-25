@@ -7,6 +7,7 @@ import { Task } from '../../../store/models/task';
 // import { Table, TableHeader, TableBody, TableRow, TableRowColumn, TableHeaderColumn, RaisedButton } from 'material-ui';
 import * as moment from 'moment';
 import RaisedButton from 'material-ui/RaisedButton';
+import { FaSpinner, FaCheck } from 'react-icons/lib/fa';
 
 @observer
 export class DashboardTasksComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
@@ -114,11 +115,11 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
     render() {
         if (this.props.completed) {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true} ><i className="fa fa-check" style={{ color: 'green' }} /></RaisedButton>
+                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true} ><FaCheck style={{ color: 'green' }} /></RaisedButton>
             );
         } else if (this.props.loading) {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true}><i className="fa fa-spinner fa-spin" style={{ color: 'yellow' }} /></RaisedButton>
+                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true}><FaSpinner className="fa-spin" style={{ color: 'yellow' }} /></RaisedButton>
             );
         } else {
             return (

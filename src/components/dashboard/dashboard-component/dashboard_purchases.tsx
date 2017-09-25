@@ -18,6 +18,7 @@ import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
 import { currencyFormatter } from '../../util/currencyFormatter';
+import { FaPlus } from 'react-icons/lib/fa';
 
 @inject('mainState')
 @observer
@@ -52,7 +53,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
                         style={{ width: '100%', margin: '0 auto' }}
                         onTouchTap={this.openDialog}
                     >
-                        <i className="fa fa-plus-circle" /> Add a Purchase
+                        <FaPlus /> Add a Purchase
                     </RaisedButton>
                     <PurchaseCreatorDialog
                         categories={this.props.mainState.communeState.selectedCommune.purchase_categories}

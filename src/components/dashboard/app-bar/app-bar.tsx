@@ -8,6 +8,7 @@ import { KolhoosiNavItem } from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
 import { Subheader, FontIcon } from 'material-ui';
 import { observer } from 'mobx-react';
+import { FaCheck, FaDashboard, FaStarO, FaSignOut, FaTasks, FaLock, FaUser, FaEur } from 'react-icons/lib/fa';
 const logo = require('../../../assets/logo.png');
 @observer
 export class AppBarComponent extends React.Component<{ mainState: MainState }, { docked: boolean, mobile: boolean, drawerOpen: any }> {
@@ -39,7 +40,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         path="/admin_panel"
                         text="Manage Commune"
                         onTouchTap={this.handleClose}
-                        iconClassName="fa fa-lock"
+                        icon={<FaLock />}
                         iconColor="lightgray"
                     />
                 </div>
@@ -60,7 +61,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         path="/"
                         text="Dashboard"
                         onTouchTap={this.handleClose}
-                        iconClassName="fa fa-tachometer"
+                        icon={<FaDashboard />}
                         iconColor="lightgray"
                     />
                     <KolhoosiNavItem
@@ -68,7 +69,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         path="/tasks"
                         text="Tasks"
                         onTouchTap={this.handleClose}
-                        iconClassName="fa fa-tasks"
+                        icon={<FaTasks />}
                         iconColor="lightgray"
                     />
                     <KolhoosiNavItem
@@ -76,8 +77,8 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         path="/purchases"
                         text="Purchases"
                         onTouchTap={this.handleClose}
-                        iconClassName="fa fa-eur"
                         iconColor="lightgray"
+                        icon={<FaEur />}
                     />
                     <Divider />
                     {adminMenuItems}
@@ -87,16 +88,16 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         path="/profile"
                         text="Profile"
                         onTouchTap={this.handleClose}
-                        iconClassName="fa fa-user"
+                        icon={<FaUser />}
                         iconColor="lightgray"
                     />
                     <MenuItem
-                        leftIcon={<FontIcon className="fa fa-star-o" />}
+                        leftIcon={<FaStarO />}
                         primaryText="Switch Communes"
                         onTouchTap={this.deselectCommune}
                     />
                     <MenuItem
-                        leftIcon={<FontIcon className="fa fa-sign-out" />}
+                        leftIcon={<FaSignOut />}
                         primaryText="Log Out"
                         onTouchTap={this.logout}
                     />

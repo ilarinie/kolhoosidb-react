@@ -2,6 +2,8 @@ import * as React from 'react';
 import { PurchaseCategory } from '../../../../store/models/purchase_category';
 import { TextField, RaisedButton, CardText, Card, CardActions } from 'material-ui';
 import { CardHeader } from 'material-ui/Card';
+import { FaPencil } from 'react-icons/lib/fa';
+import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 
 export interface PurchaseCategoryEditorProps {
     createCategory: any;
@@ -38,43 +40,33 @@ export class PurchaseCategoryEditor extends React.Component<PurchaseCategoryEdit
                 </Card>
             ));
         }
-        let title = (<p><i className="fa fa-pencil" style={{ marginRight: '10px' }} /> Edit purchase categories</p>);
         return (
-            <Card style={{ marginTop: '10px' }}>
-                <CardHeader
-                    title={title}
-                    actAsExpander={true}
-                    showExpandableButton={true}
-                />
-                <CardText
-                    expandable={true}
-                >
-                    <h4>Current categories</h4>
-                    {cats}
-                    <Card style={{ marginTop: '20px' }}>
-                        <CardHeader
-                            title="Add purchase category"
-                            actAsExpander={true}
-                            showExpandableButton={true}
+            <div>
+                <h4>Current categories</h4>
+                {cats}
+                <Card style={{ marginTop: '20px' }}>
+                    <CardHeader
+                        title="Add purchase category"
+                        actAsExpander={true}
+                        showExpandableButton={true}
+                    />
+                    <CardText
+                        expandable={true}
+                    >
+                        <TextField
+                            name="name"
+                            type="text"
+                            floatingLabelText="Purchase Category Name"
+                            value={this.state.purchaseCategory.name}
+                            id="cat"
+                            onChange={this.handleChange}
                         />
-                        <CardText
-                            expandable={true}
-                        >
-                            <TextField
-                                name="name"
-                                type="text"
-                                floatingLabelText="Purchase Category Name"
-                                value={this.state.purchaseCategory.name}
-                                id="cat"
-                                onChange={this.handleChange}
-                            />
-                            <CardActions>
-                                <RaisedButton label="Create" onTouchTap={this.createCategory} />
-                            </CardActions>
-                        </CardText>
-                    </Card>
-                </CardText>
-            </Card>
+                        <CardActions>
+                            <RaisedButton label="Create" onTouchTap={this.createCategory} />
+                        </CardActions>
+                    </CardText>
+                </Card>
+            </div>
         );
     }
 

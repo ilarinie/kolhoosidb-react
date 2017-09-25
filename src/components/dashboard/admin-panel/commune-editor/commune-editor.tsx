@@ -6,6 +6,8 @@ import { PurchaseCategory } from '../../../../store/models/purchase_category';
 
 import { PurchaseCategoryEditor } from './purchase-cat-editor';
 import { CommuneDetailsEditor } from './commune-details-editor';
+import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
+import { FaPencil, FaCogs } from 'react-icons/lib/fa';
 
 @observer
 export class CommuneEditor extends React.Component<{ mainState: MainState }, {}> {
@@ -17,14 +19,25 @@ export class CommuneEditor extends React.Component<{ mainState: MainState }, {}>
     render() {
         return (
             <div style={{ paddingTop: '10px', paddingBottom: '10px' }}>
-                <CommuneDetailsEditor
-                    commune={this.props.mainState.communeState.selectedCommune}
-                    submitCommuneChanges={this.handleSubmit}
-                />
-                <PurchaseCategoryEditor
-                    createCategory={this.createCategory}
-                    categories={this.props.mainState.communeState.selectedCommune.purchase_categories}
-                />
+                <FullWidthCardWrapper
+                    title="Edit commune details"
+                    icon={<FaCogs />}
+                    hidden={false}
+                >
+                    <CommuneDetailsEditor
+                        commune={this.props.mainState.communeState.selectedCommune}
+                        submitCommuneChanges={this.handleSubmit}
+                    />
+                </FullWidthCardWrapper>
+                <FullWidthCardWrapper
+                    title="Edit purchase categories"
+                    icon={<FaPencil />}
+                >
+                    <PurchaseCategoryEditor
+                        createCategory={this.createCategory}
+                        categories={this.props.mainState.communeState.selectedCommune.purchase_categories}
+                    />
+                </FullWidthCardWrapper>
             </div>
         );
     }

@@ -9,6 +9,7 @@ import { SmallErrorDisplay } from './util/small-error-display';
 import Paper from 'material-ui/Paper';
 import { Redirect } from 'react-router-dom';
 import { ComponentThemeWrapper } from './util/componentThemeWrapper';
+import { FaUser, FaLock } from 'react-icons/lib/fa';
 
 const logo = require('../assets/logo.png');
 
@@ -59,10 +60,10 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                         <h4>Log in</h4>
                         <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
                         <form onSubmit={this.login}>
-                            <i className="fa fa-user" aria-hidden="true" />
+                            <FaUser />
                             <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" />
                             <br />
-                            <i className="fa fa-lock" aria-hidden="true" />
+                            <FaLock />
                             <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
                             <br /><br />
                             <SubmitButton type="submit" loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />

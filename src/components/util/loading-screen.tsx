@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { FaSpinner } from 'react-icons/lib/fa';
 
 const loadingDivStyles = {
     margin: '0 auto',
@@ -13,7 +14,7 @@ export class LoadingScreen extends React.Component<{ loading: boolean }, {}> {
         if (this.props.loading) {
             return (
                 <div style={loadingDivStyles}>
-                    <i className="fa fa-spinner fa-spin fa-5x"/>  
+                    <FaSpinner size={72} className="fa-spin" />
                 </div>
             );
         } else {

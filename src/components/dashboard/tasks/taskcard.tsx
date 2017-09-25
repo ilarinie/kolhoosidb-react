@@ -3,6 +3,7 @@ import { Task } from '../../../store/models/task';
 import { CardActions, Card, CardHeader, CardText } from 'material-ui/Card';
 import * as moment from 'moment';
 import { RaisedButton } from 'material-ui';
+import { FaCheck, FaSpinner } from 'react-icons/lib/fa';
 
 export class TaskCard extends React.Component<{ completeTask: any, task: Task }, { loading: boolean }> {
 
@@ -60,6 +61,8 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task },
 
 class CompleteButton extends React.Component<{ loading: boolean, label: string, completeTask: any }, { completed: boolean }> {
 
+    handle: any;
+
     constructor(props: any) {
         super(props);
         this.state = {
@@ -70,11 +73,11 @@ class CompleteButton extends React.Component<{ loading: boolean, label: string, 
     render() {
         if (this.props.loading) {
             return (
-                <RaisedButton disabled={true}><i style={{ color: 'red' }} className="fa fa-star fa-spin" /></RaisedButton>
+                <RaisedButton disabled={true}><FaSpinner style={{ color: 'red' }} className="fa-spin" /></RaisedButton>
             );
         } else if (this.state.completed) {
             return (
-                <RaisedButton disabled={true}><i style={{ color: 'green' }} className="fa fa-check" /></RaisedButton>
+                <RaisedButton disabled={true}><FaCheck style={{ color: 'green' }} /></RaisedButton>
             );
         } else {
             return (
@@ -83,12 +86,18 @@ class CompleteButton extends React.Component<{ loading: boolean, label: string, 
         }
     }
 
+    componentWillUnmont() {
+        if (this.handle) {
+            clearTimeout(this.handle);
+        }
+    }
+
     completeTask = () => {
         this.setState({ completed: true });
         this.props.completeTask();
-        setTimeout(() => {
+        this.handle = setTimeout(() => {
             this.setState({ completed: false });
-        },         5000);
+        }, 5000);
     }
 
 }
