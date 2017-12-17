@@ -19,7 +19,7 @@ export const getEnv = (): Env => {
     } else {
         return getDevelopmentEnv();
     }
-}
+};
 
 const getProductionEnv = (): Env => {
     return new Env(PROD_API_URL);
