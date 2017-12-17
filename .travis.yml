@@ -12,7 +12,7 @@ script:
   - yarn build
   - yarn test
 before_install:
-  - openssl aes-256-cbc -K $encrypted_676d08e4b544_key -iv $encrypted_676d08e4b544_iv -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+  - openssl aes-256-cbc -K $encrypted_676d08e4b544_key -iv $encrypted_676d08e4b544_iv -in id_rsa.enc -out ~/.ssh/id_rsa -d
   - echo -e "Host ilarinieminen.me\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 deploy:
   provider: script
