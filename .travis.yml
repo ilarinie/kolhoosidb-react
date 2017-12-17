@@ -19,3 +19,7 @@ deploy:
   script: /bin/bash deploy_integration.sh
   on:
     branch: dev
+  provider: script
+  script: /bin/bash deploy_production.sh
+  on:
+    branch: master
