@@ -97,6 +97,7 @@ class CompleteButton extends React.Component<{ loading: boolean, label: string, 
         this.props.completeTask();
         this.handle = setTimeout(() => {
             this.setState({ completed: false });
+            // tslint:disable-next-line:align
         }, 5000);
     }
 
