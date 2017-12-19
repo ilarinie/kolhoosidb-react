@@ -42,6 +42,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         onTouchTap={this.handleClose}
                         icon={<FaLock />}
                         iconColor="lightgray"
+                        className="admin-panel-link"
                     />
                 </div>
             );
@@ -63,6 +64,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         onTouchTap={this.handleClose}
                         icon={<FaDashboard />}
                         iconColor="lightgray"
+                        className="dashboard-link"
                     />
                     <KolhoosiNavItem
                         disabled={!this.props.mainState.communeState.communeSelected}
@@ -71,6 +73,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         onTouchTap={this.handleClose}
                         icon={<FaTasks />}
                         iconColor="lightgray"
+                        className="tasks-link"
                     />
                     <KolhoosiNavItem
                         disabled={!this.props.mainState.communeState.communeSelected}
@@ -79,6 +82,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         onTouchTap={this.handleClose}
                         iconColor="lightgray"
                         icon={<FaEur />}
+                        className="purchases-link"
                     />
                     <Divider />
                     {adminMenuItems}
@@ -90,15 +94,18 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         onTouchTap={this.handleClose}
                         icon={<FaUser />}
                         iconColor="lightgray"
+                        className="profile-link"
                     />
                     <MenuItem
                         leftIcon={<FaStarO />}
                         primaryText="Switch Communes"
                         onTouchTap={this.deselectCommune}
+                        className="commune-switch-link"
                     />
                     <MenuItem
                         leftIcon={<FaSignOut />}
                         primaryText="Log Out"
+                        className="logout-link"
                         onTouchTap={this.logout}
                     />
                 </Drawer>

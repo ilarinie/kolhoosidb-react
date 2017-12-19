@@ -6,6 +6,7 @@ interface FullWidthCardWrapperProps {
     title: string;
     icon: any;
     hidden?: boolean;
+    classIdentifier: string;
 }
 
 interface FullWidthCardWrapperState {
@@ -36,6 +37,7 @@ export class FullWidthCardWrapper extends React.Component<FullWidthCardWrapperPr
                     title={title}
                     actAsExpander={true}
                     showExpandableButton={true}
+                    className={this.props.classIdentifier}
                 />
                 <CardText
                     expandable={true}

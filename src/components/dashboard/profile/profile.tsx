@@ -37,6 +37,7 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                         title="Invitations"
                         icon={<FaEnvelopeO />}
                         hidden={this.props.mainState.userState.current_user.invitations.length === 0}
+                        classIdentifier="invitations-card"
                     >
                         <InvitationsList accept={this.acceptInvitation} reject={this.rejectInvitation} invitations={this.props.mainState.userState.current_user.invitations} />
                     </FullWidthCardWrapper>
@@ -44,6 +45,7 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                         title="Edit profile"
                         icon={<FaUser />}
                         hidden={false}
+                        classIdentifier="edit-profile-card"
                     >
                         <ProfileForm
                             user={this.state.user}
@@ -56,6 +58,7 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                         title="Set default commune"
                         icon={<FaStarO />}
                         hidden={false}
+                        classIdentifier="default-commune-card"
                     >
                         <SetDefaultCommuneComponent
                             communes={this.props.mainState.communeState.communes}
@@ -67,6 +70,7 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                         title="Set default theme"
                         icon={<FaStarO />}
                         hidden={false}
+                        classIdentifier="default-theme-card"
                     >
                         <ThemeChooser
                             themes={this.props.mainState.uiState.themes}

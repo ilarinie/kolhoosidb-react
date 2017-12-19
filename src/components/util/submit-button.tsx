@@ -2,16 +2,20 @@ import * as React from 'react';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FaStar } from 'react-icons/lib/fa';
 
-export class SubmitButton extends React.Component<{ label: string, loading: boolean, onTouchTap?: any, type?: string }, {}> {
+export class SubmitButton extends React.Component<{ className?: string, label: string, loading: boolean, onTouchTap?: any, type?: string }, {}> {
 
     render() {
         if (this.props.loading) {
             return (
-                <RaisedButton type={this.props.type || ''} disabled={true} ><FaStar style={{ color: 'red' }} className="fa-spin" /></RaisedButton>
+                <RaisedButton className={this.props.className} type={this.props.type || ''} disabled={true} ><FaStar style={{ color: 'red' }} className="fa-spin" />
+                    {this.props.children}
+                </RaisedButton>
             );
         } else {
             return (
-                <RaisedButton type={this.props.type || ''} label={this.props.label} onTouchTap={this.props.onTouchTap} />
+                <RaisedButton className={this.props.className} type={this.props.type || ''} label={this.props.label} onTouchTap={this.props.onTouchTap} >
+                    {this.props.children}
+                </RaisedButton>
             );
         }
 

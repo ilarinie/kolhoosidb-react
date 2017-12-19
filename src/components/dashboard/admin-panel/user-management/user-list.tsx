@@ -23,12 +23,14 @@ export class UserListComponent extends React.Component<{ users: User[], admins: 
                 <FullWidthCardWrapper
                     title="Admins"
                     icon={<FaStar />}
+                    classIdentifier="commune-admins-card"
                 >
                     {admins}
                 </FullWidthCardWrapper>
                 <FullWidthCardWrapper
                     title="Users"
                     icon={<FaUser />}
+                    classIdentifier="commune-users-card"
                 >
                     {users}
                 </FullWidthCardWrapper>

@@ -22,12 +22,14 @@ export class UserManagementComponent extends React.Component<{ mainState: MainSt
                 <FullWidthCardWrapper
                     title="Invite user"
                     icon={<FaSignIn />}
+                    classIdentifier="invite-user-card"
                 >
                     <AddUserComponent inviteUser={this.inviteUser} />
                 </FullWidthCardWrapper>
                 <FullWidthCardWrapper
                     title="Sent invitations"
                     icon={<FaEnvelope />}
+                    classIdentifier="sent-invitations-card"
                 >
                     <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
                 </FullWidthCardWrapper>

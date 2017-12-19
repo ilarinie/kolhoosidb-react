@@ -3,7 +3,7 @@ import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 
-export class CommuneCreationComponent extends React.Component<{submitCommune: any}, {commune: any}> {
+export class CommuneCreationComponent extends React.Component<{ submitCommune: any }, { commune: any }> {
 
     constructor(props: any) {
         super(props);
@@ -23,6 +23,7 @@ export class CommuneCreationComponent extends React.Component<{submitCommune: an
                 <CardHeader
                     title="Create a new commune"
                     actAsExpander={true}
+                    className="commune-creator-card"
                     showExpandableButton={true}
                 />
                 <CardText expandable={true}>
@@ -49,9 +50,9 @@ export class CommuneCreationComponent extends React.Component<{submitCommune: an
                             validators={['required']}
                             errorMessages={['Description is required']}
                             value={commune.description}
-                            
+
                         /><br />
-                        <RaisedButton label="Create" type="submit" />
+                        <RaisedButton className="create-commune-button" label="Create" type="submit" />
                     </ValidatorForm>
                 </CardText>
             </Card>

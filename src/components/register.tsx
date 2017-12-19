@@ -20,73 +20,76 @@ export class RegisterComponent extends React.Component<{mainState: MainState}, {
         user.email = '';
 
         this.state = {
-            user:  user,
+            user: user,
         };
         this.handleChange.bind(this);
     }
 
     render() {
-        const { user } = this.state;       
+        const { user } = this.state;
         return (
             <Card>
                 <CardHeader
+                    className="register-form-button"
                     title="Register"
                     actAsExpander={true}
                     showExpandableButton={true}
                 />
                 <CardText expandable={true}>
-                <SmallErrorDisplay error={this.props.mainState.uiState.registerError} />
-                <ValidatorForm
-                    onSubmit={this.handleSubmit}
-                    onError={errors => this.showError(errors)}
-                >
-                    <TextValidator
-                        floatingLabelText="Username"
-                        onChange={this.handleChange}
-                        name="username"
-                        type="text"
-                        validators={['required']}
-                        errorMessages={['Username is required']}
-                        value={user.username}
-                    /><br />
-                    <TextValidator
-                        floatingLabelText="Name"
-                        onChange={this.handleChange}
-                        name="name"
-                        type="text"
-                        validators={['required']}
-                        errorMessages={['Name is required']}
-                        value={user.name}
-                    /><br />
-                    <TextValidator
-                        floatingLabelText="Email"
-                        onChange={this.handleChange}
-                        name="email"
-                        type="email"
-                        validators={['required']}
-                        errorMessages={['Email is required']}
-                        value={user.email}
-                    /><br />
-                    <TextValidator
-                        floatingLabelText="Password"
-                        onChange={this.handleChange}
-                        name="password"
-                        type="password"
-                        validators={['required']}
-                        errorMessages={['Password is required']}
-                        value={user.password}
-                    /><br />
-                    <TextValidator
-                        floatingLabelText="Password Confirmation"
-                        onChange={this.handleChange}
-                        name="password_confirmation"
-                        type="password"
-                        validators={['required']}
-                        errorMessages={['Password confirmation is required']}
-                        value={user.password_confirmation}
-                    /><br />
-                    <SubmitButton loading={this.props.mainState.uiState.registerLoading} label="Sign up" type="submit" />
-                </ValidatorForm>
+                    <SmallErrorDisplay error={this.props.mainState.uiState.registerError} />
+                    <ValidatorForm
+                        onSubmit={this.handleSubmit}
+                        onError={errors => this.showError(errors)}
+                    >
+                        <TextValidator
+                            floatingLabelText="Username"
+                            onChange={this.handleChange}
+                            name="username"
+                            type="text"
+                            validators={['required']}
+                            errorMessages={['Username is required']}
+                            value={user.username}
+                        /><br />
+                        <TextValidator
+                            floatingLabelText="Name"
+                            onChange={this.handleChange}
+                            name="name"
+                            type="text"
+                            validators={['required']}
+                            errorMessages={['Name is required']}
+                            value={user.name}
+                        /><br />
+                        <TextValidator
+                            floatingLabelText="Email"
+                            onChange={this.handleChange}
+                            name="email"
+                            type="email"
+                            validators={['required']}
+                            errorMessages={['Email is required']}
+                            value={user.email}
+                        /><br />
+                        <TextValidator
+                            floatingLabelText="Password"
+                            onChange={this.handleChange}
+                            name="password"
+                            type="password"
+                            validators={['required']}
+                            errorMessages={['Password is required']}
+                            value={user.password}
+                        /><br />
+                        <TextValidator
+                            floatingLabelText="Password Confirmation"
+                            onChange={this.handleChange}
+                            name="password_confirmation"
+                            type="password"
+                            validators={['required']}
+                            errorMessages={['Password confirmation is required']}
+                            value={user.password_confirmation}
+                        /><br />
+                        <SubmitButton className="register-button" loading={this.props.mainState.uiState.registerLoading} label="Sign up" type="submit">
+                            <span id="registerbutton" />
+                        </SubmitButton>
+                    </ValidatorForm>
                 </CardText>
             </Card>
         );
