@@ -8,8 +8,8 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 
 @inject('mainState')
 @observer
-export class RegisterComponent extends React.Component<{mainState: MainState}, {user: any}> {
-    
+export class RegisterComponent extends React.Component<{ mainState: MainState }, { user: any }> {
+
     constructor(props: any) {
         super(props);
         let user: any = {};
@@ -104,7 +104,7 @@ export class RegisterComponent extends React.Component<{mainState: MainState}, {
     handleSubmit = () => {
         this.props.mainState.userState.createUser(this.state.user);
     }
-    
+
     showError = (error: any) => {
         console.log(error);
     }

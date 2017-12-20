@@ -23,7 +23,7 @@ export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
                     <Tab label="User Management">
                         <UserManagementComponent mainState={this.props.mainState} />
                     </Tab>
-                    <Tab label="Task Management">
+                    <Tab className="task-management-tab" label="Task Management">
                         <TaskManagement mainState={this.props.mainState} />
                     </Tab>
                     <Tab label="Commune Management">

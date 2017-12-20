@@ -25,7 +25,7 @@ export class InvitationsList extends React.Component<{ accept: any, reject: any,
     }
 }
 
-class InvitationCard extends React.Component<{ invitation: Invitation, accept: any, reject: any}, {} > {
+class InvitationCard extends React.Component<{ invitation: Invitation, accept: any, reject: any }, {}> {
     render() {
         return (
             <Card>

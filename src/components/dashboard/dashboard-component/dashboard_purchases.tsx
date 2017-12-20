@@ -17,7 +17,7 @@ import { PurchaseCreator } from '../purchases/purchasecreator';
 import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
-import { currencyFormatter } from '../../util/currencyFormatter';
+import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { FaPlus } from 'react-icons/lib/fa';
 
 @inject('mainState')
@@ -50,6 +50,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
             creator = (
                 <div>
                     <RaisedButton
+                        className="new-purchase-button"
                         style={{ width: '100%', margin: '0 auto' }}
                         onTouchTap={this.openDialog}
                     >
@@ -85,6 +86,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
     }
 
     submitPurchase = (purchase: Purchase) => {
+        this.setState({ dialogOpen: false });
         this.props.mainState.purchaseState.createPurchase(purchase);
     }
 }

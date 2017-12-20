@@ -7,7 +7,7 @@ import { Purchase } from '../../../store/models/purchase';
 import { Table, TableRow, TableHeaderColumn, TableHeader, TableBody, TableRowColumn } from 'material-ui';
 import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
-import { currencyFormatter } from '../../util/currencyFormatter';
+import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 
 @inject('mainState')

@@ -34,7 +34,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         let cats = null;
         if (this.props.categories.length !== 0) {
             cats = this.props.categories.map((cat, index) => (
-                <MenuItem key={index} value={cat.id} primaryText={cat.name} />
+                <MenuItem className={'purchase-category-' + index} key={index} value={cat.id} primaryText={cat.name} />
             ));
         }
         return (
@@ -60,6 +60,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                         value={purchase.description}
                     /><br />
                     <SelectField
+                        className="purchase-category-selector"
                         style={this.textFieldStyle}
                         floatingLabelText="Category"
                         value={purchase.purchase_category_id}
@@ -67,7 +68,11 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                     >
                         {cats}
                     </SelectField><br />
-                    <RaisedButton label="Create" type="submit" />
+                    <RaisedButton
+                        label="Create"
+                        type="submit"
+                        className="create-purchase-button"
+                    />
                 </ValidatorForm>
             </div>
         );

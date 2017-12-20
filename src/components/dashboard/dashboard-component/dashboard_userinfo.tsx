@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { User } from '../../../store/models/user';
 import { Link } from 'react-router-dom';
-import { currencyFormatter } from '../../util/currencyFormatter';
+import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 
 export class DashboardUserInfo extends React.Component<{ user: User }, {}> {
     render() {
