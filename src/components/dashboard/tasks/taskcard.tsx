@@ -22,7 +22,7 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task },
         let latest_completion = null;
         if (this.props.task.completions.length !== 0) {
             let comp = this.props.task.completions[this.props.task.completions.length - 1];
-            latest_completion = <div><b> Last done by: </b> {comp.name}  - {moment(comp.created_at).fromNow()}</div>;
+            latest_completion = <div><b> Last done by: </b> {comp.name}  - {moment(moment(comp.created_at).subtract(30, 'seconds')).fromNow()}</div>;
         } else {
             latest_completion = <div>Never done yet </div>;
         }
