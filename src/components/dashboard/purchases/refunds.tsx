@@ -13,16 +13,20 @@ interface RefundPanelProps {
 @observer
 export class RefundPanel extends React.Component<RefundPanelProps, {}> {
 
+    componentDidMount() {
+        this.props.mainState.userState.getUsers();
+    }
+
     cancelRefund = (refund: Refund) => {
-        console.log('asd');
+        this.props.mainState.purchaseState.cancelRefund(refund);
     }
 
     acceptRefund = (refund: Refund) => {
-        console.log('asd');
+        this.props.mainState.purchaseState.acceptRefund(refund);
     }
 
-    createRefund = (refund: Refund) => {
-        console.log('asd');
+    rejectRefund = (refund: Refund) => {
+        this.props.mainState.purchaseState.rejectRefund(refund);
     }
 
     submitRefund = (refund: Refund) => {
@@ -31,14 +35,22 @@ export class RefundPanel extends React.Component<RefundPanelProps, {}> {
 
     render() {
         let newUsers = [];
-        newUsers = this.props.mainState.communeState.selectedCommune.users.filter((el) => {
+        newUsers = this.props.mainState.userState.users.filter((el) => {
             return el.id !== this.props.mainState.userState.current_user.id;
         });
+        console.log(newUsers.length);
+        let newAdmins = [];
+        newAdmins = this.props.mainState.userState.admins.filter((el) => {
+            return el.id !== this.props.mainState.userState.current_user.id;
+        });
+        console.log(newAdmins.length);
+        let combined = newUsers.concat(newAdmins);
+        console.log(combined.length);
         let sent_refunds = this.props.mainState.userState.current_user.sent_refunds.map((refund: Refund, index: number) => (
-            <RefundRow refund={refund} key={index} sent={true} handleChange={this.cancelRefund} />
+            <RefundRow classIdentifier={index.toString()} refund={refund} key={index} sent={true} handleCancel={this.cancelRefund} />
         ));
         let received_refunds = this.props.mainState.userState.current_user.received_refunds.map((refund: Refund, index: number) => (
-            <RefundRow refund={refund} key={index} sent={false} handleChange={this.acceptRefund} />
+            <RefundRow classIdentifier={index.toString()} refund={refund} key={index} sent={false} handleAccept={this.acceptRefund} handleReject={this.rejectRefund} />
         ));
         return (
             <div>
@@ -47,7 +59,7 @@ export class RefundPanel extends React.Component<RefundPanelProps, {}> {
                 <h3>Received Refunds</h3>
                 {received_refunds}
                 <h3>New Refund</h3>
-                <RefundCreator users={newUsers} handleSubmit={this.submitRefund} />
+                <RefundCreator users={combined} handleSubmit={this.submitRefund} />
             </div>
         );
     }
@@ -56,7 +68,10 @@ export class RefundPanel extends React.Component<RefundPanelProps, {}> {
 interface RefundRowProps {
     refund: Refund;
     sent: boolean;
-    handleChange: any;
+    classIdentifier: string;
+    handleCancel?: any;
+    handleAccept?: any;
+    handleReject?: any;
 }
 
 export class RefundRow extends React.Component<RefundRowProps, {}> {
@@ -65,17 +80,38 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
             return (
                 <div>
                     {this.props.refund.from} --> {this.props.refund.to}: {this.props.refund.amount} €
-                    <RaisedButton label="Cancel" />
+                    <RaisedButton className={this.props.classIdentifier} onTouchTap={this.handleCancel} label="Cancel" />
                 </div>
             );
         } else {
             return (
                 <div>
                     {this.props.refund.from} --> {this.props.refund.to}: {this.props.refund.amount} €
-                    <RaisedButton label="Accept" />
+                    <RaisedButton
+                        className={'accept_' + this.props.classIdentifier + '_button'}
+                        label="Accept"
+                        onTouchTap={this.handleAccept}
+                    />
+                    <RaisedButton
+                        className={'reject_' + this.props.classIdentifier + '_button'}
+                        onTouchTap={this.handleReject}
+                        label="Reject"
+                    />
                 </div>
             );
         }
+    }
+
+    handleCancel = () => {
+        this.props.handleCancel(this.props.refund);
+    }
+
+    handleAccept = () => {
+        this.props.handleAccept(this.props.refund);
+    }
+
+    handleReject = () => {
+        this.props.handleReject(this.props.refund);
     }
 }
 
@@ -116,15 +152,18 @@ export class RefundCreator extends React.Component<RefundCreatorProps, { refund:
         const { refund } = this.state;
         let users = null;
         if (this.props.users.length !== 0) {
-            users = this.props.users.map((user, index) => (
-                <MenuItem className={'user-' + index} key={index} value={user.id} primaryText={user.name} />
-            ));
+            users = this.props.users.map((user, index) => {
+                let kebabName = user.name.replace(/\ /g, '_');
+                return (
+                    <MenuItem className={'user-' + kebabName} key={index} value={user.id} primaryText={user.name} />
+                );
+            });
         }
         return (
             <div>
                 <ValidatorForm onSubmit={this.handleSubmit}>
                     <SelectField
-                        className="purchase-category-selector"
+                        className="user-selector"
                         floatingLabelText="To"
                         value={refund.to}
                         onChange={this.handleUserChange}
@@ -138,7 +177,7 @@ export class RefundCreator extends React.Component<RefundCreatorProps, { refund:
                         onChange={this.handleChange}
                         value={refund.amount}
                     /><br />
-                    <RaisedButton label="Submit" type="submit" />
+                    <RaisedButton className="submit-refund-button" label="Submit" type="submit" />
                 </ValidatorForm>
             </div>
         );

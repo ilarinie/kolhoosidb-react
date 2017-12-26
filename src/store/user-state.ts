@@ -46,7 +46,8 @@ export class UserStore {
   @action
   async getUser(): Promise<any> {
     try {
-      this.current_user = await ApiService.get('/users/' + this.current_user.id);
+      let response: any = await ApiService.get('/users/' + this.current_user.id);
+      this.current_user = response.user;
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     }

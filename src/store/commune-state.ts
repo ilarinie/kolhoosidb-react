@@ -32,7 +32,7 @@ export class CommuneState {
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     }
-  }  
+  }
 
   @action
   async getTopList() {
@@ -44,17 +44,17 @@ export class CommuneState {
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     }
-  }  
+  }
 
   @action
   async selectCommune(id: number) {
-      try {
-        this.selectedCommune = await ApiService.get('communes/' + id);
-        this.communeSelected = true;
-        createBrowserHistory.push('/');
-      } catch (error) {
-        this.mainState.uiState.showDashboardError(error.message);
-      }
+    try {
+      this.selectedCommune = await ApiService.get('communes/' + id);
+      this.communeSelected = true;
+      createBrowserHistory.push('/');
+    } catch (error) {
+      this.mainState.uiState.showDashboardError(error.message);
+    }
   }
 
   @action

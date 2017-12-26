@@ -1,4 +1,5 @@
 export class Refund {
+    id: number;
     from: string;
     to: string;
     from_id: number;
