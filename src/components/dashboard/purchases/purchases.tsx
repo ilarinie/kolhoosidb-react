@@ -9,6 +9,8 @@ import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
+import { DashboardItemContainer } from '../dashboard-component/dashboard-component';
+import { RefundPanel } from './refunds';
 
 @inject('mainState')
 @observer
@@ -49,26 +51,33 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
                         <h1> Purchases </h1>
                         <h4> Total Purchases: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_total)} </h4>
                         <h4> Average per user: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_avg)} </h4>
-                        <Table>
-                            <TableHeader
-                                displaySelectAll={false}
-                                enableSelectAll={false}
-                                adjustForCheckbox={false}
-                            >
-                                <TableRow>
-                                    <TableHeaderColumn>Name</TableHeaderColumn>
-                                    <TableHeaderColumn>Total Purchases</TableHeaderColumn>
-                                    <TableHeaderColumn>Differential</TableHeaderColumn>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody
-                                displayRowCheckbox={false}
-                                stripedRows={false}
-                            >
-                                {rows}
-                            </TableBody>
-                        </Table><br />
-                        {creator}
+                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="budget">
+                            <Table>
+                                <TableHeader
+                                    displaySelectAll={false}
+                                    enableSelectAll={false}
+                                    adjustForCheckbox={false}
+                                >
+                                    <TableRow>
+                                        <TableHeaderColumn>Name</TableHeaderColumn>
+                                        <TableHeaderColumn>Total Purchases</TableHeaderColumn>
+                                        <TableHeaderColumn>Differential</TableHeaderColumn>
+                                    </TableRow>
+                                </TableHeader>
+                                <TableBody
+                                    displayRowCheckbox={false}
+                                    stripedRows={false}
+                                >
+                                    {rows}
+                                </TableBody>
+                            </Table><br />
+                        </DashboardItemContainer>
+                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase">
+                            {creator}
+                        </DashboardItemContainer>
+                        <DashboardItemContainer title="Refunds" uiState={this.props.mainState.uiState} >
+                            <RefundPanel mainState={this.props.mainState} />
+                        </DashboardItemContainer>
                     </div>
                 </ComponentThemeWrapper>
             </LoadingScreen>

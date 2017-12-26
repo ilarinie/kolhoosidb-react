@@ -39,7 +39,7 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task },
                     {latest_completion}
                 </CardText>
                 <CardActions>
-                    <CompleteButton loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
+                    <CompleteButton taskName={this.props.task.name} loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
                 </CardActions>
                 <CardText expandable={true}>
                     <ul>
@@ -59,7 +59,7 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task },
 
 }
 
-class CompleteButton extends React.Component<{ loading: boolean, label: string, completeTask: any }, { completed: boolean }> {
+class CompleteButton extends React.Component<{ loading: boolean, label: string, completeTask: any, taskName: string }, { completed: boolean }> {
 
     handle: any;
 
@@ -71,17 +71,18 @@ class CompleteButton extends React.Component<{ loading: boolean, label: string, 
     }
 
     render() {
+        let classIdentifier = 'complete_task_button_' + this.props.taskName.replace(/\ /g, '_');
         if (this.props.loading) {
             return (
-                <RaisedButton disabled={true}><FaSpinner style={{ color: 'red' }} className="fa-spin" /></RaisedButton>
+                <RaisedButton className={classIdentifier} disabled={true}><FaSpinner style={{ color: 'red' }} className="fa-spin" /></RaisedButton>
             );
         } else if (this.state.completed) {
             return (
-                <RaisedButton disabled={true}><FaCheck style={{ color: 'green' }} /></RaisedButton>
+                <RaisedButton className={classIdentifier} disabled={true}><FaCheck style={{ color: 'green' }} /></RaisedButton>
             );
         } else {
             return (
-                <RaisedButton label={this.props.label} onTouchTap={this.completeTask} />
+                <RaisedButton className={classIdentifier} label={this.props.label} onTouchTap={this.completeTask} />
             );
         }
     }

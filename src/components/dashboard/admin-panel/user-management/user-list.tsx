@@ -59,7 +59,7 @@ export class UserEntry extends React.Component<{ user: User, removeUser: any }, 
                 >
                     <CardActions>
                         <RaisedButton onTouchTap={this.removeUser} label="Remove" />
-                        <RaisedButton label="Promote" />
+                        <RaisedButton className={'promote_user_button_' + this.props.user.username} label="Promote" />
                     </CardActions>
                 </CardText>
             </Card>

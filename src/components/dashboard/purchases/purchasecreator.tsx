@@ -8,6 +8,8 @@ import { FaEur } from 'react-icons/lib/fa';
 
 interface PurchaseCreatorProps {
     categories: PurchaseCategory[];
+    showCancel?: boolean;
+    cancelHandler?: any;
     submitPurchase: any;
     expandable: boolean;
 }
@@ -24,6 +26,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         purchase.description = '';
         purchase.amount = '';
         purchase.category = this.props.categories[0];
+        purchase.purchase_category_id = this.props.categories[0].id;
         this.state = {
             purchase: purchase
         };
@@ -73,6 +76,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                         type="submit"
                         className="create-purchase-button"
                     />
+
                 </ValidatorForm>
             </div>
         );
