@@ -14,15 +14,15 @@ interface RefundPanelProps {
 export class RefundPanel extends React.Component<RefundPanelProps, {}> {
 
     cancelRefund = (refund: Refund) => {
-
+        console.log('asd');
     }
 
     acceptRefund = (refund: Refund) => {
-
+        console.log('asd');
     }
 
     createRefund = (refund: Refund) => {
-
+        console.log('asd');
     }
 
     submitRefund = (refund: Refund) => {
