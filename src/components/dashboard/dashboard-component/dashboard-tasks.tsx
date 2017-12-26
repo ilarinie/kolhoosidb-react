@@ -8,6 +8,7 @@ import { Task } from '../../../store/models/task';
 import * as moment from 'moment';
 import RaisedButton from 'material-ui/RaisedButton';
 import { FaSpinner, FaCheck } from 'react-icons/lib/fa';
+import { sortTasks } from '../../../domain/task-sorter';
 
 @observer
 export class DashboardTasksComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
@@ -24,23 +25,7 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
     }
 
     render() {
-        let orderedTasks = this.props.mainState.communeState.selectedCommune.tasks.sort((a, b) => {
-            if (!a.priority) {
-                return 1;
-            }
-            if (!b.priority) {
-                return -1;
-            }
-            if (a.completions.length === 0) {
-                return -1;
-            }
-            if (b.completions.length === 0) {
-                return 1;
-            }
-            return (moment(a.completions[a.completions.length - 1].created_at).add(a.priority, 'hours').valueOf())
-                - (moment(b.completions[b.completions.length - 1].created_at).add(b.priority, 'hours').valueOf());
-
-        });
+        let orderedTasks = sortTasks(this.props.mainState.communeState.selectedCommune.tasks);
         let tasks = orderedTasks.map((task, index) => (
             <TaskRow
                 completeTask={this.completeTask}
@@ -88,6 +73,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
                 {this.props.task.name}<br />
                 <small>{when_to_do}</small><br />
                 <CompleteButton
+                    identifier={this.props.task.name.trim()}
                     loading={this.props.loading}
                     onTouchTap={this.completeTask}
                     completed={completed}
@@ -108,6 +94,7 @@ export interface CompleteButtonProps {
     label: string;
     onTouchTap: any;
     completed: any;
+    identifier: string;
 }
 
 export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
@@ -115,15 +102,30 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
     render() {
         if (this.props.completed) {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true} ><FaCheck style={{ color: 'green' }} /></RaisedButton>
+                <RaisedButton
+                    className={this.props.identifier}
+                    style={{ float: 'right', marginTop: '-37px' }}
+                    disabled={true}
+                >
+                    <FaCheck style={{ color: 'green' }} />
+                </RaisedButton>
             );
         } else if (this.props.loading) {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} disabled={true}><FaSpinner className="fa-spin" style={{ color: 'yellow' }} /></RaisedButton>
+                <RaisedButton
+                    className={this.props.identifier}
+                    style={{ float: 'right', marginTop: '-37px' }}
+                    disabled={true}
+                >
+                    <FaSpinner
+                        className="fa-spin"
+                        style={{ color: 'yellow' }}
+                    />
+                </RaisedButton>
             );
         } else {
             return (
-                <RaisedButton style={{ float: 'right', marginTop: '-37px' }} label={this.props.label} onTouchTap={this.props.onTouchTap} />
+                <RaisedButton className={this.props.identifier} style={{ float: 'right', marginTop: '-37px' }} label={this.props.label} onTouchTap={this.props.onTouchTap} />
             );
         }
 

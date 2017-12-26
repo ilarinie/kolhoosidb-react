@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { FeedItem } from '../../../store/models/feed_item';
-import { getAction } from '../../util/feedParser';
+import { getAction } from '../../../domain/parser/feedParser';
 import * as moment from 'moment';
 
-export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], getFeed: any}, { } > {
-    
+export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], getFeed: any }, {}> {
+
     handle: any;
 
     componentDidMount() {
@@ -22,16 +22,16 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
 
         return (
             <div>
-                    {feed}
+                {feed}
             </div>
         );
     }
 }
 
-export class FeedItemComponent extends React.Component<{feedItem: FeedItem}, {}> {
+export class FeedItemComponent extends React.Component<{ feedItem: FeedItem }, {}> {
     constructor(props: any) {
         super(props);
-        
+
     }
     render() {
         return (

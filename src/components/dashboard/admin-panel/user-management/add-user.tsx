@@ -12,7 +12,7 @@ export class AddUserComponent extends React.Component<{ inviteUser: any }, {}> {
         return (
             <div>
                 <TextField id="username" type="text" hintText="Username" /> <br />
-                <RaisedButton label="Send invitation" onTouchTap={this.inviteUser} />
+                <RaisedButton className="send-invitation-button" label="Send invitation" onTouchTap={this.inviteUser} />
             </div>
         );
     }

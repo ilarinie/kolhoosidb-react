@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { CardHeader, CardActions, Card } from 'material-ui/Card';
 
 @observer
-export class TaskManagement extends React.Component<{mainState: MainState}, {editedTask: Task, dialogOpen: boolean} > {
+export class TaskManagement extends React.Component<{ mainState: MainState }, { editedTask: Task, dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -23,9 +23,9 @@ export class TaskManagement extends React.Component<{mainState: MainState}, {edi
         ));
         return (
             <div className="full-size-component">
-                <RaisedButton label="New Task" onTouchTap={this.createTask} />
+                <RaisedButton className="new-task-button" label="New Task" onTouchTap={this.createTask} />
                 {tasks}
-                <TaskCreator 
+                <TaskCreator
                     handleClose={this.handleDialogClose}
                     handleChange={this.handleTaskChange}
                     editedTask={this.state.editedTask}
@@ -37,23 +37,23 @@ export class TaskManagement extends React.Component<{mainState: MainState}, {edi
     }
 
     handleDialogClose = () => {
-        this.setState({dialogOpen: false});
+        this.setState({ dialogOpen: false });
     }
 
     editTask = (task: Task) => {
-        this.setState({editedTask: task});
-        this.setState({dialogOpen: true});
+        this.setState({ editedTask: task });
+        this.setState({ dialogOpen: true });
     }
 
     handleTaskChange = (event: any) => {
-            let newTask = this.state.editedTask;
-            newTask[event.target.name] = event.target.value;
-            this.setState({ editedTask: newTask });
+        let newTask = this.state.editedTask;
+        newTask[event.target.name] = event.target.value;
+        this.setState({ editedTask: newTask });
     }
 
     createTask = () => {
-        this.setState({editedTask: new Task()});
-        this.setState({dialogOpen: true});
+        this.setState({ editedTask: new Task() });
+        this.setState({ dialogOpen: true });
     }
 
     deleteTask = (task: Task) => {
@@ -61,7 +61,7 @@ export class TaskManagement extends React.Component<{mainState: MainState}, {edi
     }
 
     submitTask = (task: Task) => {
-        this.setState({dialogOpen: false});
+        this.setState({ dialogOpen: false });
         if (task.id) {
             this.props.mainState.taskState.updateTask(task);
         } else {
@@ -70,7 +70,7 @@ export class TaskManagement extends React.Component<{mainState: MainState}, {edi
     }
 }
 
-export class TaskRow extends React.Component<{task: Task, editTask: any, deleteTask: any}, {} > {
+export class TaskRow extends React.Component<{ task: Task, editTask: any, deleteTask: any }, {}> {
 
     taskStyles = {
         border: '0.5px solid gray'
@@ -81,16 +81,16 @@ export class TaskRow extends React.Component<{task: Task, editTask: any, deleteT
 
     render() {
         return (
-            <Card style={{margin: '5px auto'}}>
+            <Card style={{ margin: '5px auto' }}>
                 <CardHeader
                     title={this.props.task.name}
                     subtitle={'Priority: ' + this.props.task.priority}
                 />
                 <CardActions>
-                    <RaisedButton label="Edit" onTouchTap={this.editTask}  />
+                    <RaisedButton label="Edit" onTouchTap={this.editTask} />
                     <RaisedButton label="Delete" onTouchTap={this.deleteTask} />
                 </CardActions>
-            </Card>    
+            </Card>
         );
     }
 

@@ -66,7 +66,13 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                             <FaLock />
                             <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
                             <br /><br />
-                            <SubmitButton type="submit" loading={this.props.mainState.uiState.loginLoading} label="Log In" onTouchTap={this.login} /><br /><br />
+                            <SubmitButton
+                                className="login-button"
+                                type="submit"
+                                loading={this.props.mainState.uiState.loginLoading}
+                                label="Log In"
+                                onTouchTap={this.login}
+                            /><br /><br />
                         </form>
                         <a style={{ textDecoration: 'none' }} href="#" onClick={this.forgotPw} >Forgot password?</a>
                     </Paper>

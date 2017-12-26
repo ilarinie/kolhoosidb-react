@@ -23,6 +23,7 @@ export class CommuneEditor extends React.Component<{ mainState: MainState }, {}>
                     title="Edit commune details"
                     icon={<FaCogs />}
                     hidden={false}
+                    classIdentifier="edit-commune-form"
                 >
                     <CommuneDetailsEditor
                         commune={this.props.mainState.communeState.selectedCommune}
@@ -32,6 +33,7 @@ export class CommuneEditor extends React.Component<{ mainState: MainState }, {}>
                 <FullWidthCardWrapper
                     title="Edit purchase categories"
                     icon={<FaPencil />}
+                    classIdentifier="edit-purchase-categories-form"
                 >
                     <PurchaseCategoryEditor
                         createCategory={this.createCategory}

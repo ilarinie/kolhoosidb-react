@@ -8,6 +8,8 @@ import { FaEur } from 'react-icons/lib/fa';
 
 interface PurchaseCreatorProps {
     categories: PurchaseCategory[];
+    showCancel?: boolean;
+    cancelHandler?: any;
     submitPurchase: any;
     expandable: boolean;
 }
@@ -24,6 +26,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         purchase.description = '';
         purchase.amount = '';
         purchase.category = this.props.categories[0];
+        purchase.purchase_category_id = this.props.categories[0].id;
         this.state = {
             purchase: purchase
         };
@@ -34,7 +37,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         let cats = null;
         if (this.props.categories.length !== 0) {
             cats = this.props.categories.map((cat, index) => (
-                <MenuItem key={index} value={cat.id} primaryText={cat.name} />
+                <MenuItem className={'purchase-category-' + index} key={index} value={cat.id} primaryText={cat.name} />
             ));
         }
         return (
@@ -60,6 +63,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                         value={purchase.description}
                     /><br />
                     <SelectField
+                        className="purchase-category-selector"
                         style={this.textFieldStyle}
                         floatingLabelText="Category"
                         value={purchase.purchase_category_id}
@@ -67,7 +71,12 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                     >
                         {cats}
                     </SelectField><br />
-                    <RaisedButton label="Create" type="submit" />
+                    <RaisedButton
+                        label="Create"
+                        type="submit"
+                        className="create-purchase-button"
+                    />
+
                 </ValidatorForm>
             </div>
         );

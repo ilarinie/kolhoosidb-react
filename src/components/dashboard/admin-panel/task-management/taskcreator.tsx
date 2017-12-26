@@ -61,7 +61,7 @@ export class TaskCreator extends React.Component<{ editedTask: Task, handleChang
                         type="number"
                         value={this.props.editedTask.reward}
                     /><br />
-                    <RaisedButton label={label} type="submit" />
+                    <RaisedButton className="submit-task-button" label={label} type="submit" />
                 </ValidatorForm>
             </Dialog>
         );

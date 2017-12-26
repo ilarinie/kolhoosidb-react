@@ -1,28 +1,28 @@
 import * as React from 'react';
 import { TableRowColumn } from 'material-ui';
-import { currencyFormatter } from './currencyFormatter';
+import { currencyFormatter } from '../../domain/formatter/currencyFormatter';
 
-export class DiffColumn extends React.Component <{ diff: number }, {} > {
+export class DiffColumn extends React.Component<{ diff: number }, {}> {
 
-        rowStyle;
-    
-        constructor(props: any) {
-            super(props);
-            if (this.props.diff < 0) {
-                this.rowStyle = {
-                    background: 'red'
-                };
-            } else {
-                this.rowStyle = {
-                    background: 'green'
-                };
-            }
+    rowStyle;
+
+    constructor(props: any) {
+        super(props);
+        if (this.props.diff < 0) {
+            this.rowStyle = {
+                background: 'red'
+            };
+        } else {
+            this.rowStyle = {
+                background: 'green'
+            };
         }
-    
-        render() {
-            let diff = currencyFormatter.format(this.props.diff);
-            return (
-                <TableRowColumn style={this.rowStyle}>{diff}</TableRowColumn>
-            );
-        }
+    }
+
+    render() {
+        let diff = currencyFormatter.format(this.props.diff);
+        return (
+            <TableRowColumn style={this.rowStyle}>{diff}</TableRowColumn>
+        );
+    }
 }

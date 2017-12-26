@@ -1,24 +1,24 @@
 import * as React from 'react';
 import { User } from '../../../store/models/user';
 import { Link } from 'react-router-dom';
-import { currencyFormatter } from '../../util/currencyFormatter';
+import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 
 export class DashboardUserInfo extends React.Component<{ user: User }, {}> {
     render() {
         let invitations = this.props.user.invitations.map((invitation, index) => (
-            <span>Invited to {invitation.commune_name} <Link to="/profile">Go</Link></span>
+            <span key={index}>Invited to {invitation.commune_name} <Link to="/profile">Go</Link></span>
         ));
         if (invitations.length === 0) {
             invitations = null;
         }
         let sent_refunds = this.props.user.sent_refunds.map((refund, index) => (
-            <span>To: {refund.to} - {currencyFormatter.format(refund.amount)}</span>
+            <span key={index}>To: {refund.to} - {currencyFormatter.format(refund.amount)}</span>
         ));
         if (sent_refunds.length === 0) {
             sent_refunds = null;
         }
         let received_refunds = this.props.user.received_refunds.map((refund, index) => (
-            <span>From: {refund.from} - {currencyFormatter.format(refund.amount)} </span>
+            <span key={index}>From: {refund.from} - {currencyFormatter.format(refund.amount)} </span>
         ));
         if (received_refunds.length === 0) {
             received_refunds = null;

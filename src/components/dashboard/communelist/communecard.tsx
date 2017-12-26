@@ -19,7 +19,7 @@ export class CommuneCard extends React.Component<{ commune: Commune, selectCommu
                     subtitle={this.props.commune.description}
                 />
                 <CardActions>
-                    <RaisedButton label="Select" onTouchTap={this.selectCommune} />
+                    <RaisedButton className="select-commune-button" label="Select" onTouchTap={this.selectCommune} />
                     {deleteButton}
                 </CardActions>
             </Card>
