@@ -7,6 +7,7 @@ import { DashboardActivityFeed } from './dashboard_activity_feed';
 import { DashboardUserInfo } from './dashboard_userinfo';
 import { UiState } from '../../../store/ui-state';
 import { XpScroller } from '../../util/xp-scroller';
+import { Refund } from '../../../store/models/refund';
 
 @inject('mainState')
 @observer
@@ -32,10 +33,20 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
         this.props.mainState.communeState.getTopList();
     }
 
+    acceptRefund = (refund: Refund) => {
+        this.props.mainState.purchaseState.acceptRefund(refund);
+    }
+    cancelRefund = (refund: Refund) => {
+        this.props.mainState.purchaseState.cancelRefund(refund);
+    }
+    rejectRefund = (refund: Refund) => {
+        this.props.mainState.purchaseState.rejectRefund(refund);
+    }
+
     render() {
         return (
             <div style={{ width: '100%' }}>
-                <div style={this.mainContainerStyles}>  
+                <div style={this.mainContainerStyles}>
                     <DashboardItemContainer uiState={this.props.mainState.uiState} title="Tasks">
                         <DashboardTasksComponent mainState={this.props.mainState} />
                     </DashboardItemContainer>
@@ -53,14 +64,19 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
                         title="Top Lists"
                     >
                         <XpScroller
-                            getTopLists={this.getTopList}    
+                            getTopLists={this.getTopList}
                             weekly={this.props.mainState.communeState.weeklyTop}
                             monthly={this.props.mainState.communeState.montlyTop}
                             all_time={this.props.mainState.communeState.allTimeTop}
                         />
-                    </DashboardItemContainer>  
+                    </DashboardItemContainer>
                     <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
-                        <DashboardUserInfo user={this.props.mainState.userState.current_user} />
+                        <DashboardUserInfo
+                            user={this.props.mainState.userState.current_user}
+                            acceptRefund={this.acceptRefund}
+                            cancelRefund={this.cancelRefund}
+                            rejectRefund={this.rejectRefund}
+                        />
                     </DashboardItemContainer>
                 </div>
             </div>

@@ -2,8 +2,16 @@ import * as React from 'react';
 import { User } from '../../../store/models/user';
 import { Link } from 'react-router-dom';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
+import { RefundRow } from '../purchases/refund_row';
 
-export class DashboardUserInfo extends React.Component<{ user: User }, {}> {
+interface DashboardUserInfoProps {
+    user: User;
+    cancelRefund: any;
+    acceptRefund: any;
+    rejectRefund: any;
+}
+
+export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {}> {
     render() {
         let invitations = this.props.user.invitations.map((invitation, index) => (
             <span key={index}>Invited to {invitation.commune_name} <Link to="/profile">Go</Link></span>
@@ -12,13 +20,26 @@ export class DashboardUserInfo extends React.Component<{ user: User }, {}> {
             invitations = null;
         }
         let sent_refunds = this.props.user.sent_refunds.map((refund, index) => (
-            <span key={index}>To: {refund.to} - {currencyFormatter.format(refund.amount)}</span>
+            <RefundRow
+                classIdentifier=""
+                key={index}
+                refund={refund}
+                sent={true}
+                handleCancel={this.props.cancelRefund}
+            />
         ));
         if (sent_refunds.length === 0) {
             sent_refunds = null;
         }
         let received_refunds = this.props.user.received_refunds.map((refund, index) => (
-            <span key={index}>From: {refund.from} - {currencyFormatter.format(refund.amount)} </span>
+            <RefundRow
+                classIdentifier=""
+                key={index}
+                refund={refund}
+                sent={false}
+                handleAccept={this.props.acceptRefund}
+                handleReject={this.props.rejectRefund}
+            />
         ));
         if (received_refunds.length === 0) {
             received_refunds = null;

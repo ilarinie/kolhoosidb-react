@@ -5,6 +5,7 @@ import { User } from '../../../store/models/user';
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { RefundRow } from './refund_row';
 
 interface RefundPanelProps {
     mainState: MainState;
@@ -62,56 +63,6 @@ export class RefundPanel extends React.Component<RefundPanelProps, {}> {
                 <RefundCreator users={combined} handleSubmit={this.submitRefund} />
             </div>
         );
-    }
-}
-
-interface RefundRowProps {
-    refund: Refund;
-    sent: boolean;
-    classIdentifier: string;
-    handleCancel?: any;
-    handleAccept?: any;
-    handleReject?: any;
-}
-
-export class RefundRow extends React.Component<RefundRowProps, {}> {
-    render() {
-        if (this.props.sent) {
-            return (
-                <div>
-                    {this.props.refund.from} --> {this.props.refund.to}: {this.props.refund.amount} €
-                    <RaisedButton className={this.props.classIdentifier} onTouchTap={this.handleCancel} label="Cancel" />
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    {this.props.refund.from} --> {this.props.refund.to}: {this.props.refund.amount} €
-                    <RaisedButton
-                        className={'accept_' + this.props.classIdentifier + '_button'}
-                        label="Accept"
-                        onTouchTap={this.handleAccept}
-                    />
-                    <RaisedButton
-                        className={'reject_' + this.props.classIdentifier + '_button'}
-                        onTouchTap={this.handleReject}
-                        label="Reject"
-                    />
-                </div>
-            );
-        }
-    }
-
-    handleCancel = () => {
-        this.props.handleCancel(this.props.refund);
-    }
-
-    handleAccept = () => {
-        this.props.handleAccept(this.props.refund);
-    }
-
-    handleReject = () => {
-        this.props.handleReject(this.props.refund);
     }
 }
 
