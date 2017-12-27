@@ -8,6 +8,7 @@ import { DashboardUserInfo } from './dashboard_userinfo';
 import { UiState } from '../../../store/ui-state';
 import { XpScroller } from '../../util/xp-scroller';
 import { Refund } from '../../../store/models/refund';
+import { Paper } from 'material-ui';
 
 @inject('mainState')
 @observer
@@ -16,10 +17,13 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
     mainContainerStyles = {
         display: 'flex',
         alignItems: 'flex-start' as 'flex-start',
+        alignContent: 'flex-start' as 'flex-start',
         flexWrap: 'wrap' as 'wrap',
         justifyContent: 'flex-start' as 'flex-start',
         minHeight: '100vh',
-        background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
+        background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor,
+        maxWidth: '1200px',
+        maxHeight: '100vh'
     };
 
     componentDidMount() {
@@ -47,19 +51,28 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
         return (
             <div style={{ width: '100%' }}>
                 <div style={this.mainContainerStyles}>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Tasks">
+                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info" flexGrow={1}>
+                        <DashboardUserInfo
+                            user={this.props.mainState.userState.current_user}
+                            acceptRefund={this.acceptRefund}
+                            cancelRefund={this.cancelRefund}
+                            rejectRefund={this.rejectRefund}
+                        />
+                    </DashboardItemContainer>
+                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Tasks" flexGrow={7}>
                         <DashboardTasksComponent mainState={this.props.mainState} />
                     </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Budget">
+                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Budget" flexGrow={7}>
                         <DashboardPurchasesComponent mainState={this.props.mainState} />
                     </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Activity feed">
+                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Activity feed" flexGrow={1}>
                         <DashboardActivityFeed
                             feed={this.props.mainState.communeState.selectedCommune.feed}
                             getFeed={this.getFeed}
                         />
                     </DashboardItemContainer>
                     <DashboardItemContainer
+                        flexGrow={1}
                         uiState={this.props.mainState.uiState}
                         title="Top Lists"
                     >
@@ -70,41 +83,40 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
                             all_time={this.props.mainState.communeState.allTimeTop}
                         />
                     </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
-                        <DashboardUserInfo
-                            user={this.props.mainState.userState.current_user}
-                            acceptRefund={this.acceptRefund}
-                            cancelRefund={this.cancelRefund}
-                            rejectRefund={this.rejectRefund}
-                        />
-                    </DashboardItemContainer>
                 </div>
             </div>
         );
     }
 }
 
-export class DashboardItemContainer extends React.Component<{ title: string, uiState: UiState }, { open: boolean }> {
+export class DashboardItemContainer extends React.Component<{ title: string, uiState: UiState, flexGrow: number }, { open: boolean }> {
 
     innerContainerStyles = {
+        flexGrow: this.props.flexGrow as number,
         margin: '10px 10px',
-        width: '450px',
+        minWidth: '200px',
+        maxWidth: '500px',
         border: '0.5px solid lightgray',
         borderColor: this.props.uiState.getKolhoosiTheme().palette.borderColor,
-        boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
+        boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)',
+        // flex: '1 auto'
     };
 
     innerContainerHeaderStyles = {
+        font: 'Times New Roman',
         textAlign: 'center',
         background: this.props.uiState.getKolhoosiTheme().palette.primary1Color,
         // background: '-webkit-linear-gradient(90deg, rgba(255,0,37,1) 0%, rgba(222,15,0,1) 100%)',
         paddingTop: '5px',
-        color: 'white'
+        color: 'white',
+        minHeight: '40px',
+        fontSize: '18px'
     };
 
     innerContainerContentStyles = {
-        padding: '20px',
+        padding: '10px',
         overflowY: 'auto' as 'auto',
+        minHeight: '300px',
         maxHeight: '300px',
         color: this.props.uiState.getKolhoosiTheme().palette.textColor,
         background: this.props.uiState.getKolhoosiTheme().palette.canvasColor
@@ -131,21 +143,23 @@ export class DashboardItemContainer extends React.Component<{ title: string, uiS
     }
     render() {
         return (
-            <div style={this.innerContainerStyles}>
+            <Paper style={this.innerContainerStyles}>
                 <div
                     id="otsikkorivi"
                     style={this.innerContainerHeaderStyles}
                 >
-                    {this.props.title}
+                    <div style={{ marginTop: '5px' }}>
+                        {this.props.title}
+                    </div>
                     <div style={{ float: 'right', marginRight: '10px' }}>
                         <span style={{ cursor: 'pointer' }} onClick={this.toggleOpen}>_</span>
                     </div>
-                    <hr />
+
                 </div>
                 <div style={this.getInnerContainerContentStyles()}>
                     {this.props.children}
                 </div>
-            </div>
+            </Paper>
         );
     }
 }

@@ -1,6 +1,6 @@
 import { Refund } from '../../../store/models/refund';
 import * as React from 'react';
-import { RaisedButton, Paper } from 'material-ui';
+import { FlatButton, RaisedButton, Paper } from 'material-ui';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 
 interface RefundRowProps {
@@ -20,52 +20,62 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                     <div
                         style={{ padding: '10px' }}
                     >
-                        <table style={{ width: '100%', fontSize: '11px' }}>
+                        <table style={{ width: '100%', fontSize: '16px' }}>
                             <thead>
                                 <tr style={{ textAlign: 'left' }}>
-                                    <th>From</th><th>To</th><th>Amount</th>
+                                    <th>To</th><th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{this.props.refund.from}</td>
                                     <td>{this.props.refund.to}</td>
                                     <td>{currencyFormatter.format(this.props.refund.amount)}</td>
                                 </tr>
                             </tbody>
                         </table>
-                        <RaisedButton style={{ float: 'right' }} className={this.props.classIdentifier} onTouchTap={this.handleCancel} label="Cancel" />
+                        <div style={{ overflow: 'hidden' }}>
+                            <div style={{ float: 'right' }} >
+                                <FlatButton primary={true} className={this.props.classIdentifier} onTouchTap={this.handleCancel} label="Cancel" />
+                            </div>
+                        </div>
                     </div>
                 </Paper>
             );
         } else {
             return (
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>From</th><th>To</th><th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{this.props.refund.from}</td>
-                                <td>{this.props.refund.to}</td>
-                                <td>{currencyFormatter.format(this.props.refund.amount)}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <RaisedButton
-                        className={'accept_' + this.props.classIdentifier + '_button'}
-                        label="Accept"
-                        onTouchTap={this.handleAccept}
-                    />
-                    <RaisedButton
-                        className={'reject_' + this.props.classIdentifier + '_button'}
-                        onTouchTap={this.handleReject}
-                        label="Reject"
-                    />
-                </div>
+                <Paper>
+                    <div style={{ padding: '10px' }}>
+                        <table style={{ width: '100%', fontSize: '14px' }}>
+                            <thead>
+                                <tr style={{ textAlign: 'left' }}>
+                                    <th>From</th><th>Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{this.props.refund.from}</td>
+                                    <td>{currencyFormatter.format(this.props.refund.amount)}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style={{ overflow: 'hidden' }}>
+                            <div style={{ float: 'right' }} >
+                                <FlatButton
+                                    labelStyle={{ color: 'green' }}
+                                    className={'accept_' + this.props.classIdentifier + '_button'}
+                                    label="Accept"
+                                    onTouchTap={this.handleAccept}
+                                />
+                                <FlatButton
+                                    primary={true}
+                                    className={'reject_' + this.props.classIdentifier + '_button'}
+                                    onTouchTap={this.handleReject}
+                                    label="Reject"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Paper>
             );
         }
     }

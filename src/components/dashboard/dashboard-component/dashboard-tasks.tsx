@@ -69,7 +69,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
         }
 
         return (
-            <div>
+            <div style={{ minWidth: '150px' }}>
                 {this.props.task.name}<br />
                 <small>{when_to_do}</small><br />
                 <CompleteButton

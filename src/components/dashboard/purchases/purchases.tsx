@@ -51,7 +51,7 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
                         <h1> Purchases </h1>
                         <h4> Total Purchases: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_total)} </h4>
                         <h4> Average per user: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_avg)} </h4>
-                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="budget">
+                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="budget" flexGrow={2}>
                             <Table>
                                 <TableHeader
                                     displaySelectAll={false}
@@ -72,10 +72,10 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
                                 </TableBody>
                             </Table><br />
                         </DashboardItemContainer>
-                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase">
+                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase" flexGrow={2}>
                             {creator}
                         </DashboardItemContainer>
-                        <DashboardItemContainer title="Refunds" uiState={this.props.mainState.uiState} >
+                        <DashboardItemContainer title="Refunds" uiState={this.props.mainState.uiState} flexGrow={1}>
                             <RefundPanel mainState={this.props.mainState} />
                         </DashboardItemContainer>
                     </div>
