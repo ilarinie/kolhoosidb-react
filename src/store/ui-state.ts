@@ -31,8 +31,8 @@ export class UiState {
   }
 
   @action
-  async getDashboardContents() {
-    if (this.dashboardDataRefreshed && this.dashboardDataRefreshed + 60000 > Date.now()) {
+  async getDashboardContents(force: boolean) {
+    if (!force && this.dashboardDataRefreshed && this.dashboardDataRefreshed + 60000 > Date.now()) {
       return;
     }
     this.dataLoading = true;

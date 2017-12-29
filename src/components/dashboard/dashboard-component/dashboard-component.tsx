@@ -22,7 +22,7 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
     };
 
     componentDidMount() {
-        this.props.mainState.uiState.getDashboardContents();
+        this.props.mainState.uiState.getDashboardContents(false);
     }
 
     getFeed = () => {
