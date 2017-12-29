@@ -50,6 +50,7 @@ export class CommuneState {
   async selectCommune(id: number) {
     try {
       this.selectedCommune = await ApiService.get('communes/' + id);
+      this.mainState.uiState.getDashboardContents(true);
       this.communeSelected = true;
       createBrowserHistory.push('/');
     } catch (error) {
