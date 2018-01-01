@@ -5,6 +5,7 @@ import { User } from '../../../store/models/user';
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { RefundRow } from './refund-row';
 
 interface RefundPanelProps {
     mainState: MainState;
@@ -54,64 +55,14 @@ export class RefundPanel extends React.Component<RefundPanelProps, {}> {
         ));
         return (
             <div>
-                <h3>Sent Refunds</h3>
-                {sent_refunds}
-                <h3>Received Refunds</h3>
-                {received_refunds}
-                <h3>New Refund</h3>
+                <h4>New Refund</h4>
                 <RefundCreator users={combined} handleSubmit={this.submitRefund} />
+                <h4>Sent Refunds</h4>
+                {sent_refunds}
+                <h4>Received Refunds</h4>
+                {received_refunds}
             </div>
         );
-    }
-}
-
-interface RefundRowProps {
-    refund: Refund;
-    sent: boolean;
-    classIdentifier: string;
-    handleCancel?: any;
-    handleAccept?: any;
-    handleReject?: any;
-}
-
-export class RefundRow extends React.Component<RefundRowProps, {}> {
-    render() {
-        if (this.props.sent) {
-            return (
-                <div>
-                    {this.props.refund.from} --> {this.props.refund.to}: {this.props.refund.amount} €
-                    <RaisedButton className={this.props.classIdentifier} onTouchTap={this.handleCancel} label="Cancel" />
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    {this.props.refund.from} --> {this.props.refund.to}: {this.props.refund.amount} €
-                    <RaisedButton
-                        className={'accept_' + this.props.classIdentifier + '_button'}
-                        label="Accept"
-                        onTouchTap={this.handleAccept}
-                    />
-                    <RaisedButton
-                        className={'reject_' + this.props.classIdentifier + '_button'}
-                        onTouchTap={this.handleReject}
-                        label="Reject"
-                    />
-                </div>
-            );
-        }
-    }
-
-    handleCancel = () => {
-        this.props.handleCancel(this.props.refund);
-    }
-
-    handleAccept = () => {
-        this.props.handleAccept(this.props.refund);
-    }
-
-    handleReject = () => {
-        this.props.handleReject(this.props.refund);
     }
 }
 
@@ -177,7 +128,7 @@ export class RefundCreator extends React.Component<RefundCreatorProps, { refund:
                         onChange={this.handleChange}
                         value={refund.amount}
                     /><br />
-                    <RaisedButton className="submit-refund-button" label="Submit" type="submit" />
+                    <RaisedButton className="submit-refund-button" label="Create" type="submit" />
                 </ValidatorForm>
             </div>
         );
