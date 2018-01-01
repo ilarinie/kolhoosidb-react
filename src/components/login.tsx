@@ -19,13 +19,13 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
     containerStyle = {
         width: '370px',
         maxWidth: '95vw',
-        minHeight: '400px',
+        minHeight: '525px',
         margin: '20px auto',
         textAlign: 'center'
     };
 
     paperStyles = {
-        height: '450px',
+        height: '500px',
         color: 'gray'
     };
 
@@ -58,13 +58,21 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                     <Paper style={this.paperStyles} rounded={true} zDepth={2}>
                         <img style={{ width: '100%' }} src={logo} />
                         <h4>Log in</h4>
-                        <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
                         <form onSubmit={this.login}>
-                            <FaUser />
-                            <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" />
-                            <br />
-                            <FaLock />
-                            <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
+                            <div className="fieldContainer">
+                                <FaUser />
+                                <TextField
+                                    style={this.textFieldStyle}
+                                    id="username"
+                                    type="text"
+                                    hintText="Username"
+                                    errorText={this.props.mainState.uiState.loginError.message}
+                                />
+                            </div>
+                            <div className="fieldContainer">
+                                <FaLock />
+                                <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
+                            </div>
                             <br /><br />
                             <SubmitButton
                                 className="login-button"
