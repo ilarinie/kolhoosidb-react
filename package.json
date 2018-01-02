@@ -28,6 +28,7 @@
     "react-router-dom": "^4.1.2",
     "react-router-transition": "^0.1.1",
     "react-scripts-ts": "2.5.0",
+    "react-table": "^6.7.6",
     "react-tap-event-plugin": "^2.0.1",
     "react-test-renderer": "^15.6.1",
     "react-translate": "^5.0.0",

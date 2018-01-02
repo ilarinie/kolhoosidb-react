@@ -11,13 +11,24 @@ import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 import { DashboardItemContainer } from '../dashboard-component/dashboard-component';
 import { RefundPanel } from './refunds';
+import { PurchaseList } from './purchaselist';
 
 @inject('mainState')
 @observer
 export class PurchasesComponent extends React.Component<{ mainState: MainState }, {}> {
 
+    mainContainerStyles = {
+        display: 'flex',
+        alignItems: 'flex-start' as 'flex-start',
+        flexWrap: 'wrap' as 'wrap',
+        justifyContent: 'flex-start' as 'flex-start',
+        minHeight: '100vh',
+        background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
+    };
+
     componentDidMount() {
         this.props.mainState.purchaseState.getBudget();
+        this.props.mainState.purchaseState.getPurchases();
     }
 
     render() {
@@ -47,11 +58,20 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
 
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
                 <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
-                    <div>
-                        <h1> Purchases </h1>
-                        <h4> Total Purchases: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_total)} </h4>
-                        <h4> Average per user: {currencyFormatter.format(this.props.mainState.communeState.selectedCommune.budget.commune_avg)} </h4>
-                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="budget">
+                    <div style={this.mainContainerStyles}>
+                        <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="Purchases" maxHeight="600px">
+                            <PurchaseList
+                                purchases={this.props.mainState.communeState.selectedCommune.purchases}
+                                current_user_id={this.props.mainState.userState.current_user.id}
+                                deletePurchase={this.deletePurchase}
+                                totalPurchases={this.props.mainState.communeState.selectedCommune.budget.commune_total}
+                                averagePurchase={this.props.mainState.communeState.selectedCommune.budget.commune_avg}
+                            />
+                        </DashboardItemContainer>
+                        <DashboardItemContainer maxHeight="600px" title="Refunds" uiState={this.props.mainState.uiState} >
+                            <RefundPanel mainState={this.props.mainState} />
+                        </DashboardItemContainer>
+                        <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="budget" width="600px">
                             <Table>
                                 <TableHeader
                                     displaySelectAll={false}
@@ -75,9 +95,6 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
                         <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase">
                             {creator}
                         </DashboardItemContainer>
-                        <DashboardItemContainer title="Refunds" uiState={this.props.mainState.uiState} >
-                            <RefundPanel mainState={this.props.mainState} />
-                        </DashboardItemContainer>
                     </div>
                 </ComponentThemeWrapper>
             </LoadingScreen>
@@ -86,5 +103,9 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
 
     submitPurchase = (purchase: Purchase) => {
         this.props.mainState.purchaseState.createPurchase(purchase);
+    }
+
+    deletePurchase = (purchase: Purchase) => {
+        this.props.mainState.purchaseState.deletePurchase(purchase);
     }
 }
