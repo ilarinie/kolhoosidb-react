@@ -16,11 +16,11 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
     render() {
         if (this.props.sent) {
             return (
-                <Paper>
+                <div>
                     <div
                         style={{ padding: '10px' }}
                     >
-                        <table style={{ width: '100%', fontSize: '16px' }}>
+                        <table style={{ width: '100%', fontSize: '15px', color: '#424242' }}>
                             <thead>
                                 <tr style={{ textAlign: 'left' }}>
                                     <th>To</th><th>Amount</th>
@@ -28,7 +28,7 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{this.props.refund.to}</td>
+                                    <td style={{ width: '200px' }}>{this.props.refund.to}</td>
                                     <td>{currencyFormatter.format(this.props.refund.amount)}</td>
                                 </tr>
                             </tbody>
@@ -39,11 +39,12 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                             </div>
                         </div>
                     </div>
-                </Paper>
+                    <hr />
+                </div>
             );
         } else {
             return (
-                <Paper>
+                <div>
                     <div style={{ padding: '10px' }}>
                         <table style={{ width: '100%', fontSize: '14px' }}>
                             <thead>
@@ -75,7 +76,7 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                             </div>
                         </div>
                     </div>
-                </Paper>
+                </div>
             );
         }
     }

@@ -12,6 +12,7 @@ import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 import { DashboardItemContainer } from '../dashboard-component/dashboard-component';
 import { RefundPanel } from './refunds';
 import { PurchaseList } from './purchaselist';
+import { BudgetRow } from '../dashboard-component/dashboard_purchases';
 
 @inject('mainState')
 @observer
@@ -44,22 +45,20 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
         }
 
         let rows = null;
-        if (this.props.mainState.communeState.selectedCommune.budget && this.props.mainState.communeState.selectedCommune.budget.users) {
-            rows = this.props.mainState.communeState.selectedCommune.budget.users.map((user, index) => (
-                <TableRow key={index}>
-                    <TableRowColumn>{user.name}</TableRowColumn>
-                    <TotalColumn total={user.total} />
-                    <DiffColumn diff={(user.total - this.props.mainState.communeState.selectedCommune.budget.commune_avg)} />
-                </TableRow>
-            ));
-        }
+        rows = this.props.mainState.communeState.selectedCommune.budget.users.map((user, index) => (
+            <BudgetRow
+                user={user}
+                key={index}
+                diff={(user.total - this.props.mainState.communeState.selectedCommune.budget.commune_avg)}
+            />
+        ));
 
         return (
 
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
                 <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
                     <div style={this.mainContainerStyles}>
-                        <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="Purchases" maxHeight="600px">
+                        <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="Purchases" maxHeight="1000px">
                             <PurchaseList
                                 purchases={this.props.mainState.communeState.selectedCommune.purchases}
                                 current_user_id={this.props.mainState.userState.current_user.id}
@@ -71,26 +70,8 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
                         <DashboardItemContainer maxHeight="600px" title="Refunds" uiState={this.props.mainState.uiState} >
                             <RefundPanel mainState={this.props.mainState} />
                         </DashboardItemContainer>
-                        <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="budget" width="600px">
-                            <Table>
-                                <TableHeader
-                                    displaySelectAll={false}
-                                    enableSelectAll={false}
-                                    adjustForCheckbox={false}
-                                >
-                                    <TableRow>
-                                        <TableHeaderColumn>Name</TableHeaderColumn>
-                                        <TableHeaderColumn>Total Purchases</TableHeaderColumn>
-                                        <TableHeaderColumn>Differential</TableHeaderColumn>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody
-                                    displayRowCheckbox={false}
-                                    stripedRows={false}
-                                >
-                                    {rows}
-                                </TableBody>
-                            </Table><br />
+                        <DashboardItemContainer padding="30px" uiState={this.props.mainState.uiState} title="budget" width="600px">
+                            {rows}
                         </DashboardItemContainer>
                         <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase">
                             {creator}

@@ -5,6 +5,7 @@ import 'react-table/react-table.css';
 import { FlatButton } from 'material-ui';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { Checkbox } from 'material-ui';
+import TiCancel from 'react-icons/lib/ti/cancel';
 
 const getAveragePurchase = (purchases: any[]): number => {
     let sum = 0;
@@ -28,6 +29,11 @@ interface PurchaseListState {
 }
 
 export class PurchaseList extends React.Component<PurchaseListProps, PurchaseListState> {
+
+    columnStyle = {
+        padding: '15px 5px',
+        font: 'Roboto Sans',
+    };
 
     columns = [
         {
@@ -79,9 +85,21 @@ export class PurchaseList extends React.Component<PurchaseListProps, PurchaseLis
         }
     ];
 
+    getColumnStyle = () => {
+        return { style: this.columnStyle };
+    }
+
+    getTableStyle = () => {
+        return {
+            style: {
+                color: '#424242'
+            }
+        };
+    }
+
     render() {
         return (
-            <div>
+            <div style={{ marginTop: '-5px' }}>
                 <ReactTable
                     data={this.props.purchases}
                     columns={this.columns}
@@ -95,6 +113,9 @@ export class PurchaseList extends React.Component<PurchaseListProps, PurchaseLis
                             deletePurchase={this.props.deletePurchase}
                         />
                     )}
+                    getTdProps={this.getColumnStyle}
+                    getThProps={this.getColumnStyle}
+                    getTableProps={this.getTableStyle}
                 />
             </div>
         );
@@ -114,8 +135,8 @@ interface PurchaseDetailsState {
 export class PurchaseDetails extends React.Component<PurchaseDetailsProps, PurchaseDetailsState> {
 
     subComponentStyles = {
-        padding: '5px',
-        fontSize: '11px'
+        padding: '15px 15px',
+        fontSize: '13px'
     };
 
     render() {
@@ -125,6 +146,7 @@ export class PurchaseDetails extends React.Component<PurchaseDetailsProps, Purch
                 <FlatButton
                     onTouchTap={this.deletePurchase}
                     label="Delete"
+                    icon={<TiCancel style={{ color: 'red' }} />}
                     primary={true}
                     style={{ float: 'right' }}
                 />
