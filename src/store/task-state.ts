@@ -3,6 +3,7 @@ import { Task } from './models/task';
 import * as ApiService from './api-service';
 import { KolhoosiError } from './error';
 import { action, observable } from 'mobx';
+import { TaskCompletion } from './models/task_completion';
 
 export class TaskState {
     mainState: MainState;
@@ -88,6 +89,17 @@ export class TaskState {
         }
     }
 
+    @action
+    async deleteTaskCompletion(completion: TaskCompletion): Promise<any> {
+        try {
+            const commune_id = this.getSelectedCommuneId();
+            await ApiService.destroy(`communes/${commune_id}/task_completions/${completion.id}`);
+        } catch (error) {
+            this.mainState.uiState.showDashboardError(error.message);
+        } finally {
+            this.taskLoading = 0;
+        }
+    }
     findTaskIndex = (task: Task) => {
         return this.mainState.communeState.selectedCommune.tasks.findIndex(t => t.id === task.id);
     }

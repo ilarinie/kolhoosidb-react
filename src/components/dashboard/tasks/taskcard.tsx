@@ -2,10 +2,11 @@ import * as React from 'react';
 import { Task } from '../../../store/models/task';
 import { CardActions, Card, CardHeader, CardText } from 'material-ui/Card';
 import * as moment from 'moment';
-import { RaisedButton } from 'material-ui';
+import { RaisedButton, FlatButton } from 'material-ui';
 import { FaCheck, FaSpinner } from 'react-icons/lib/fa';
+import { TaskCompletion } from '../../../store/models/task_completion';
 
-export class TaskCard extends React.Component<{ completeTask: any, task: Task }, { loading: boolean }> {
+export class TaskCard extends React.Component<{ completeTask: any, task: Task, current_user_id: number, deleteTaskCompletion: any }, { loading: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -15,9 +16,12 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task },
         this.completeTask.bind(this);
     }
 
+    deleteTaskCompletion = (completion: TaskCompletion) => {
+        this.props.deleteTaskCompletion(completion);
+    }
     render() {
         let completions = this.props.task.completions.map((completion, index) => (
-            <li key={index}>{completion.name} - {completion.created_at}</li>
+            <CompletionRow key={index} completion={completion} deleteTaskCompletion={this.deleteTaskCompletion} current_user_id={this.props.current_user_id} />
         ));
         let latest_completion = null;
         if (this.props.task.completions.length !== 0) {
@@ -57,6 +61,25 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task },
         });
     }
 
+}
+
+class CompletionRow extends React.Component<{ completion: TaskCompletion, current_user_id: number, deleteTaskCompletion: any }, { completed: boolean }> {
+    getHumanDate = (dateString: Date) => {
+        let date = new Date(dateString);
+        return date.toLocaleString();
+    }
+
+    deleteTaskCompletion = () => {
+        this.props.deleteTaskCompletion(this.props.completion);
+    }
+    render() {
+        return (
+            <div>
+                <p>{this.props.completion.name} at {this.getHumanDate(this.props.completion.created_at)} </p>
+                {this.props.completion.user_id === this.props.current_user_id ? <FlatButton label="Delete" onTouchTap={this.deleteTaskCompletion} /> : null}
+            </div>
+        );
+    }
 }
 
 class CompleteButton extends React.Component<{ loading: boolean, label: string, completeTask: any, taskName: string }, { completed: boolean }> {
