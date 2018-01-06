@@ -5,7 +5,10 @@ import * as moment from 'moment';
 import { RaisedButton, FlatButton } from 'material-ui';
 import { FaCheck, FaSpinner } from 'react-icons/lib/fa';
 import { TaskCompletion } from '../../../store/models/task_completion';
+import { observer } from 'mobx-react';
+import { parseLocale } from '../../../domain/formatter/localeParser';
 
+@observer
 export class TaskCard extends React.Component<{ completeTask: any, task: Task, current_user_id: number, deleteTaskCompletion: any }, { loading: boolean }> {
 
     constructor(props: any) {
@@ -25,7 +28,7 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task, c
         ));
         let latest_completion = null;
         if (this.props.task.completions.length !== 0) {
-            let comp = this.props.task.completions[this.props.task.completions.length - 1];
+            let comp = this.props.task.completions[0];
             latest_completion = <div><b> Last done by: </b> {comp.name}  - {moment(moment(comp.created_at).subtract(30, 'seconds')).fromNow()}</div>;
         } else {
             latest_completion = <div>Never done yet </div>;
@@ -46,9 +49,8 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task, c
                     <CompleteButton taskName={this.props.task.name} loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
                 </CardActions>
                 <CardText expandable={true}>
-                    <ul>
-                        {completions}
-                    </ul>
+                    <p><b>Latest completions</b></p>
+                    {completions}
                 </CardText>
             </Card>
         );
@@ -65,8 +67,9 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task, c
 
 class CompletionRow extends React.Component<{ completion: TaskCompletion, current_user_id: number, deleteTaskCompletion: any }, { completed: boolean }> {
     getHumanDate = (dateString: Date) => {
+        let language = navigator.language;
         let date = new Date(dateString);
-        return date.toLocaleString();
+        return date.toLocaleString(parseLocale());
     }
 
     deleteTaskCompletion = () => {
@@ -75,8 +78,12 @@ class CompletionRow extends React.Component<{ completion: TaskCompletion, curren
     render() {
         return (
             <div>
-                <p>{this.props.completion.name} at {this.getHumanDate(this.props.completion.created_at)} </p>
-                {this.props.completion.user_id === this.props.current_user_id ? <FlatButton label="Delete" onTouchTap={this.deleteTaskCompletion} /> : null}
+                <p>{this.props.completion.name}<br />
+                    @ {this.getHumanDate(this.props.completion.created_at)} </p>
+                {this.props.completion.user_id === this.props.current_user_id ?
+                    <FlatButton primary={true} style={{ float: 'right', marginTop: '-50px' }} label="Delete" onTouchTap={this.deleteTaskCompletion} />
+                    : null}
+                <hr />
             </div>
         );
     }
