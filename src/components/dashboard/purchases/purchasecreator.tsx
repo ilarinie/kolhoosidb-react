@@ -1,6 +1,6 @@
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
-import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card } from 'material-ui';
+import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card, FlatButton } from 'material-ui';
 import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
 import { KolhoosiCardTitle } from '../../util/card-title';
@@ -17,9 +17,16 @@ interface PurchaseCreatorProps {
 export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { purchase: Purchase }> {
 
     textFieldStyle = {
-        width: '95%'
+        width: '150px',
     };
 
+    descriptionFieldStyle = {
+        width: '350px'
+    };
+
+    selectStyle = {
+        width: '150px',
+    };
     constructor(props: any) {
         super(props);
         let purchase: any = {};
@@ -41,40 +48,46 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
             ));
         }
         return (
-            <div>
-                <h2>Create a new purchase</h2>
+            <div style={{ color: '#424242' }}>
+                <p>Create a new purchase</p>
                 <ValidatorForm
                     onSubmit={this.handleSubmit}
                 >
-                    <TextValidator
-                        style={this.textFieldStyle}
-                        name="amount"
-                        type="number"
-                        floatingLabelText="Amount"
-                        onChange={this.handleChange}
-                        value={purchase.amount}
-                    /><FaEur /><br />
-                    <TextValidator
-                        style={this.textFieldStyle}
-                        name="description"
-                        type="text"
-                        floatingLabelText="Description"
-                        onChange={this.handleChange}
-                        value={purchase.description}
-                    /><br />
+                    <div style={{ float: 'left ', marginRight: '30px' }}>
+                        <TextValidator
+                            style={this.textFieldStyle}
+                            name="amount"
+                            type="number"
+                            floatingLabelText="Amount"
+                            onChange={this.handleChange}
+                            value={purchase.amount}
+                            validators={['required']}
+                        /><FaEur />
+                    </div>
                     <SelectField
                         className="purchase-category-selector"
-                        style={this.textFieldStyle}
+                        style={this.selectStyle}
                         floatingLabelText="Category"
                         value={purchase.purchase_category_id}
                         onChange={this.handleCatChange}
                     >
                         {cats}
-                    </SelectField><br />
-                    <RaisedButton
+                    </SelectField><br /><br />
+                    <TextValidator
+                        style={this.descriptionFieldStyle}
+                        name="description"
+                        type="text"
+                        floatingLabelText="Description"
+                        onChange={this.handleChange}
+                        value={purchase.description}
+                        validators={['required']}
+                    /><br />
+
+                    <FlatButton
                         label="Create"
                         type="submit"
                         className="create-purchase-button"
+                        style={{ color: 'green' }}
                     />
 
                 </ValidatorForm>

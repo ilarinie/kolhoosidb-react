@@ -20,14 +20,11 @@ export class PurchaseState {
     @action
     async getBudget() {
         try {
-            this.mainState.uiState.dataLoading = true;
             let budget = await ApiService.get(`communes/${this.selectedCommuneId()}/budget`);
             budget.users.sort((a, b) => { return b.total - a.total; });
             this.mainState.communeState.selectedCommune.budget = budget;
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
-        } finally {
-            this.mainState.uiState.dataLoading = false;
         }
     }
 
@@ -46,6 +43,7 @@ export class PurchaseState {
             await ApiService.post(`communes/${this.selectedCommuneId()}/purchases`, { purchase: purchase });
             this.mainState.uiState.showDashboardError('Purchase created.');
             this.getBudget();
+            this.getPurchases();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         }
@@ -64,10 +62,19 @@ export class PurchaseState {
     @action
     async deletePurchase(purchase: Purchase) {
         try {
-            await ApiService.destroy(`communes/${this.selectedCommuneId()}/${purchase.id}`);
+            await ApiService.destroy(`communes/${this.selectedCommuneId()}/purchases/${purchase.id}`);
+            this.removePurchase(purchase);
             this.mainState.uiState.showDashboardError('Purchase deleted.');
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
+        }
+    }
+
+    @action
+    removePurchase(purchase: Purchase) {
+        let index = this.mainState.communeState.selectedCommune.purchases.indexOf(purchase);
+        if (index !== -1) {
+            this.mainState.communeState.selectedCommune.purchases.splice(index, 1);
         }
     }
 
