@@ -7,7 +7,7 @@ import FaUser from 'react-icons/lib/fa/user';
 export interface KolhoosiNavItemProps {
     path: string;
     text: string;
-    onTouchTap: any;
+    onClick: any;
     disabled: boolean;
     icon: any;
     iconColor: string;
@@ -19,7 +19,7 @@ export class KolhoosiNavItem extends React.Component<KolhoosiNavItemProps, {}> {
             <Link className={this.props.className} to={this.props.path} style={{ textDecoration: 'none' }}>
                 <MenuItem
                     disabled={this.props.disabled}
-                    onTouchTap={this.props.onTouchTap}
+                    onClick={this.props.onClick}
                     leftIcon={this.props.icon}
                 >
                     {this.props.text}

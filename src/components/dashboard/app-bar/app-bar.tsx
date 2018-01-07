@@ -39,7 +39,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         disabled={false}
                         path="/admin_panel"
                         text="Manage Commune"
-                        onTouchTap={this.handleClose}
+                        onClick={this.handleClose}
                         icon={<FaLock />}
                         iconColor="lightgray"
                         className="admin-panel-link"
@@ -61,7 +61,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         disabled={!this.props.mainState.communeState.communeSelected}
                         path="/"
                         text="Dashboard"
-                        onTouchTap={this.handleClose}
+                        onClick={this.handleClose}
                         icon={<FaDashboard />}
                         iconColor="lightgray"
                         className="dashboard-link"
@@ -70,7 +70,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         disabled={!this.props.mainState.communeState.communeSelected}
                         path="/tasks"
                         text="Tasks"
-                        onTouchTap={this.handleClose}
+                        onClick={this.handleClose}
                         icon={<FaTasks />}
                         iconColor="lightgray"
                         className="tasks-link"
@@ -79,7 +79,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         disabled={!this.props.mainState.communeState.communeSelected}
                         path="/purchases"
                         text="Purchases"
-                        onTouchTap={this.handleClose}
+                        onClick={this.handleClose}
                         iconColor="lightgray"
                         icon={<FaEur />}
                         className="purchases-link"
@@ -91,7 +91,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         disabled={false}
                         path="/profile"
                         text="Profile"
-                        onTouchTap={this.handleClose}
+                        onClick={this.handleClose}
                         icon={<FaUser />}
                         iconColor="lightgray"
                         className="profile-link"
@@ -99,14 +99,14 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                     <MenuItem
                         leftIcon={<FaStarO />}
                         primaryText="Switch Communes"
-                        onTouchTap={this.deselectCommune}
+                        onClick={this.deselectCommune}
                         className="commune-switch-link"
                     />
                     <MenuItem
                         leftIcon={<FaSignOut />}
                         primaryText="Log Out"
                         className="logout-link"
-                        onTouchTap={this.logout}
+                        onClick={this.logout}
                     />
                 </Drawer>
             </div>

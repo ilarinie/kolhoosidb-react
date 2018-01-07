@@ -17,7 +17,7 @@ export class SetDefaultCommuneComponent extends React.Component<SetDefaultCommun
     constructor(props: any) {
         super(props);
         this.state = {
-            id: this.props.user.default_commune_id || 0
+            id: this.props.user.default_commune_id ||  0
         };
     }
 
@@ -45,8 +45,8 @@ export class SetDefaultCommuneComponent extends React.Component<SetDefaultCommun
                 </SelectField><br />
                 <RaisedButton
                     label="Set"
-                    onTouchTap={this.setDefaultCommune}
-                />    
+                    onClick={this.setDefaultCommune}
+                />
             </div>
         );
     }

@@ -78,7 +78,7 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                                 type="submit"
                                 loading={this.props.mainState.uiState.loginLoading}
                                 label="Log In"
-                                onTouchTap={this.login}
+                                onClick={this.login}
                             /><br /><br />
                         </form>
                         <a style={{ textDecoration: 'none' }} href="#" onClick={this.forgotPw} >Forgot password?</a>

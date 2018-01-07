@@ -52,7 +52,7 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
                     <RaisedButton
                         className="new-purchase-button"
                         style={{ width: '100%', margin: '0 auto' }}
-                        onTouchTap={this.openDialog}
+                        onClick={this.openDialog}
                     >
                         <FaPlus /> Add a Purchase
                     </RaisedButton>

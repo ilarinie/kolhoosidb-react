@@ -35,7 +35,7 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                         </table>
                         <div style={{ overflow: 'hidden' }}>
                             <div style={{ float: 'right' }} >
-                                <FlatButton primary={true} className={this.props.classIdentifier} onTouchTap={this.handleCancel} label="Cancel" />
+                                <FlatButton primary={true} className={'cancel_' + this.props.classIdentifier + '_button'} onClick={this.handleCancel} label="Cancel" />
                             </div>
                         </div>
                     </div>
@@ -65,12 +65,12 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                                     labelStyle={{ color: 'green' }}
                                     className={'accept_' + this.props.classIdentifier + '_button'}
                                     label="Accept"
-                                    onTouchTap={this.handleAccept}
+                                    onClick={this.handleAccept}
                                 />
                                 <FlatButton
                                     primary={true}
                                     className={'reject_' + this.props.classIdentifier + '_button'}
-                                    onTouchTap={this.handleReject}
+                                    onClick={this.handleReject}
                                     label="Reject"
                                 />
                             </div>

@@ -82,7 +82,7 @@ class CompleteButton extends React.Component<{ loading: boolean, label: string, 
             );
         } else {
             return (
-                <RaisedButton className={classIdentifier} label={this.props.label} onTouchTap={this.completeTask} />
+                <RaisedButton className={classIdentifier} label={this.props.label} onClick={this.completeTask} />
             );
         }
     }

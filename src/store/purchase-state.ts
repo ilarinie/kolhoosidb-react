@@ -93,7 +93,7 @@ export class PurchaseState {
     async cancelRefund(refund: Refund) {
         try {
             await ApiService.destroy(`communes/${this.selectedCommuneId()}/refunds/${refund.id}/cancel`);
-            this.mainState.uiState.showDashboardError('Refund cancelled');
+            this.mainState.uiState.showDashboardError('Refund cancelled.');
             this.mainState.userState.getUser();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
@@ -104,9 +104,10 @@ export class PurchaseState {
     async acceptRefund(refund: Refund) {
         try {
             await ApiService.post(`communes/${this.selectedCommuneId()}/refunds/${refund.id}/confirm`, {});
-            this.mainState.uiState.showDashboardError('Refund accepted');
+            this.mainState.uiState.showDashboardError('Refund accepted.');
             this.mainState.userState.getUser();
             this.getBudget();
+            this.getPurchases();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         }
@@ -115,8 +116,8 @@ export class PurchaseState {
     @action
     async rejectRefund(refund: Refund) {
         try {
-            await ApiService.post(`communes/${this.selectedCommuneId}/refunds/${refund.id}/reject`, {});
-            this.mainState.uiState.showDashboardError('Refund rejected');
+            await ApiService.post(`communes/${this.selectedCommuneId()}/refunds/${refund.id}/reject`, {});
+            this.mainState.uiState.showDashboardError('Refund rejected.');
             this.mainState.userState.getUser();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);

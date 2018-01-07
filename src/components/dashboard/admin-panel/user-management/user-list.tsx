@@ -58,7 +58,7 @@ export class UserEntry extends React.Component<{ user: User, removeUser: any }, 
                     expandable={true}
                 >
                     <CardActions>
-                        <RaisedButton onTouchTap={this.removeUser} label="Remove" />
+                        <RaisedButton onClick={this.removeUser} label="Remove" />
                         <RaisedButton className={'promote_user_button_' + this.props.user.username} label="Promote" />
                     </CardActions>
                 </CardText>
@@ -84,7 +84,7 @@ export class AdminEntry extends React.Component<{ user: User, removeUser: any },
                     expandable={true}
                 >
                     <CardActions>
-                        <RaisedButton onTouchTap={this.removeUser} label="Remove" />
+                        <RaisedButton onClick={this.removeUser} label="Remove" />
                         <RaisedButton label="Demote" />
                     </CardActions>
                 </CardText>

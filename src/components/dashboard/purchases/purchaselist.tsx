@@ -144,7 +144,7 @@ export class PurchaseDetails extends React.Component<PurchaseDetailsProps, Purch
         if (this.props.current_user_id === this.props.row.original.user_id && this.props.row.original.category !== 'Refund') {
             deleteButton = (
                 <FlatButton
-                    onTouchTap={this.deletePurchase}
+                    onClick={this.deletePurchase}
                     label="Delete"
                     icon={<TiCancel style={{ color: 'red' }} />}
                     primary={true}

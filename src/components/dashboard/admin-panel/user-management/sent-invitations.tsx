@@ -27,7 +27,7 @@ class InvitationCard extends React.Component<{ invitation: Invitation, cancelInv
                     title={this.props.invitation.username}
                 />
                 <CardActions>
-                    <RaisedButton label="Cancel" onTouchTap={this.cancel} />
+                    <RaisedButton label="Cancel" onClick={this.cancel} />
                 </CardActions>
             </Card>
 

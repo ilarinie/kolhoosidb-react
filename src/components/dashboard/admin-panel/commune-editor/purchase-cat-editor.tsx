@@ -62,7 +62,7 @@ export class PurchaseCategoryEditor extends React.Component<PurchaseCategoryEdit
                             onChange={this.handleChange}
                         />
                         <CardActions>
-                            <RaisedButton label="Create" onTouchTap={this.createCategory} />
+                            <RaisedButton label="Create" onClick={this.createCategory} />
                         </CardActions>
                     </CardText>
                 </Card>
