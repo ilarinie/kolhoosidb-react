@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
+import { RaisedButton } from 'material-ui';
 import { FaStar } from 'react-icons/lib/fa';
 
 export class SubmitButton extends React.Component<{ className?: string, label: string, loading: boolean, onTouchTap?: any, type?: string }, {}> {
@@ -13,7 +13,7 @@ export class SubmitButton extends React.Component<{ className?: string, label: s
             );
         } else {
             return (
-                <RaisedButton className={this.props.className} type={this.props.type || ''} label={this.props.label} onTouchTap={this.props.onTouchTap} >
+                <RaisedButton className={this.props.className} type={this.props.type || ''} label={this.props.label} onClick={this.props.onTouchTap} >
                     {this.props.children}
                 </RaisedButton>
             );
