@@ -20,14 +20,11 @@ export class PurchaseState {
     @action
     async getBudget() {
         try {
-            this.mainState.uiState.dataLoading = true;
             let budget = await ApiService.get(`communes/${this.selectedCommuneId()}/budget`);
             budget.users.sort((a, b) => { return b.total - a.total; });
             this.mainState.communeState.selectedCommune.budget = budget;
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
-        } finally {
-            this.mainState.uiState.dataLoading = false;
         }
     }
 
@@ -46,6 +43,7 @@ export class PurchaseState {
             await ApiService.post(`communes/${this.selectedCommuneId()}/purchases`, { purchase: purchase });
             this.mainState.uiState.showDashboardError('Purchase created.');
             this.getBudget();
+            this.getPurchases();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         }
@@ -64,10 +62,19 @@ export class PurchaseState {
     @action
     async deletePurchase(purchase: Purchase) {
         try {
-            await ApiService.destroy(`communes/${this.selectedCommuneId()}/${purchase.id}`);
+            await ApiService.destroy(`communes/${this.selectedCommuneId()}/purchases/${purchase.id}`);
+            this.removePurchase(purchase);
             this.mainState.uiState.showDashboardError('Purchase deleted.');
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
+        }
+    }
+
+    @action
+    removePurchase(purchase: Purchase) {
+        let index = this.mainState.communeState.selectedCommune.purchases.indexOf(purchase);
+        if (index !== -1) {
+            this.mainState.communeState.selectedCommune.purchases.splice(index, 1);
         }
     }
 
@@ -86,7 +93,7 @@ export class PurchaseState {
     async cancelRefund(refund: Refund) {
         try {
             await ApiService.destroy(`communes/${this.selectedCommuneId()}/refunds/${refund.id}/cancel`);
-            this.mainState.uiState.showDashboardError('Refund cancelled');
+            this.mainState.uiState.showDashboardError('Refund cancelled.');
             this.mainState.userState.getUser();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
@@ -97,9 +104,10 @@ export class PurchaseState {
     async acceptRefund(refund: Refund) {
         try {
             await ApiService.post(`communes/${this.selectedCommuneId()}/refunds/${refund.id}/confirm`, {});
-            this.mainState.uiState.showDashboardError('Refund accepted');
+            this.mainState.uiState.showDashboardError('Refund accepted.');
             this.mainState.userState.getUser();
             this.getBudget();
+            this.getPurchases();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         }
@@ -108,8 +116,8 @@ export class PurchaseState {
     @action
     async rejectRefund(refund: Refund) {
         try {
-            await ApiService.post(`communes/${this.selectedCommuneId}/refunds/${refund.id}/reject`, {});
-            this.mainState.uiState.showDashboardError('Refund rejected');
+            await ApiService.post(`communes/${this.selectedCommuneId()}/refunds/${refund.id}/reject`, {});
+            this.mainState.uiState.showDashboardError('Refund rejected.');
             this.mainState.userState.getUser();
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);

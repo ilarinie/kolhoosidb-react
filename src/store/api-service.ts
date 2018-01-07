@@ -41,7 +41,8 @@ export const put = (path: string, data: object) => {
 };
 
 const handleAxiosError = (error: any) => {
-    if (error.response.status === 401) {
+    console.log('asd');
+    if (error.response && error.response.status === 401) {
         console.log('redirecting to login..');
         mainState.authState.token = '';
         createBrowserHistory.push('/login');
@@ -49,6 +50,10 @@ const handleAxiosError = (error: any) => {
     } else if (error.response) {
         throw new KolhoosiError(error.response.data.message, error.response.data.errors);
     } else {
-        throw new KolhoosiError(error.message, error.errors);
+        if (error.errors) {
+            throw new KolhoosiError(error.message, error.errors);
+        } else {
+            throw new KolhoosiError(error.message, []);
+        }
     }
 };

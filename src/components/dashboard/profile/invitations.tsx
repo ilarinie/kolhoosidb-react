@@ -33,8 +33,8 @@ class InvitationCard extends React.Component<{ invitation: Invitation, accept: a
                     title={this.props.invitation.commune_name}
                 />
                 <CardActions>
-                    <RaisedButton className="accept-invitation-button" label="Accept" onTouchTap={this.handleAccept} />
-                    <RaisedButton label="Reject" onTouchTap={this.handleReject} />
+                    <RaisedButton className="accept-invitation-button" label="Accept" onClick={this.handleAccept} />
+                    <RaisedButton label="Reject" onClick={this.handleReject} />
                 </CardActions>
             </Card>
         );

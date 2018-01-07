@@ -7,7 +7,7 @@ import { assert } from 'chai';
 
 it('renders without crashing', () => {
     const task: Task = new Task();
-    
+
     task.name = 'Test Task';
     task.created_at = new Date();
     task.priority = 23;
@@ -22,6 +22,6 @@ it('renders without crashing', () => {
     const completeTask = (gettask: Task) => {
         console.log(gettask);
     };
-    const wrapper = shallow(<TaskCard completeTask={completeTask} task={task} />);
+    const wrapper = shallow(<TaskCard completeTask={completeTask} task={task} current_user_id={1} deleteTaskCompletion={completeTask} />);
     assert.ok(wrapper);
 });

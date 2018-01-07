@@ -9,7 +9,7 @@ export class CommuneCard extends React.Component<{ commune: Commune, selectCommu
         let deleteButton = null;
         if (this.props.commune.is_owner) {
             deleteButton = (
-                <RaisedButton label="Delete" onTouchTap={this.deleteCommune} backgroundColor="warning" />
+                <RaisedButton label="Delete" onClick={this.deleteCommune} backgroundColor="warning" />
             );
         }
         return (
@@ -19,7 +19,7 @@ export class CommuneCard extends React.Component<{ commune: Commune, selectCommu
                     subtitle={this.props.commune.description}
                 />
                 <CardActions>
-                    <RaisedButton className="select-commune-button" label="Select" onTouchTap={this.selectCommune} />
+                    <RaisedButton className="select-commune-button" label="Select" onClick={this.selectCommune} />
                     {deleteButton}
                 </CardActions>
             </Card>

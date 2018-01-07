@@ -3,10 +3,9 @@ import { MainState, mainState } from '../store/state';
 import { observer, inject } from 'mobx-react';
 import { RegisterComponent } from './register';
 import { User } from '../store/models/user';
-import TextField from 'material-ui/TextField';
+import { TextField, Paper } from 'material-ui';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
-import Paper from 'material-ui/Paper';
 import { Redirect } from 'react-router-dom';
 import { ComponentThemeWrapper } from './util/componentThemeWrapper';
 import { FaUser, FaLock } from 'react-icons/lib/fa';
@@ -19,13 +18,13 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
     containerStyle = {
         width: '370px',
         maxWidth: '95vw',
-        minHeight: '400px',
+        minHeight: '525px',
         margin: '20px auto',
         textAlign: 'center'
     };
 
     paperStyles = {
-        height: '450px',
+        height: '500px',
         color: 'gray'
     };
 
@@ -58,20 +57,28 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                     <Paper style={this.paperStyles} rounded={true} zDepth={2}>
                         <img style={{ width: '100%' }} src={logo} />
                         <h4>Log in</h4>
-                        <SmallErrorDisplay error={this.props.mainState.uiState.loginError} />
                         <form onSubmit={this.login}>
-                            <FaUser />
-                            <TextField style={this.textFieldStyle} id="username" type="text" hintText="Username" />
-                            <br />
-                            <FaLock />
-                            <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
+                            <div className="fieldContainer">
+                                <FaUser />
+                                <TextField
+                                    style={this.textFieldStyle}
+                                    id="username"
+                                    type="text"
+                                    hintText="Username"
+                                    errorText={this.props.mainState.uiState.loginError.message}
+                                />
+                            </div>
+                            <div className="fieldContainer">
+                                <FaLock />
+                                <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
+                            </div>
                             <br /><br />
                             <SubmitButton
                                 className="login-button"
                                 type="submit"
                                 loading={this.props.mainState.uiState.loginLoading}
                                 label="Log In"
-                                onTouchTap={this.login}
+                                onClick={this.login}
                             /><br /><br />
                         </form>
                         <a style={{ textDecoration: 'none' }} href="#" onClick={this.forgotPw} >Forgot password?</a>

@@ -1,9 +1,1 @@
-declare var global: any;
-
-const localStorageMock = {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    clear: jest.fn()
-  };
-
-global.localStorage = localStorageMock;
+require('jest-localstorage-mock');

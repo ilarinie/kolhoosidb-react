@@ -35,6 +35,7 @@ export class UiState {
     if (!force && this.dashboardDataRefreshed && this.dashboardDataRefreshed + 60000 > Date.now()) {
       return;
     }
+    this.dashboardDataRefreshed = Date.now();
     this.dataLoading = true;
     try {
       await Promise.all([
@@ -43,7 +44,7 @@ export class UiState {
         this.mainState.communeState.getTopList(),
         this.mainState.communeState.getFeed()
       ]);
-      this.dashboardDataRefreshed = Date.now();
+
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
     } finally {
@@ -72,7 +73,7 @@ export class UiState {
     } else {
       theme = 'default';
     }
-    switch ( theme ) {
+    switch (theme) {
       case 'darkBase':
         return getMuiTheme(darkBaseTheme);
       case 'lightBase':

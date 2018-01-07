@@ -75,7 +75,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
                 <CompleteButton
                     identifier={this.props.task.name.trim()}
                     loading={this.props.loading}
-                    onTouchTap={this.completeTask}
+                    onClick={this.completeTask}
                     completed={completed}
                     label="DO"
                 />
@@ -92,7 +92,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
 export interface CompleteButtonProps {
     loading: boolean;
     label: string;
-    onTouchTap: any;
+    onClick: any;
     completed: any;
     identifier: string;
 }
@@ -125,7 +125,7 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
             );
         } else {
             return (
-                <RaisedButton className={this.props.identifier} style={{ float: 'right', marginTop: '-37px' }} label={this.props.label} onTouchTap={this.props.onTouchTap} />
+                <RaisedButton className={this.props.identifier} style={{ float: 'right', marginTop: '-37px' }} label={this.props.label} onClick={this.props.onClick} />
             );
         }
 

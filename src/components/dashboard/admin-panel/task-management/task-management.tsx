@@ -23,7 +23,7 @@ export class TaskManagement extends React.Component<{ mainState: MainState }, { 
         ));
         return (
             <div className="full-size-component">
-                <RaisedButton className="new-task-button" label="New Task" onTouchTap={this.createTask} />
+                <RaisedButton className="new-task-button" label="New Task" onClick={this.createTask} />
                 {tasks}
                 <TaskCreator
                     handleClose={this.handleDialogClose}
@@ -87,8 +87,8 @@ export class TaskRow extends React.Component<{ task: Task, editTask: any, delete
                     subtitle={'Priority: ' + this.props.task.priority}
                 />
                 <CardActions>
-                    <RaisedButton label="Edit" onTouchTap={this.editTask} />
-                    <RaisedButton label="Delete" onTouchTap={this.deleteTask} />
+                    <RaisedButton label="Edit" onClick={this.editTask} />
+                    <RaisedButton label="Delete" onClick={this.deleteTask} />
                 </CardActions>
             </Card>
         );

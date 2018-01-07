@@ -23,9 +23,16 @@ export class SmallErrorDisplay extends React.Component<{error: KolhoosiError}, {
         let errors = this.props.error.errors.map((error, index) => (
             <li key={index}><h5>{error}</h5></li>
         ));
+        let message = null;
+        if (this.props.error.message && this.props.error.message.length !== 0) {
+            message = this.props.error.message;
+            if (errors.length !== 0) {
+                message = message + ':';
+            }
+        }
         return (
             <div style={divStyles}>
-                <h4>{this.props.error.message}:</h4>
+                <h4>{message}</h4>
                 <ul style={ulStyles}>
                     {errors}
                 </ul>
