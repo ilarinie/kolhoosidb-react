@@ -3,6 +3,7 @@ import { Task } from './models/task';
 import * as ApiService from './api-service';
 import { KolhoosiError } from './error';
 import { action, observable } from 'mobx';
+import { TaskCompletion } from './models/task_completion';
 
 export class TaskState {
     mainState: MainState;
@@ -78,7 +79,7 @@ export class TaskState {
             this.taskLoading = task.id;
             const commune_id = this.getSelectedCommuneId();
             let completion = await ApiService.post(`communes/${commune_id}/tasks/${task.id}/complete`, {});
-            this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task)].completions.push(completion);
+            this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task.id)].completions.unshift(completion);
             this.mainState.communeState.getTopList();
             this.mainState.communeState.getFeed();
         } catch (error) {
@@ -88,8 +89,29 @@ export class TaskState {
         }
     }
 
-    findTaskIndex = (task: Task) => {
-        return this.mainState.communeState.selectedCommune.tasks.findIndex(t => t.id === task.id);
+    @action
+    async deleteTaskCompletion(completion: TaskCompletion): Promise<any> {
+        try {
+            const commune_id = this.getSelectedCommuneId();
+            await ApiService.destroy(`communes/${commune_id}/task_completions/${completion.id}`);
+            this.deleteTaskCompletionFromTask(completion.task_id, completion.id);
+        } catch (error) {
+            this.mainState.uiState.showDashboardError(error.message);
+        } finally {
+            this.taskLoading = 0;
+        }
+    }
+    findTaskIndex = (task_id: number): number => {
+        return this.mainState.communeState.selectedCommune.tasks.findIndex(t => t.id === task_id);
+    }
+
+    @action
+    deleteTaskCompletionFromTask(task_id: number, completion_id: number) {
+        let completions = this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task_id)].completions;
+        let index = completions.findIndex(t => t.id === completion_id);
+        if (index !== -1) {
+            this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task_id)].completions.splice(index, 1);
+        }
     }
 
 }

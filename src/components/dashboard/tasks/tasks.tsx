@@ -5,6 +5,7 @@ import { observer, inject } from 'mobx-react';
 import { TaskCard } from './taskcard';
 import { Task } from '../../../store/models/task';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
+import { TaskCompletion } from '../../../store/models/task_completion';
 
 @inject('mainState')
 @observer
@@ -21,9 +22,19 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, { 
         this.props.mainState.taskState.getTasks();
     }
 
+    deleteTaskCompletion = (completion: TaskCompletion) => {
+        this.props.mainState.taskState.deleteTaskCompletion(completion);
+    }
+
     render() {
         let tasks = this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => (
-            <TaskCard completeTask={this.completeTask} task={task} key={index} />
+            <TaskCard
+                deleteTaskCompletion={this.deleteTaskCompletion}
+                current_user_id={this.props.mainState.userState.current_user.id}
+                completeTask={this.completeTask}
+                task={task}
+                key={index}
+            />
         ));
         return (
             <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
