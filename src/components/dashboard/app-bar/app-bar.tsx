@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { MainState } from '../../../store/state';
-import AppBar from 'material-ui/AppBar';
+import { AppBar } from 'material-ui';
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
@@ -10,11 +10,12 @@ import { Subheader, FontIcon } from 'material-ui';
 import { observer } from 'mobx-react';
 import { FaCheck, FaDashboard, FaStarO, FaSignOut, FaTasks, FaLock, FaUser, FaEur } from 'react-icons/lib/fa';
 const logo = require('../../../assets/logo.png');
+
 @observer
 export class AppBarComponent extends React.Component<{ mainState: MainState }, { docked: boolean, mobile: boolean, drawerOpen: any }> {
 
-    constructor() {
-        super();
+    constructor(props: any) {
+        super(props);
         this.state = {
             drawerOpen: false,
             docked: false,
@@ -52,7 +53,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
             <div>
                 <AppBar
                     title={communeName}
-                    onLeftIconButtonTouchTap={this.toggleOpenDrawer}
+                    onLeftIconButtonClick={this.toggleOpenDrawer}
                     showMenuIconButton={this.state.mobile}
                 />
                 <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={250} onRequestChange={(open) => this.setState({ drawerOpen: open })}>

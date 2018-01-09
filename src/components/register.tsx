@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { MainState } from '../store/state';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
 import { inject, observer } from 'mobx-react';
 import { SubmitButton } from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';

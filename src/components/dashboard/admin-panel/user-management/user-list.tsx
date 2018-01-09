@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { User } from '../../../../store/models/user';
-import { Card, CardText, CardActions } from 'material-ui';
-import { CardHeader } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import { RaisedButton, Card, CardHeader, CardText, CardActions } from 'material-ui';
 import { FaStar, FaUser } from 'react-icons/lib/fa';
 import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 

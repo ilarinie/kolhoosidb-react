@@ -4,7 +4,8 @@ import { Paper, RaisedButton, MenuItem, SelectField, FlatButton } from 'material
 import { User } from '../../../store/models/user';
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
 import { RefundRow } from './refund-row';
 import { FaEur } from 'react-icons/lib/fa';
 

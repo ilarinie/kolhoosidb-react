@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
 import { User } from '../../../store/models/user';
 import { RaisedButton, Card, CardActions, CardText, CardHeader } from 'material-ui';
 
-export class ProfileForm extends React.Component<{user: User, handleSubmit: any, handleChange: any, handlePwChange: any}, {}> {
+export class ProfileForm extends React.Component<{ user: User, handleSubmit: any, handleChange: any, handlePwChange: any }, {}> {
 
-    render () {
+    render() {
         return (
             <div>
                 <Card>
@@ -39,27 +40,27 @@ export class ProfileForm extends React.Component<{user: User, handleSubmit: any,
                     />
                     <ValidatorForm onSubmit={this.handlePwChange} >
                         <CardText>
-                        <TextValidator
-                            type="password"
-                            name="password"
-                            id="pw"
-                            floatingLabelText="Password"
-                            validators={['required', 'matchRegexp:^.{8,}']}
-                            errorMessages={[ 'Password must be at least 8 characters long.']}
-                        /><br />
-                        <TextValidator
-                            type="password"
-                            name="password_confirmation"
-                            id="pwConf"
-                            floatingLabelText="Password confirmation"
-                        /><br />
+                            <TextValidator
+                                type="password"
+                                name="password"
+                                id="pw"
+                                floatingLabelText="Password"
+                                validators={['required', 'matchRegexp:^.{8,}']}
+                                errorMessages={['Password must be at least 8 characters long.']}
+                            /><br />
+                            <TextValidator
+                                type="password"
+                                name="password_confirmation"
+                                id="pwConf"
+                                floatingLabelText="Password confirmation"
+                            /><br />
                         </CardText>
                         <CardActions>
-                        <RaisedButton label="Change password" type="submit" />
+                            <RaisedButton label="Change password" type="submit" />
                         </CardActions>
                     </ValidatorForm>
                 </Card>
-                
+
             </div>
         );
     }

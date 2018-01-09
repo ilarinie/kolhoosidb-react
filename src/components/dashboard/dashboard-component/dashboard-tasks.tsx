@@ -6,7 +6,7 @@ import { observer, inject } from 'mobx-react';
 import { Task } from '../../../store/models/task';
 // import { Table, TableHeader, TableBody, TableRow, TableRowColumn, TableHeaderColumn, RaisedButton } from 'material-ui';
 import * as moment from 'moment';
-import RaisedButton from 'material-ui/RaisedButton';
+import { RaisedButton } from 'material-ui';
 import { FaSpinner, FaCheck } from 'react-icons/lib/fa';
 import { sortTasks } from '../../../domain/task-sorter';
 

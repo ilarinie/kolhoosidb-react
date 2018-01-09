@@ -97,11 +97,19 @@ export class PurchaseList extends React.Component<PurchaseListProps, PurchaseLis
         };
     }
 
+    getData = () => {
+        let array = [];
+        this.props.purchases.map((purchase, index) => {
+            array.push(purchase);
+        });
+        return array;
+    }
+
     render() {
         return (
             <div style={{ marginTop: '-5px' }}>
                 <ReactTable
-                    data={this.props.purchases}
+                    data={this.getData()}
                     columns={this.columns}
                     defaultPageSize={8}
                     className="-striped -highlight"

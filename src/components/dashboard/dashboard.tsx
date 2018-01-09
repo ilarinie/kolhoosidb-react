@@ -14,6 +14,7 @@ import { ProfileComponent } from './profile/profile';
 import { AdminPanel } from './admin-panel/admin-panel';
 import { DashboardComponent } from './dashboard-component/dashboard-component';
 import { XpScroller } from '../util/xp-scroller';
+import { AnimatedSwitch } from 'react-router-transition';
 
 @inject('mainState')
 @observer
@@ -24,14 +25,24 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
             <div className="dashboard">
                 <AppBarComponent mainState={this.props.mainState} />
                 <div className="content">
-                    <Switch key={location.pathname} >
+                    <AnimatedSwitch
+                        key={location.pathname}
+                        atEnter={{ opacity: 0 }}
+                        atLeave={{ opacity: 0 }}
+                        atActive={{ opacity: 1 }}
+                        className="switch-wrapper"
+                        runOnMount={true}
+                    >
                         <CommuneSelectedRoute exact={true} path="/" component={DashboardComponent} />
                         <CommuneSelectedRoute path="/tasks" component={TasksComponent} />
                         <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
                         <CommuneSelectedRoute path="/admin_panel" component={AdminPanel} />
-                        <Route path="/communelist" component={Communelist} />
+                        <Route
+                            path="/communelist"
+                            component={Communelist}
+                        />
                         <Route path="/profile" component={ProfileComponent} />
-                    </Switch>
+                    </AnimatedSwitch>
                 </div>
                 <KolhoosiSnackBar mainState={this.props.mainState} />
             </div>

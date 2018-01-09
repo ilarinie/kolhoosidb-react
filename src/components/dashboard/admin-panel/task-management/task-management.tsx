@@ -3,8 +3,7 @@ import { MainState } from '../../../../store/state';
 import { Task } from '../../../../store/models/task';
 import { TaskCreator } from './taskcreator';
 import { observer } from 'mobx-react';
-import RaisedButton from 'material-ui/RaisedButton';
-import { CardHeader, CardActions, Card } from 'material-ui/Card';
+import { RaisedButton, CardHeader, CardActions, Card } from 'material-ui';
 
 @observer
 export class TaskManagement extends React.Component<{ mainState: MainState }, { editedTask: Task, dialogOpen: boolean }> {

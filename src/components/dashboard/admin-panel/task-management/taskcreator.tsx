@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { Card, CardText } from 'material-ui/Card';
-import Dialog from 'material-ui/Dialog';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { Dialog } from 'material-ui';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
 import { Task } from '../../../../store/models/task';
 import { RaisedButton } from 'material-ui';
 

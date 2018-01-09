@@ -1,4 +1,5 @@
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
 import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card, FlatButton } from 'material-ui';
 import * as React from 'react';
