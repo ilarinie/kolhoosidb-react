@@ -6,6 +6,7 @@ import { FlatButton } from 'material-ui';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { Checkbox } from 'material-ui';
 import TiCancel from 'react-icons/lib/ti/cancel';
+import { observer } from 'mobx-react';
 
 const getAveragePurchase = (purchases: any[]): number => {
     let sum = 0;
@@ -28,6 +29,7 @@ interface PurchaseListState {
 
 }
 
+@observer
 export class PurchaseList extends React.Component<PurchaseListProps, PurchaseListState> {
 
     columnStyle = {
