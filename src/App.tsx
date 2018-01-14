@@ -15,7 +15,7 @@ import { observable } from 'mobx';
 
 mainState.reset();
 // This will fetch the app state from localstorage.
-const hydrate = create({ storage: localStorage });
+const hydrate = create({ storage: localStorage, jsonify: true });
 hydrate('uiState', mainState.uiState).then((uiState) => {
 
   if (uiState.locationHistory.length !== 0) {

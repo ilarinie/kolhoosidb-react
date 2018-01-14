@@ -24,6 +24,8 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
         flexWrap: 'wrap' as 'wrap',
         justifyContent: 'flex-start' as 'flex-start',
         minHeight: '100vh',
+        maxWidth: '100vw',
+        padding: '0px',
         background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
     };
 

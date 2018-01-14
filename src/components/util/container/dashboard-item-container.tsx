@@ -20,7 +20,7 @@ export class DashboardItemContainer extends React.Component<DashboardItemContain
     padding = this.props.padding ? this.props.padding : '20px';
 
     innerContainerStyles = {
-        margin: '10px 10px',
+        margin: '10px auto',
         width: this.width,
         maxWidth: '95vw',
         border: '0.5px solid lightgray',
@@ -82,7 +82,7 @@ export class DashboardItemContainer extends React.Component<DashboardItemContain
             innerContainerStyles = this.getInnerContainerStyles();
             innerContainerStyles.width = this.width;
         } else {
-            innerContainerStyles = this.innerContainerStyles;
+            innerContainerStyles = this.getInnerContainerStyles();
             innerContainerStyles.width = '95vw';
         }
         return (
