@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Commune } from '../../../store/models/commune';
-import { Card, CardActions, CardHeader } from 'material-ui/Card';
-import RaisedButton from 'material-ui/RaisedButton';
+import { RaisedButton, Card, CardActions, CardHeader } from 'material-ui';
 
 export class CommuneCard extends React.Component<{ commune: Commune, selectCommune: any, deleteCommune: any }, {}> {
 

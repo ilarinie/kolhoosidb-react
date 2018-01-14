@@ -2,12 +2,28 @@ import * as React from 'react';
 import { MainState } from '../../../../store/state';
 import { Task } from '../../../../store/models/task';
 import { TaskCreator } from './taskcreator';
-import { observer } from 'mobx-react';
-import RaisedButton from 'material-ui/RaisedButton';
-import { CardHeader, CardActions, Card } from 'material-ui/Card';
+import { observer, inject } from 'mobx-react';
+import { RaisedButton, CardHeader, CardActions, Card, Checkbox } from 'material-ui';
+import ReactTable from 'react-table';
 
 @observer
 export class TaskManagement extends React.Component<{ mainState: MainState }, { editedTask: Task, dialogOpen: boolean }> {
+
+    columns = [
+        {
+            Header: 'Name',
+            accessor: 'name',
+        },
+        {
+            Header: 'Priority',
+            id: 'priority',
+            accessor: 'priority',
+        },
+        {
+            Header: 'Points',
+            accessor: 'reward',
+        }
+    ];
 
     constructor(props: any) {
         super(props);
@@ -18,22 +34,33 @@ export class TaskManagement extends React.Component<{ mainState: MainState }, { 
     }
 
     render() {
-        let tasks = this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => (
-            <TaskRow key={index} task={task} editTask={this.editTask} deleteTask={this.deleteTask} />
-        ));
         return (
-            <div className="full-size-component">
-                <RaisedButton className="new-task-button" label="New Task" onClick={this.createTask} />
-                {tasks}
+            <div>
+                <ReactTable
+                    data={this.getData()}
+                    columns={this.columns}
+                    SubComponent={row => (
+                        <TaskCreator
+                            editedTask={row.original}
+                            submitTask={this.submitTask}
+                        />
+                    )}
+                />
+                <p>New task</p>
                 <TaskCreator
-                    handleClose={this.handleDialogClose}
-                    handleChange={this.handleTaskChange}
                     editedTask={this.state.editedTask}
                     submitTask={this.submitTask}
-                    open={this.state.dialogOpen}
                 />
             </div>
         );
+    }
+
+    getData = () => {
+        let array = [];
+        this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => {
+            array.push(task);
+        });
+        return array;
     }
 
     handleDialogClose = () => {
@@ -42,17 +69,6 @@ export class TaskManagement extends React.Component<{ mainState: MainState }, { 
 
     editTask = (task: Task) => {
         this.setState({ editedTask: task });
-        this.setState({ dialogOpen: true });
-    }
-
-    handleTaskChange = (event: any) => {
-        let newTask = this.state.editedTask;
-        newTask[event.target.name] = event.target.value;
-        this.setState({ editedTask: newTask });
-    }
-
-    createTask = () => {
-        this.setState({ editedTask: new Task() });
         this.setState({ dialogOpen: true });
     }
 

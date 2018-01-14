@@ -6,6 +6,7 @@ import { Tabs, Tab } from 'material-ui';
 import { TaskManagement } from './task-management/task-management';
 import { CommuneEditor } from './commune-editor/commune-editor';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
+import { DashboardItemContainer } from '../../util/container/dashboard-item-container';
 
 @inject('mainState')
 @observer
@@ -19,17 +20,24 @@ export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
     render() {
         return (
             <ComponentThemeWrapper uiState={this.props.mainState.uiState} >
-                <Tabs>
-                    <Tab label="User Management">
-                        <UserManagementComponent mainState={this.props.mainState} />
-                    </Tab>
-                    <Tab className="task-management-tab" label="Task Management">
-                        <TaskManagement mainState={this.props.mainState} />
-                    </Tab>
-                    <Tab label="Commune Management">
-                        <CommuneEditor mainState={this.props.mainState} />
-                    </Tab>
-                </Tabs>
+                <DashboardItemContainer
+                    title="Users"
+                    uiState={this.props.mainState.uiState}
+                >
+                    <UserManagementComponent mainState={this.props.mainState} />
+                </DashboardItemContainer>
+                <DashboardItemContainer
+                    title="Tasks"
+                    uiState={this.props.mainState.uiState}
+                >
+                    <TaskManagement mainState={this.props.mainState} />
+                </DashboardItemContainer>
+                <DashboardItemContainer
+                    title="Commune"
+                    uiState={this.props.mainState.uiState}
+                >
+                    <CommuneEditor mainState={this.props.mainState} />
+                </DashboardItemContainer>
             </ComponentThemeWrapper>
         );
     }

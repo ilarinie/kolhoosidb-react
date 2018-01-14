@@ -62,3 +62,11 @@ input:-webkit-autofill {
     transform: rotate(359deg);
   }
 }
+
+.switch-wrapper {
+  position: relative;
+}
+
+.switch-wrapper > div {
+  position: absolute;
+}

@@ -9,10 +9,10 @@ import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
-import { DashboardItemContainer } from '../dashboard-component/dashboard-component';
 import { RefundPanel } from './refunds';
 import { PurchaseList } from './purchaselist';
 import { BudgetRow } from '../dashboard-component/dashboard_purchases';
+import { DashboardItemContainer } from '../../util/container/dashboard-item-container';
 
 @inject('mainState')
 @observer
@@ -24,6 +24,8 @@ export class PurchasesComponent extends React.Component<{ mainState: MainState }
         flexWrap: 'wrap' as 'wrap',
         justifyContent: 'flex-start' as 'flex-start',
         minHeight: '100vh',
+        maxWidth: '100vw',
+        padding: '0px',
         background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
     };
 

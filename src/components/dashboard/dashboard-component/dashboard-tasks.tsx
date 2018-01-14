@@ -6,9 +6,11 @@ import { observer, inject } from 'mobx-react';
 import { Task } from '../../../store/models/task';
 // import { Table, TableHeader, TableBody, TableRow, TableRowColumn, TableHeaderColumn, RaisedButton } from 'material-ui';
 import * as moment from 'moment';
-import RaisedButton from 'material-ui/RaisedButton';
-import { FaSpinner, FaCheck } from 'react-icons/lib/fa';
+import { RaisedButton } from 'material-ui';
+import { FaUser, FaStar, FaCheck } from 'react-icons/lib/fa';
 import { sortTasks } from '../../../domain/task-sorter';
+import { MdArrowDropDown } from 'react-icons/lib/md';
+import label from 'material-ui/svg-icons/action/label';
 
 @observer
 export class DashboardTasksComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
@@ -46,14 +48,29 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
     }
 }
 @observer
-export class TaskRow extends React.Component<{ task: Task, completeTask: any, loading: boolean }, { loading: boolean, completed: boolean }> {
+export class TaskRow extends React.Component<{ task: Task, completeTask: any, loading: boolean }, { display: string }> {
+
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            display: 'hidden'
+        };
+    }
+
+    toggleDetails = () => {
+        if (this.state.display === 'hidden') {
+            this.setState({ display: 'inline-block' });
+        } else {
+            this.setState({ display: 'hidden' });
+        }
+    }
 
     render() {
         let when_to_do = null;
         let completed = false;
-        let late = true;
+        let late = false;
         if (this.props.task.completions.length !== 0) {
-            let comp = this.props.task.completions[this.props.task.completions.length - 1];
+            let comp = this.props.task.completions[0];
             if (this.props.task.priority) {
                 when_to_do = 'Should be done ' + moment(comp.created_at).add(this.props.task.priority, 'hours').fromNow();
                 late = moment(comp.created_at).add(this.props.task.priority, 'hours').isAfter();
@@ -61,7 +78,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
                 when_to_do = 'No priority set.';
             }
 
-            completed = (new Date(comp.created_at).getTime() + 1000) > Date.now();
+            completed = (new Date(comp.created_at).getTime() + 10000) > new Date().getTime();
 
         }
         if (!late) {
@@ -70,8 +87,13 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
 
         return (
             <div>
-                {this.props.task.name}<br />
-                <small>{when_to_do}</small><br />
+                <div style={{ float: 'left', padding: '10px' }}>
+                    <span style={{ width: '100%', height: '100%' }} onClick={this.toggleDetails} >
+                        <MdArrowDropDown />
+                    </span>
+                </div>
+                {this.props.task.name} <br />
+                <small>{when_to_do}</small> <br />
                 <CompleteButton
                     identifier={this.props.task.name.trim()}
                     loading={this.props.loading}
@@ -79,8 +101,15 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
                     completed={completed}
                     label="DO"
                 />
-                <hr />
-            </div>
+                <TaskDetails task={this.props.task} visibility={this.state.display} />
+                <hr
+                    style={{
+                        height: '10px',
+                        border: 0,
+                        boxShadow: '0 10px 10px -10px #8c8c8c inset'
+                    }}
+                />
+            </div >
         );
     }
 
@@ -89,14 +118,50 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
     }
 }
 
+const taskDetailsHeaderStyle = {
+    fontSize: '12px',
+    color: 'gray'
+};
+
+export const TaskDetails = props => {
+
+    let lastCompletion = null;
+    if (props.task.completions[0]) {
+        lastCompletion = (
+            <span>{props.task.completions[0].name}<br /> <small>({moment(props.task.completions[0].created_at).fromNow()})</small></span>
+        );
+    } else {
+        lastCompletion = 'No one (yet)';
+    }
+
+    if (props.visibility === 'hidden') {
+        return null;
+    } else {
+        return (
+            <div style={{ padding: '10px', margin: '0 auto', textAlign: 'center' }}>
+                <p style={taskDetailsHeaderStyle}>Last done by</p>
+                <div style={{ margin: '0 auto' }}>
+                    <FaUser style={{ marginRight: '10px' }} />{lastCompletion}
+                </div>
+                <p style={taskDetailsHeaderStyle}>Awards</p>
+                <span>{props.task.reward ? props.task.reward : 'No'} points</span><br />
+                <p style={taskDetailsHeaderStyle}>Should be done</p>
+                <span>Every {props.task.priority ? moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
+            </div>
+        );
+    }
+
+};
+
 export interface CompleteButtonProps {
     loading: boolean;
     label: string;
     onClick: any;
-    completed: any;
+    completed: boolean;
     identifier: string;
 }
 
+@observer
 export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
 
     render() {
@@ -117,10 +182,7 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
                     style={{ float: 'right', marginTop: '-37px' }}
                     disabled={true}
                 >
-                    <FaSpinner
-                        className="fa-spin"
-                        style={{ color: 'yellow' }}
-                    />
+                    <FaStar style={{ color: 'red' }} className="fa-spin" />
                 </RaisedButton>
             );
         } else {

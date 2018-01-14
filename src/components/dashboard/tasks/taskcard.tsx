@@ -81,7 +81,7 @@ class CompletionRow extends React.Component<{ completion: TaskCompletion, curren
                 <p>{this.props.completion.name}<br />
                     @ {this.getHumanDate(this.props.completion.created_at)} </p>
                 {this.props.completion.user_id === this.props.current_user_id ?
-                    <FlatButton primary={true} style={{ float: 'right', marginTop: '-50px' }} label="Delete" onTouchTap={this.deleteTaskCompletion} />
+                    <FlatButton primary={true} style={{ float: 'right', marginTop: '-50px' }} label="Delete" onClick={this.deleteTaskCompletion} />
                     : null}
                 <hr />
             </div>

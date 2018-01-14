@@ -6,7 +6,6 @@ export class ComponentThemeWrapper extends React.Component<{ uiState: UiState },
     style = {
         width: 'count(100vw - 250px)',
         minHeight: '100vh',
-        padding: '20px',
         background: this.props.uiState.getKolhoosiTheme().palette.canvasColor,
         color: this.props.uiState.getKolhoosiTheme().palette.textColor
     };

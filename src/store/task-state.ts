@@ -79,6 +79,7 @@ export class TaskState {
             this.taskLoading = task.id;
             const commune_id = this.getSelectedCommuneId();
             let completion = await ApiService.post(`communes/${commune_id}/tasks/${task.id}/complete`, {});
+            let sleeppy = await new Promise(resolve => setTimeout(resolve, 250));
             this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task.id)].completions.unshift(completion);
             this.mainState.communeState.getTopList();
             this.mainState.communeState.getFeed();

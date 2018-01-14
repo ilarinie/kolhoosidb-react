@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
-import RaisedButton from 'material-ui/RaisedButton';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
+import { RaisedButton, Card, CardHeader, CardText } from 'material-ui';
 
 export class CommuneCreationComponent extends React.Component<{ submitCommune: any }, { commune: any }> {
 

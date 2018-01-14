@@ -4,6 +4,7 @@ import { RaisedButton } from 'material-ui';
 import { Invitation } from '../../../../store/models/invitation';
 import { FaEnvelope } from 'react-icons/lib/fa';
 import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
+import { IconTitle } from '../../../util/icon-title';
 
 export class SentInvitations extends React.Component<{ invitations: Invitation[], cancelInvitation: any }, {}> {
     render() {
@@ -14,7 +15,10 @@ export class SentInvitations extends React.Component<{ invitations: Invitation[]
             invitations = [(<div key={0}>No pending invitations</div>)];
         }
         return (
-            <div>{invitations}</div>
+            <div style={{ padding: '10px' }}>
+                <IconTitle icon={<FaEnvelope />} titleText="Invited users:" />
+                <div>{invitations}</div>
+            </div>
         );
     }
 }

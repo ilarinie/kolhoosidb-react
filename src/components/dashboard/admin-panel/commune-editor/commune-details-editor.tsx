@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
+import { TextValidator } from 'react-material-ui-form-validator';
+import { ValidatorForm } from 'react-form-validator-core';
 import { SubmitButton } from '../../../util/submit-button';
 import { Commune } from '../../../../store/models/commune';
 import { CardHeader, Card } from 'material-ui';

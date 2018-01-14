@@ -19,20 +19,10 @@ export class UserManagementComponent extends React.Component<{ mainState: MainSt
     render() {
         return (
             <div>
-                <FullWidthCardWrapper
-                    title="Invite user"
-                    icon={<FaSignIn />}
-                    classIdentifier="invite-user-card"
-                >
-                    <AddUserComponent inviteUser={this.inviteUser} />
-                </FullWidthCardWrapper>
-                <FullWidthCardWrapper
-                    title="Sent invitations"
-                    icon={<FaEnvelope />}
-                    classIdentifier="sent-invitations-card"
-                >
-                    <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
-                </FullWidthCardWrapper>
+                <AddUserComponent inviteUser={this.inviteUser} />
+                <hr />
+                <SentInvitations invitations={this.props.mainState.communeState.selectedCommune.invitations} cancelInvitation={this.cancelInvitation} />
+                <hr />
                 <UserListComponent removeUser={this.removeUser} users={this.props.mainState.userState.users} admins={this.props.mainState.userState.admins} />
             </div>
         );
