@@ -20,6 +20,7 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
         flexWrap: 'wrap' as 'wrap',
         justifyContent: 'flex-start' as 'flex-start',
         minHeight: '100vh',
+        maxWidth: '99vw',
         background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
     };
 

@@ -7,9 +7,10 @@ import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { Checkbox } from 'material-ui';
 import TiCancel from 'react-icons/lib/ti/cancel';
 import { observer } from 'mobx-react';
+import * as moment from 'moment';
 
 const getAveragePurchase = (purchases: any[]): number => {
-    let sum = 0;
+    let sum = 0.0;
     purchases.map((purchase, index) => {
 
         sum = sum + parseFloat(purchase.amount);
@@ -61,6 +62,11 @@ export class PurchaseList extends React.Component<PurchaseListProps, PurchaseLis
                     <strong style={{ fontSize: '11px' }}>Average amount</strong><br />
                     {currencyFormatter.format(getAveragePurchase(this.props.purchases))}
                 </span>
+            ),
+            Cell: row => (
+                <div>
+                    {row.value} <br />
+                </div>
             )
         },
         {

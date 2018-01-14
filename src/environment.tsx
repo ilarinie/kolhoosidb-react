@@ -1,7 +1,7 @@
 
 const PROD_API_URL = 'https://kolhoosidb-api.ilarinieminen.me/';
 const INTEGRATION_API_URL = 'https://i-kolhoosidb-api.ilarinieminen.me/';
-const DEVELOPMENT_API_URL = 'http://localhost:3001/';
+const DEVELOPMENT_API_URL = 'http://192.168.0.100:3001/';
 
 export class Env {
     apiUrl: string;
