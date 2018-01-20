@@ -7,6 +7,7 @@ import { LoadingScreen } from '../../util/loading-screen';
 import { Commune } from '../../../store/models/commune';
 import { Redirect } from 'react-router-dom';
 import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
+import { User } from '../../../store/models/user';
 
 @inject('mainState')
 @observer
@@ -24,22 +25,36 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
         }
 
         let communes = this.props.mainState.communeState.communes.map((commune, index) =>
-            <CommuneCard key={index} commune={commune} selectCommune={this.selectCommune} deleteCommune={this.deleteCommune} />
+            (
+                <CommuneCard
+                    setDefaultCommune={this.setDefaultCommune}
+                    key={index}
+                    commune={commune}
+                    selectCommune={this.selectCommune}
+                    deleteCommune={this.deleteCommune}
+                    defaultCommuneId={this.props.mainState.userState.current_user.default_commune_id}
+                />
+            )
         );
         return (
             <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
-                <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                        {communes}
-                    </div>
-                    <CommuneCreationComponent submitCommune={this.submitCommune} />
-                </LoadingScreen>
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    {communes}
+                </div>
+                <div style={{ margin: '0 auto', padding: '20px', width: '400px', maxWidth: '99vw' }}>
+                    <h3>No commune? No problem.</h3>
+                    <CommuneCreationComponent submitCommune={this.submitCommune} loading={this.props.mainState.uiState.communesLoading} />
+                </div>
             </ComponentThemeWrapper>
         );
     }
 
     selectCommune = (commune: Commune) => {
         this.props.mainState.communeState.selectCommune(commune.id);
+    }
+
+    setDefaultCommune = (commune: Commune) => {
+        this.props.mainState.userState.updateUser({ default_commune_id: commune.id } as User);
     }
 
     deleteCommune = (commune: Commune) => {

@@ -2,8 +2,10 @@ import * as React from 'react';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
 import { RaisedButton, Card, CardHeader, CardText } from 'material-ui';
+import { KolhoosiLargeTextInput } from '../../util/kolhoosi-large-text-input';
+import { SubmitButton } from '../../util/submit-button';
 
-export class CommuneCreationComponent extends React.Component<{ submitCommune: any }, { commune: any }> {
+export class CommuneCreationComponent extends React.Component<{ submitCommune: any, loading: boolean }, { commune: any }> {
 
     constructor(props: any) {
         super(props);
@@ -19,43 +21,41 @@ export class CommuneCreationComponent extends React.Component<{ submitCommune: a
     render() {
         const { commune } = this.state;
         return (
-            <Card className="form-card">
-                <CardHeader
-                    title="Create a new commune"
-                    actAsExpander={true}
-                    className="commune-creator-card"
-                    showExpandableButton={true}
-                />
-                <CardText expandable={true}>
-                    <ValidatorForm
-                        onSubmit={this.handleSubmit}
-                        onError={errors => this.handleError(errors)}
-                    >
-                        <TextValidator
-                            floatingLabelText="Commune name"
-                            onChange={this.handleChange}
-                            name="name"
-                            type="text"
-                            validators={['required']}
-                            errorMessages={['Name is requred']}
-                            value={commune.name}
-                        /><br />
-                        <TextValidator
-                            floatingLabelText="Commune description"
-                            onChange={this.handleChange}
-                            multiLine={true}
-                            rows={2}
-                            type="text"
-                            name="description"
-                            validators={['required']}
-                            errorMessages={['Description is required']}
-                            value={commune.description}
-
-                        /><br />
-                        <RaisedButton className="create-commune-button" label="Create" type="submit" />
-                    </ValidatorForm>
-                </CardText>
-            </Card>
+            <div>
+                <ValidatorForm
+                    onSubmit={this.handleSubmit}
+                    onError={errors => this.handleError(errors)}
+                >
+                    <KolhoosiLargeTextInput
+                        label="Name your new commune"
+                        onChange={this.handleChange}
+                        name="name"
+                        type="text"
+                        validators={['required']}
+                        value={commune.name}
+                        align="left"
+                        currency={false}
+                    />
+                    <KolhoosiLargeTextInput
+                        label="Describe your commune."
+                        onChange={this.handleChange}
+                        multiline={true}
+                        rows={2}
+                        type="text"
+                        name="description"
+                        validators={['required']}
+                        value={commune.description}
+                        align="left"
+                        currency={false}
+                    />
+                    <SubmitButton
+                        className="create-commune-button"
+                        label="Create"
+                        type="submit"
+                        loading={this.props.loading}
+                    />
+                </ValidatorForm>
+            </div>
         );
     }
 

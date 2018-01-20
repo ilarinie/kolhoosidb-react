@@ -52,6 +52,7 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
                     <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
                         <DashboardUserInfo
                             user={this.props.mainState.userState.current_user}
+                            commune={this.props.mainState.selCommune()}
                             acceptRefund={this.acceptRefund}
                             cancelRefund={this.cancelRefund}
                             rejectRefund={this.rejectRefund}
