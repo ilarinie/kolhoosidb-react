@@ -7,7 +7,7 @@ import { Task } from '../../../store/models/task';
 // import { Table, TableHeader, TableBody, TableRow, TableRowColumn, TableHeaderColumn, RaisedButton } from 'material-ui';
 import * as moment from 'moment';
 import { RaisedButton } from 'material-ui';
-import { FaUser, FaStar, FaCheck } from 'react-icons/lib/fa';
+import { FaUser, FaStar, FaCheck, FaStarO } from 'react-icons/lib/fa';
 import { sortTasks } from '../../../domain/task-sorter';
 import { MdArrowDropDown } from 'react-icons/lib/md';
 import label from 'material-ui/svg-icons/action/label';
@@ -82,18 +82,27 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
 
         }
         if (!late) {
-            when_to_do = <span style={{ color: 'red' }}>Late</span>;
+            when_to_do = <span style={{ color: '#E64A19' }}>Late</span>;
+        }
+        if (!this.props.task.priority) {
+            when_to_do = null;
         }
 
         return (
             <div>
                 <div style={{ float: 'left', padding: '10px' }}>
-                    <span style={{ width: '100%', height: '100%' }} onClick={this.toggleDetails} >
-                        <MdArrowDropDown />
+                    <span style={{ width: '100%', height: '100%', cursor: 'pointer' }} onClick={this.toggleDetails} >
+                        {this.state.display === 'hidden' ? <FaStarO /> : <FaStar />}
                     </span>
                 </div>
-                {this.props.task.name} <br />
-                <small>{when_to_do}</small> <br />
+                <div
+                    style={{
+                        maxWidth: '200px'
+                    }}
+                >
+                    <span style={{ maxWidth: '100px', fontVariant: 'small-caps' }} >{this.props.task.name}</span><br />
+                    <span style={{ fontVariant: 'small-caps' }} ><small>{when_to_do}</small></span> <br />
+                </div>
                 <CompleteButton
                     identifier={this.props.task.name.trim()}
                     loading={this.props.loading}
@@ -146,7 +155,7 @@ export const TaskDetails = props => {
                 <p style={taskDetailsHeaderStyle}>Awards</p>
                 <span>{props.task.reward ? props.task.reward : 'No'} points</span><br />
                 <p style={taskDetailsHeaderStyle}>Should be done</p>
-                <span>Every {props.task.priority ? moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
+                <span> {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
             </div>
         );
     }
@@ -163,13 +172,17 @@ export interface CompleteButtonProps {
 
 @observer
 export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
-
+    styles = {
+        float: 'right',
+        marginTop: '-37px',
+        background: '#689F38'
+    };
     render() {
         if (this.props.completed) {
             return (
                 <RaisedButton
                     className={this.props.identifier}
-                    style={{ float: 'right', marginTop: '-37px' }}
+                    style={this.styles}
                     disabled={true}
                 >
                     <FaCheck style={{ color: 'green' }} />
@@ -179,7 +192,7 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
             return (
                 <RaisedButton
                     className={this.props.identifier}
-                    style={{ float: 'right', marginTop: '-37px' }}
+                    style={this.styles}
                     disabled={true}
                 >
                     <FaStar style={{ color: 'red' }} className="fa-spin" />
@@ -187,7 +200,12 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
             );
         } else {
             return (
-                <RaisedButton className={this.props.identifier} style={{ float: 'right', marginTop: '-37px' }} label={this.props.label} onClick={this.props.onClick} />
+                <RaisedButton
+                    className={this.props.identifier}
+                    style={this.styles}
+                    label={this.props.label}
+                    onClick={this.props.onClick}
+                />
             );
         }
 

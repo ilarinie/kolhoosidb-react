@@ -15,6 +15,4 @@ export class User {
     @persist @observable default_commune_id: number;
     @persist @observable default_theme: string;
     @persist('list') @observable invitations: Invitation[];
-    @persist('list') @observable sent_refunds: Refund[];
-    @persist('list') @observable received_refunds: Refund[];
 }

@@ -10,6 +10,7 @@
     "@types/react-dom": "^16.0.0",
     "@types/react-router": "^4.0.14",
     "@types/react-router-dom": "^4.0.7",
+    "@types/recharts": "^1.0.10",
     "axios": "^0.16.2",
     "chai": "^4.1.1",
     "enzyme": "^3.3.0",
@@ -33,6 +34,8 @@
     "react-table": "^6.7.6",
     "react-test-renderer": "^16.2.0",
     "react-translate": "^6.0.0",
+    "recharts": "^1.0.0-beta.9",
+    "typeface-inconsolata": "^0.0.44",
     "typescript-logging": "^0.5.0"
   },
   "devDependencies": {

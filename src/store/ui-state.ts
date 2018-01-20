@@ -10,6 +10,16 @@ export class UiState {
   mainState: MainState;
   // Loading indicators
   @persist @observable loginLoading: boolean = false;
+
+  // PURCHASES
+  @observable purchaseLoading: boolean = false;
+  @observable purchaseDialogOpen: boolean = false;
+  @observable refundDialogOpen: boolean = false;
+  // TASKS
+  @observable tasksLoading: boolean = false;
+  // COMMUNE
+  @observable communesLoading: boolean = false;
+
   @persist @observable dashboardLoading: boolean = false;
   @persist @observable registerLoading: boolean = false;
   @persist @observable dataLoading: boolean = false;
@@ -46,7 +56,6 @@ export class UiState {
         this.mainState.communeState.getTopList(),
         this.mainState.purchaseState.getPurchases(),
         this.mainState.purchaseState.getRefunds(),
-
       ]);
 
     } catch (error) {
@@ -60,9 +69,18 @@ export class UiState {
   showDashboardError = (message: string) => {
     this.snackbarMessage = message;
     this.showSnackbar = true;
+<<<<<<< HEAD
     setTimeout(() => {
       this.showSnackbar = false;
-    }, 4000);
+    },         4000);
+=======
+    setTimeout(
+      () => {
+        this.showSnackbar = false;
+      },
+      4000
+    );
+>>>>>>> ef3a9697aaff9eeaae8cf26576bb5382f75aeaee
   }
 
   @action

@@ -24,11 +24,18 @@ export class TaskState {
     @action
     async createTask(task: Task) {
         try {
+            this.mainState.uiState.tasksLoading = true;
             const commune_id = this.getSelectedCommuneId();
             let newTask = await ApiService.post(`communes/${commune_id}/tasks`, { task: task });
+            let sleeppy = await new Promise(resolve => setTimeout(resolve, 1000));
+            this.mainState.uiState.tasksLoading = false;
             this.mainState.communeState.selectedCommune.tasks.push(newTask);
+            this.mainState.uiState.showDashboardError('A new task was created.');
+            return;
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
+            this.mainState.uiState.tasksLoading = false;
+
         }
     }
 
@@ -38,6 +45,7 @@ export class TaskState {
             const commune_id = this.getSelectedCommuneId();
             let newTask = await ApiService.put(`communes/${commune_id}/tasks/${task.id}`, { task: task });
             this.mainState.communeState.selectedCommune.tasks[this.mainState.communeState.selectedCommune.tasks.findIndex(oldTask => oldTask.id === task.id)] = newTask;
+            this.mainState.uiState.showDashboardError('Task updated.');
         } catch (error) {
             this.mainState.communeState.refreshCommune();
             this.mainState.uiState.showDashboardError(error.message);
@@ -83,6 +91,7 @@ export class TaskState {
             this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task.id)].completions.unshift(completion);
             this.mainState.communeState.getTopList();
             this.mainState.communeState.getFeed();
+            this.mainState.uiState.showDashboardError(task.name + ' completed!');
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         } finally {
