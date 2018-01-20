@@ -69,18 +69,12 @@ export class UiState {
   showDashboardError = (message: string) => {
     this.snackbarMessage = message;
     this.showSnackbar = true;
-<<<<<<< HEAD
-    setTimeout(() => {
-      this.showSnackbar = false;
-    },         4000);
-=======
     setTimeout(
       () => {
         this.showSnackbar = false;
       },
       4000
     );
->>>>>>> ef3a9697aaff9eeaae8cf26576bb5382f75aeaee
   }
 
   @action
