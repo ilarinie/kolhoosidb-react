@@ -42,7 +42,11 @@ export class UiState {
         this.mainState.taskState.getTasks(),
         this.mainState.purchaseState.getBudget(),
         this.mainState.communeState.getTopList(),
-        this.mainState.communeState.getFeed()
+        this.mainState.communeState.getFeed(),
+        this.mainState.communeState.getTopList(),
+        this.mainState.purchaseState.getPurchases(),
+        this.mainState.purchaseState.getRefunds(),
+
       ]);
 
     } catch (error) {
@@ -58,7 +62,7 @@ export class UiState {
     this.showSnackbar = true;
     setTimeout(() => {
       this.showSnackbar = false;
-    },         4000);
+    }, 4000);
   }
 
   @action
