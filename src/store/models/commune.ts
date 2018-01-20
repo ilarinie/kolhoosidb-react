@@ -7,6 +7,7 @@ import { Invitation } from './invitation';
 import { Budget } from './budget';
 import { PurchaseCategory } from './purchase_category';
 import { FeedItem } from './feed_item';
+import { Refund } from './refund';
 
 export class Commune {
     @persist @observable id: number;
@@ -23,4 +24,7 @@ export class Commune {
     @persist @observable purchase_categories: PurchaseCategory[];
     @persist @observable is_owner: boolean;
     @observable feed: FeedItem[];
+    @persist('list') @observable members: User[];
+    @persist('list') @observable sent_refunds: Refund[];
+    @persist('list') @observable received_refunds: Refund[];
 }

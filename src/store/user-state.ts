@@ -35,7 +35,6 @@ export class UserStore {
   async getUsers(): Promise<any> {
     try {
       let response: any = await ApiService.get(`communes/${this.mainState.communeState.selectedCommune.id}/users`);
-      console.log(response);
       this.admins = response.admins;
       this.users = response.users;
     } catch (error) {

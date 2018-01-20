@@ -70,3 +70,17 @@ input:-webkit-autofill {
 .switch-wrapper > div {
   position: absolute;
 }
+/* Removes padding from MUI dialog */
+.kolhoosidialog > div > div > div > div {
+  padding: 0 !important;
+}
+
+/* Removes number input arrows */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}

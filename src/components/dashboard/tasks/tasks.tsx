@@ -38,14 +38,14 @@ export class TasksComponent extends React.Component<{ mainState: MainState }, { 
         ));
         return (
             <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
-                <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                    <div className="full-size-component"  >
-                        <h1>Tasks</h1>
-                        <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-                            {tasks}
-                        </div>
+                {/* <LoadingScreen loading={this.props.mainState.uiState.dataLoading}> */}
+                <div className="full-size-component"  >
+                    <h1>Tasks</h1>
+                    <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        {tasks}
                     </div>
-                </LoadingScreen>
+                </div>
+                {/* </LoadingScreen> */}
             </ComponentThemeWrapper>
         );
     }

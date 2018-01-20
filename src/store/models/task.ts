@@ -9,13 +9,15 @@ export class Task {
     @persist @observable priority?: number;
     @persist @observable reward?: number;
     @persist @observable completions: TaskCompletion[];
+    @persist @observable completion_text: string;
     @persist @observable created_at: Date;
     @persist @observable updated_at: Date;
 
     constructor() {
         this.name = '';
-        this.priority = null;
-        this.reward = null;
+        this.priority = 0;
+        this.reward = 0;
+        this.completion_text = '';
     }
 
 }

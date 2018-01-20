@@ -83,7 +83,6 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                                 onClick={this.login}
                             /><br /><br />
                         </form>
-                        <a style={{ textDecoration: 'none' }} href="#" onClick={this.forgotPw} >Forgot password?</a>
                     </Paper>
                 </div>
                 <div style={this.containerStyle}>
