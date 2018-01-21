@@ -8,6 +8,8 @@
 // To learn more about the benefits of this model, read https://goo.gl/KwvDNy.
 // This link also includes instructions on opting out of this behavior.
 
+var refreshing = false;
+
 export default function register() {
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     window.addEventListener('load', () => {
@@ -18,7 +20,7 @@ export default function register() {
           registration.onupdatefound = () => {
             const installingWorker = registration.installing;
             if (!installingWorker) {
-                return;
+              return;
             }
 
             installingWorker.onstatechange = () => {
@@ -28,7 +30,11 @@ export default function register() {
                   // the fresh content will have been added to the cache.
                   // It's the perfect time to display a "New content is
                   // available; please refresh." message in your web app.
-                  console.log('New content is available; please refresh.'); // tslint:disable-line
+                  if (refreshing) { return; }
+                  refreshing = true;
+                  localStorage.clear();
+                  window.location.reload();
+                  console.log('New content is available; refreshing and clearing storage..'); // tslint:disable-line
                 } else {
                   // At this point, everything has been precached.
                   // It's the perfect time to display a
