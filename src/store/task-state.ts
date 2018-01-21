@@ -91,7 +91,7 @@ export class TaskState {
             this.mainState.communeState.selectedCommune.tasks[this.findTaskIndex(task.id)].completions.unshift(completion);
             this.mainState.communeState.getTopList();
             this.mainState.communeState.getFeed();
-            this.mainState.uiState.showDashboardError(task.name + ' completed!');
+            this.mainState.uiState.showDashboardError(task.name + ' completed!', this.undoLastCompletion.bind(this));
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         } finally {
@@ -109,6 +109,18 @@ export class TaskState {
             this.mainState.uiState.showDashboardError(error.message);
         } finally {
             this.taskLoading = 0;
+        }
+    }
+
+    @action
+    async undoLastCompletion(): Promise<any> {
+        try {
+            const commune_id = this.getSelectedCommuneId();
+            let response = await ApiService.destroy(`communes/${commune_id}/undo_last_completion`);
+            this.deleteTaskCompletionFromTask(response.task_id, response.id);
+            this.mainState.uiState.showDashboardError('Succesfully undone last completion.');
+        } catch (error) {
+            this.mainState.uiState.showDashboardError(error.message);
         }
     }
     findTaskIndex = (task_id: number): number => {
