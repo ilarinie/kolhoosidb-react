@@ -8,6 +8,7 @@ import { Checkbox } from 'material-ui';
 import TiCancel from 'react-icons/lib/ti/cancel';
 import { observer } from 'mobx-react';
 import * as moment from 'moment';
+import { parseLocale } from '../../../domain/formatter/localeParser';
 
 const getAveragePurchase = (purchases: any[]): number => {
     let sum = 0.0;
@@ -172,14 +173,17 @@ export class PurchaseDetails extends React.Component<PurchaseDetailsProps, Purch
         return (
             <div style={this.subComponentStyles}>
                 "{this.props.row.original.description}"<br />
-                {date.toLocaleDateString('fi-FI')}<br />
-                {date.toLocaleTimeString('fi-FI')}
+                {date.toLocaleDateString(parseLocale())}<br />
+                {date.toLocaleTimeString(parseLocale())}
                 {deleteButton}
             </div>
         );
     }
 
     deletePurchase = () => {
-        this.props.deletePurchase(this.props.row.original as Purchase);
+        let confirmed = confirm('Are you sure you want to delete this purchase?');
+        if (confirmed) {
+            this.props.deletePurchase(this.props.row.original as Purchase);
+        }
     }
 }

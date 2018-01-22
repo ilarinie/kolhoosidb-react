@@ -5,8 +5,10 @@ import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
 import { Task } from '../../../../store/models/task';
 import { RaisedButton } from 'material-ui';
+import { KolhoosiLargeTextInput } from '../../../util/kolhoosi-large-text-input';
+import { SubmitButton } from '../../../util/submit-button';
 
-export class TaskCreator extends React.Component<{ editedTask: Task, submitTask: any }, { task: any }> {
+export class TaskCreator extends React.Component<{ editedTask: Task, submitTask: any, loading: boolean }, { task: any }> {
 
     fieldStyle = {
         width: '95%'
@@ -35,33 +37,55 @@ export class TaskCreator extends React.Component<{ editedTask: Task, submitTask:
                     onSubmit={this.handleSubmit}
                     onError={errors => this.handleError(errors)}
                 >
-                    <TextValidator
-                        style={this.fieldStyle}
-                        floatingLabelText="Task name"
-                        onChange={this.handleChange}
+                    <KolhoosiLargeTextInput
+                        label="Name of the task"
                         name="name"
+                        onChange={this.handleChange}
                         type="text"
-                        validators={['required']}
-                        errorMessages={['Name is requred']}
+                        validators={['required', 'minStringLength:2', 'maxStringLength:35']}
                         value={task.name}
-                    /><br />
-                    <TextValidator
-                        style={this.fieldStyle}
-                        floatingLabelText="Task priority"
-                        onChange={this.handleChange}
+                        currency={false}
+                        align="left"
+                    />
+                    <KolhoosiLargeTextInput
+                        label="Priority"
                         name="priority"
-                        type="number"
-                        value={task.priority}
-                    /><br />
-                    <TextValidator
-                        style={this.fieldStyle}
-                        floatingLabelText="Points awarded for completion"
                         onChange={this.handleChange}
-                        name="reward"
-                        type="number"
+                        type="text"
+                        validators={[]}
+                        value={task.priority}
+                        currency={false}
+                        align="left"
+                    />
+                    <KolhoosiLargeTextInput
+                        label="Points"
+                        name="points"
+                        onChange={this.handleChange}
+                        type="text"
+                        validators={[]}
                         value={task.reward}
-                    /><br />
-                    <RaisedButton className="submit-task-button" label={label} type="submit" />
+                        currency={false}
+                        align="left"
+                    />
+                    <KolhoosiLargeTextInput
+                        label="Completion text"
+                        name="completion_text"
+                        onChange={this.handleChange}
+                        type="text"
+                        validators={[]}
+                        value={task.completion_text}
+                        currency={false}
+                        align="left"
+                    />
+                    <br />
+                    <SubmitButton
+                        className="submit-task-button"
+                        label={label}
+                        type="submit"
+                        loading={this.props.loading}
+                        fullWidth={true}
+                        backgroundColor="#43A047"
+                    />
                 </ValidatorForm>
             </div>
         );

@@ -18,7 +18,7 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
         display: 'flex',
         alignItems: 'flex-start' as 'flex-start',
         flexWrap: 'wrap' as 'wrap',
-        justifyContent: 'flex-start' as 'flex-start',
+        justifyContent: 'center' as 'center',
         minHeight: '100vh',
         maxWidth: '99vw',
         background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
@@ -52,6 +52,7 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
                     <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
                         <DashboardUserInfo
                             user={this.props.mainState.userState.current_user}
+                            commune={this.props.mainState.selCommune()}
                             acceptRefund={this.acceptRefund}
                             cancelRefund={this.cancelRefund}
                             rejectRefund={this.rejectRefund}

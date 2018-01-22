@@ -10,6 +10,16 @@ export class UiState {
   mainState: MainState;
   // Loading indicators
   @persist @observable loginLoading: boolean = false;
+
+  // PURCHASES
+  @observable purchaseLoading: boolean = false;
+  @observable purchaseDialogOpen: boolean = false;
+  @observable refundDialogOpen: boolean = false;
+  // TASKS
+  @observable tasksLoading: boolean = false;
+  // COMMUNE
+  @observable communesLoading: boolean = false;
+
   @persist @observable dashboardLoading: boolean = false;
   @persist @observable registerLoading: boolean = false;
   @persist @observable dataLoading: boolean = false;
@@ -22,9 +32,12 @@ export class UiState {
   // Error indicators and errors
   @persist('object') @observable loginError: KolhoosiError = new KolhoosiError('', []);
   @persist('object') @observable registerError: KolhoosiError = new KolhoosiError('', []);
-  @persist @observable snackbarMessage: string = '';
-  @persist @observable showSnackbar: boolean = false;
   @persist('object') @observable dataError: KolhoosiError = new KolhoosiError('', []);
+
+  @observable snackbarMessage: string = '';
+  @observable showSnackbar: boolean = false;
+  @observable undoFunction: any = null;
+  snackBarTimeout: any;
 
   constructor(mainState: MainState) {
     this.mainState = mainState;
@@ -42,7 +55,10 @@ export class UiState {
         this.mainState.taskState.getTasks(),
         this.mainState.purchaseState.getBudget(),
         this.mainState.communeState.getTopList(),
-        this.mainState.communeState.getFeed()
+        this.mainState.communeState.getFeed(),
+        this.mainState.communeState.getTopList(),
+        this.mainState.purchaseState.getPurchases(),
+        this.mainState.purchaseState.getRefunds(),
       ]);
 
     } catch (error) {
@@ -53,12 +69,19 @@ export class UiState {
   }
 
   @action
-  showDashboardError = (message: string) => {
+  showDashboardError = (message: string, undo?: any) => {
+    undo ? this.undoFunction = undo : this.undoFunction = null;
     this.snackbarMessage = message;
     this.showSnackbar = true;
-    setTimeout(() => {
-      this.showSnackbar = false;
-    },         4000);
+    if (this.snackBarTimeout) {
+      clearTimeout(this.snackBarTimeout);
+    }
+    this.snackBarTimeout = setTimeout(
+      () => {
+        this.showSnackbar = false;
+      },
+      4000
+    );
   }
 
   @action

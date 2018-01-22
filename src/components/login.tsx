@@ -32,7 +32,8 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
         background: 'rgba(0%, 0%, 0%, 71.8%)',
         color: 'white',
         height: '300px',
-        width: '300px'
+        width: '300px',
+        maxWidth: '95vw'
     };
 
     logoStyle = {
@@ -43,7 +44,8 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
 
     textFieldStyle = {
         color: 'gray !important',
-        paddingLeft: '10px'
+        paddingLeft: '10px',
+        width: '150px'
     };
 
     render() {
@@ -81,7 +83,6 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                                 onClick={this.login}
                             /><br /><br />
                         </form>
-                        <a style={{ textDecoration: 'none' }} href="#" onClick={this.forgotPw} >Forgot password?</a>
                     </Paper>
                 </div>
                 <div style={this.containerStyle}>

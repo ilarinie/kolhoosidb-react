@@ -5,31 +5,33 @@ import { MainState } from '../../store/state';
 
 @inject('mainState')
 @observer
-export default class KolhoosiSnackBar extends React.Component<{mainState: MainState}, {open: boolean, autohideDuration: number, message: string}> {
-   
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            open: this.props.mainState.uiState.showSnackbar,
-            message: this.props.mainState.uiState.snackbarMessage,
-            autohideDuration: 5000,
-        };
-    }
+export default class KolhoosiSnackBar extends React.Component<{ mainState: MainState }, { open: boolean, autohideDuration: number, message: string }> {
 
-    render() {
-      return (
-            <Snackbar
-              open={this.props.mainState.uiState.showSnackbar}
-              message={this.props.mainState.uiState.snackbarMessage}
-              autoHideDuration={4000}
-              onRequestClose={this.handleRequestClose}
-            />
-        );
-      }
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      open: this.props.mainState.uiState.showSnackbar,
+      message: this.props.mainState.uiState.snackbarMessage,
+      autohideDuration: 5000,
+    };
+  }
 
-    handleRequestClose = () => {
-        this.setState({
-          open: false,
-        });
-      }
+  render() {
+    return (
+      <Snackbar
+        open={this.props.mainState.uiState.showSnackbar}
+        message={this.props.mainState.uiState.snackbarMessage}
+        autoHideDuration={4000}
+        onRequestClose={this.handleRequestClose}
+        onActionClick={this.props.mainState.uiState.undoFunction ? this.props.mainState.uiState.undoFunction : null}
+        action={this.props.mainState.uiState.undoFunction ? 'Undo' : null}
+      />
+    );
+  }
+
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  }
 }

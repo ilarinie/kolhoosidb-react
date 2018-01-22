@@ -62,6 +62,7 @@ export class CommuneState {
   async refreshCommune() {
     try {
       this.selectedCommune = await ApiService.get(`communes/${this.selectedCommune.id}`);
+      this.mainState.uiState.getDashboardContents(true);
     } catch (error) {
       this.mainState.uiState.showDashboardError('Refreshing commune data failed, sorry :(');
     }
@@ -71,10 +72,14 @@ export class CommuneState {
   async createCommune(commune: Commune) {
     let payload = { commune: commune };
     try {
+      this.mainState.uiState.communesLoading = true;
       let newCommune = await ApiService.post('communes', payload) as Commune;
       this.communes.push(newCommune);
+      this.mainState.uiState.communesLoading = false;
+      this.mainState.uiState.showDashboardError('New commune created.');
     } catch (error) {
       this.mainState.uiState.showDashboardError(error.message);
+      this.mainState.uiState.communesLoading = false;
     }
   }
   @action

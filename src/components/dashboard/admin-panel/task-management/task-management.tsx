@@ -43,6 +43,7 @@ export class TaskManagement extends React.Component<{ mainState: MainState }, { 
                         <TaskCreator
                             editedTask={row.original}
                             submitTask={this.submitTask}
+                            loading={this.props.mainState.uiState.tasksLoading}
                         />
                     )}
                 />
@@ -50,6 +51,7 @@ export class TaskManagement extends React.Component<{ mainState: MainState }, { 
                 <TaskCreator
                     editedTask={this.state.editedTask}
                     submitTask={this.submitTask}
+                    loading={this.props.mainState.uiState.tasksLoading}
                 />
             </div>
         );

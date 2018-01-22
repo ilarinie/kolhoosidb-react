@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { FeedItem } from '../../../store/models/feed_item';
-import { getAction } from '../../../domain/parser/feedParser';
+import { getAction, getDescription, getAdditionalInformation } from '../../../domain/parser/feedParser';
 import * as moment from 'moment';
 
 export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], getFeed: any }, {}> {
@@ -36,7 +36,8 @@ export class FeedItemComponent extends React.Component<{ feedItem: FeedItem }, {
     render() {
         return (
             <div>
-                {this.props.feedItem.actorname} {getAction(this.props.feedItem)} {this.props.feedItem.trackablename}<br />
+                {this.props.feedItem.actorname} {getAction(this.props.feedItem)} {getDescription(this.props.feedItem)}<br />
+                <small>{getAdditionalInformation(this.props.feedItem)}</small><br />
                 <small>{moment(this.props.feedItem.created_at).fromNow()}</small>
                 <hr />
             </div>

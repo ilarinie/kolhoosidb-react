@@ -3,14 +3,19 @@ import { User } from '../../../store/models/user';
 import { Link } from 'react-router-dom';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { RefundRow } from '../purchases/refund-row';
+import { FaUser } from 'react-icons/lib/fa';
+import { Commune } from '../../../store/models/commune';
+import { observer } from 'mobx-react';
 
 interface DashboardUserInfoProps {
     user: User;
+    commune: Commune;
     acceptRefund?: any;
     cancelRefund?: any;
     rejectRefund?: any;
 }
 
+@observer
 export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {}> {
     render() {
         let invitations = this.props.user.invitations.map((invitation, index) => (
@@ -19,7 +24,7 @@ export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {
         if (invitations.length === 0) {
             invitations = null;
         }
-        let sent_refunds = this.props.user.sent_refunds.map((refund, index) => (
+        let sent_refunds = this.props.commune.sent_refunds.map((refund, index) => (
             <RefundRow
                 classIdentifier=""
                 key={index}
@@ -31,7 +36,7 @@ export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {
         if (sent_refunds.length === 0) {
             sent_refunds = null;
         }
-        let received_refunds = this.props.user.received_refunds.map((refund, index) => (
+        let received_refunds = this.props.commune.received_refunds.map((refund, index) => (
             <RefundRow
                 classIdentifier=""
                 key={index}
@@ -47,7 +52,10 @@ export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {
 
         return (
             <div>
-                <b>Logged in as</b> {this.props.user.name}
+                <small>Logged in as</small><br />
+                <p>
+                    <FaUser /> {this.props.user.name}
+                </p>
                 {invitations ? <h5>Invitations</h5> : null}
                 {invitations}
                 {sent_refunds ? <h5>Sent refunds:</h5> : null}
