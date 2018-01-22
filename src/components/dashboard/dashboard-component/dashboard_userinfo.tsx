@@ -24,32 +24,35 @@ export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {
         if (invitations.length === 0) {
             invitations = null;
         }
-        let sent_refunds = this.props.commune.sent_refunds.map((refund, index) => (
-            <RefundRow
-                classIdentifier=""
-                key={index}
-                refund={refund}
-                sent={true}
-                handleCancel={this.props.cancelRefund}
-            />
-        ));
-        if (sent_refunds.length === 0) {
+        let sent_refunds;
+        if (!this.props.commune.sent_refunds || this.props.commune.sent_refunds.length === 0) {
             sent_refunds = null;
+        } else {
+            sent_refunds = this.props.commune.sent_refunds.map((refund, index) => (
+                <RefundRow
+                    classIdentifier=""
+                    key={index}
+                    refund={refund}
+                    sent={true}
+                    handleCancel={this.props.cancelRefund}
+                />
+            ));
         }
-        let received_refunds = this.props.commune.received_refunds.map((refund, index) => (
-            <RefundRow
-                classIdentifier=""
-                key={index}
-                refund={refund}
-                sent={false}
-                handleAccept={this.props.acceptRefund}
-                handleReject={this.props.rejectRefund}
-            />
-        ));
-        if (received_refunds.length === 0) {
+        let received_refunds;
+        if (!this.props.commune.received_refunds || this.props.commune.received_refunds.length === 0) {
             received_refunds = null;
+        } else {
+            received_refunds = this.props.commune.received_refunds.map((refund, index) => (
+                <RefundRow
+                    classIdentifier=""
+                    key={index}
+                    refund={refund}
+                    sent={false}
+                    handleAccept={this.props.acceptRefund}
+                    handleReject={this.props.rejectRefund}
+                />
+            ));
         }
-
         return (
             <div>
                 <small>Logged in as</small><br />
