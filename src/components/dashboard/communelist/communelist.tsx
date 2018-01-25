@@ -41,7 +41,7 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {communes}
                 </div>
-                <div style={{ margin: '0 auto', padding: '20px', width: '400px', maxWidth: '99vw' }}>
+                <div style={{ margin: '0 auto', padding: '20px', width: '350px', maxWidth: '99vw' }}>
                     <h3>No commune? No problem.</h3>
                     <CommuneCreationComponent submitCommune={this.submitCommune} loading={this.props.mainState.uiState.communesLoading} />
                 </div>

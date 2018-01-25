@@ -27,7 +27,7 @@ export class CommuneCard extends React.Component<CommuneCardProps, {}> {
             <small key={index}>{member.name}, </small>
         ));
         return (
-            <Card style={{ width: '400px', maxWidth: '99vw', margin: '20px auto' }}>
+            <Card style={{ width: '350px', maxWidth: '99vw', margin: '20px auto' }}>
                 <CardHeader
                     title={this.props.commune.name}
                     subtitle={this.props.commune.description}
