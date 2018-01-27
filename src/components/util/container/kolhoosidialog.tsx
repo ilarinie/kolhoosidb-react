@@ -56,6 +56,7 @@ export class KolhoosiDialog extends React.Component<KolhoosiDialogProps, Kolhoos
                     },
                 }}
                 className="kolhoosidialog"
+                autoScrollBodyContent={true}
             >
                 <div style={this.containerStyles}>
                     <div style={this.headerStyles}>
