@@ -38,7 +38,9 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
         ));
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                {tasks}
+                <div style={{ width: '100%' }}>
+                    {tasks}
+                </div>
             </LoadingScreen>
         );
     }
@@ -89,7 +91,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
         }
 
         return (
-            <div>
+            <div style={{ width: '100%' }}>
                 <div style={{ float: 'left', padding: '10px' }}>
                     <span style={{ width: '100%', height: '100%', cursor: 'pointer' }} onClick={this.toggleDetails} >
                         {this.state.display === 'hidden' ? <FaStarO /> : <FaStar />}
@@ -97,11 +99,12 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
                 </div>
                 <div
                     style={{
+                        width: '100%',
                         maxWidth: '200px'
                     }}
                 >
                     <span style={{ maxWidth: '100px', fontVariant: 'small-caps' }} >{this.props.task.name}</span><br />
-                    <span style={{ fontVariant: 'small-caps' }} ><small>{when_to_do}</small></span> <br />
+                    <span style={{ maxWidth: '100%', fontVariant: 'small-caps', wordWrap: 'break-word', display: 'inline-block' }} ><small>{when_to_do}</small></span> <br />
                 </div>
                 <CompleteButton
                     identifier={this.props.task.name.trim()}
@@ -155,7 +158,9 @@ export const TaskDetails = props => {
                 <p style={taskDetailsHeaderStyle}>Awards</p>
                 <span>{props.task.reward ? props.task.reward : 'No'} points</span><br />
                 <p style={taskDetailsHeaderStyle}>Should be done</p>
-                <span> {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
+                <span
+                    style={{ wordWrap: 'break-word', display: 'inline-block' }}
+                > {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
             </div>
         );
     }
@@ -175,6 +180,7 @@ export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
     styles = {
         float: 'right',
         marginTop: '-37px',
+        marginRight: '0.5em',
         background: '#689F38'
     };
     render() {

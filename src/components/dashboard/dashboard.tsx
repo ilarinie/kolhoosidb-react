@@ -15,6 +15,7 @@ import { AdminPanel } from './admin-panel/admin-panel';
 import { DashboardComponent } from './dashboard-component/dashboard-component';
 import { XpScroller } from '../util/xp-scroller';
 import { AnimatedSwitch } from 'react-router-transition';
+import { MobileDashboardComponent } from './mobile-dashboard/mobile-dashboard';
 
 @inject('mainState')
 @observer
@@ -33,7 +34,7 @@ export class Dashboard extends React.Component<{ mainState: MainState }, {}> {
                         className="switch-wrapper"
                         runOnMount={true}
                     >
-                        <CommuneSelectedRoute exact={true} path="/" component={DashboardComponent} />
+                        <CommuneSelectedRoute exact={true} path="/" component={this.props.mainState.uiState.mobileState ? MobileDashboardComponent : DashboardComponent} />
                         <CommuneSelectedRoute path="/tasks" component={TasksComponent} />
                         <CommuneSelectedRoute path="/purchases" component={PurchasesComponent} />
                         <CommuneSelectedRoute path="/admin_panel" component={AdminPanel} />

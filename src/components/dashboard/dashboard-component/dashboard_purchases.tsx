@@ -17,7 +17,7 @@ import { Refund } from '../../../store/models/refund';
 
 @inject('mainState')
 @observer
-export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
+export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState, hideButtons?: boolean }, { dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -59,7 +59,9 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
         });
         let combined = newUsers.concat(newAdmins);
         let creator = null;
-        if (this.props.mainState.communeState.selectedCommune.purchase_categories && this.props.mainState.communeState.selectedCommune.purchase_categories.length !== 0) {
+        if (!this.props.hideButtons &&
+            this.props.mainState.communeState.selectedCommune.purchase_categories &&
+            this.props.mainState.communeState.selectedCommune.purchase_categories.length !== 0) {
             creator = (
                 <div>
                     <RaisedButton

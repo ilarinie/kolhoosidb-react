@@ -8,6 +8,8 @@ import { DashboardActivityFeed } from '../components/dashboard/dashboard-compone
 export class UiState {
 
   mainState: MainState;
+
+  @observable mobileState = false;
   // Loading indicators
   @persist @observable loginLoading: boolean = false;
 
@@ -41,6 +43,24 @@ export class UiState {
 
   constructor(mainState: MainState) {
     this.mainState = mainState;
+    this.intializeMedialistener();
+  }
+
+  intializeMedialistener = () => {
+    const mediaQuery = window.matchMedia('(min-width: 768px)');
+    if (mediaQuery.matches) {
+      this.mobileState = false;
+    } else {
+      this.mobileState = true;
+    }
+    mediaQuery.addListener((mq) => {
+      if (mq.matches) {
+        this.mobileState = false;
+      } else {
+        this.mobileState = true;
+      }
+    });
+
   }
 
   @action

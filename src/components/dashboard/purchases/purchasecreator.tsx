@@ -47,6 +47,22 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         };
     }
 
+    handleSubmit = () => {
+        this.props.submitPurchase(this.state.purchase);
+    }
+
+    handleCatChange = (event, index, value) => {
+        const { purchase } = this.state;
+        purchase.purchase_category_id = value;
+        this.setState({ purchase: purchase });
+    }
+
+    handleChange = (event) => {
+        const { purchase } = this.state;
+        purchase[event.target.name] = event.target.value;
+        this.setState({ purchase: purchase });
+    }
+
     render() {
         const { purchase } = this.state;
         let cats = null;
@@ -56,7 +72,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
             ));
         }
         return (
-            <div style={{ margin: '0 auto', maxWidth: '350px' }}>
+            <div style={{ maxWidth: '100vw', maxHeight: '65vh', padding: '1em', }}>
                 <ValidatorForm
                     onSubmit={this.handleSubmit}
                 >
@@ -104,21 +120,5 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                 </ValidatorForm>
             </div >
         );
-    }
-
-    handleSubmit = () => {
-        this.props.submitPurchase(this.state.purchase);
-    }
-
-    handleCatChange = (event, index, value) => {
-        const { purchase } = this.state;
-        purchase.purchase_category_id = value;
-        this.setState({ purchase: purchase });
-    }
-
-    handleChange = (event) => {
-        const { purchase } = this.state;
-        purchase[event.target.name] = event.target.value;
-        this.setState({ purchase: purchase });
     }
 }

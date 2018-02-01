@@ -48,7 +48,15 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
         width: '150px'
     };
 
+    componentDidMount() {
+        console.log(process.env.REACT_APP_ENV);
+        if (process.env.REACT_APP_ENV !== 'production' && process.env.REACT_APP_ENV !== 'integration') {
+            this.submitLogin('testaaja1', 'testaaja');
+        }
+    }
+
     render() {
+
         // Jos huomataan että ollaan jo kirjauduttu, ohjataan samantien dashboardiin.
         if (this.props.mainState.authState.token !== '') {
             return (<Redirect to="/" push={true} />);
@@ -106,8 +114,12 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
         let username: string = (document.getElementById('username') as HTMLInputElement).value;
         let password: string = (document.getElementById('password') as HTMLInputElement).value;
         if (username && password) {
-            this.props.mainState.authState.logIn(username, password);
+            this.submitLogin(username, password);
         }
+    }
+
+    submitLogin = (username: string, password: string) => {
+        this.props.mainState.authState.logIn(username, password);
     }
 
 }

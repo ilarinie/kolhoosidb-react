@@ -23,8 +23,8 @@ export const KolhoosiLargeTextInput = (props: KolhoosiLargeTextInputProps) => {
 
     return (
         <div style={{ margin: '0 auto' }} >
-            <p>{props.label}</p>
-            <div style={{ border: '1px solid lightgray', borderRadius: '5px', padding: '0px 5px', textAlign: props.align, fontSize: '14px', fontWeight: 'bold' }}>
+            <p style={{ fontSize: '12px' }}>{props.label}</p>
+            <div style={{ border: '1px solid lightgray', borderRadius: '5px', padding: '0px 0.1em', textAlign: props.align, fontSize: '14px', fontWeight: 'bold' }}>
                 <TextValidator
                     style={textFieldStyle}
                     name={props.name}
@@ -46,7 +46,7 @@ export const KolhoosiLargeTextInput = (props: KolhoosiLargeTextInputProps) => {
                     rows={props.rows}
                     underlineShow={false}
                 />
-                {props.currency ? <FaEur style={{ fontSize: '30px', color: 'gray' }} /> : null}
+                {props.currency ? <FaEur style={{ fontSize: '20px', color: 'gray' }} /> : null}
             </div>
         </div>
     );

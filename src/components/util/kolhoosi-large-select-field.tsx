@@ -16,7 +16,7 @@ export const KolhoosiLargeSelectField = (props: KolhoosiLargeSelectFieldProps) =
     };
     return (
         <div style={{ textAlign: 'left' }}>
-            <p>{props.label}</p>
+            <p style={{ fontSize: '12px' }}>{props.label}</p>
             <div style={{ border: '1px solid lightgray', borderRadius: '5px', textAlign: 'center', fontWeight: 'bold' }}>
                 <SelectValidator
                     className={props.className || null}
@@ -37,7 +37,7 @@ export const KolhoosiLargeSelectField = (props: KolhoosiLargeSelectFieldProps) =
                         color: 'gray',
                         marginRight: '-50px',
                         fontFamily: 'inconsolata',
-                        fontSize: '25px',
+                        fontSize: '15px',
                         marginBottom: '-20px'
                     }}
                 >

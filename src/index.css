@@ -68,7 +68,7 @@ input:-webkit-autofill {
 }
 
 .switch-wrapper > div {
-  position: absolute;
+  position: absolute;  
 }
 /* Removes padding from MUI dialog */
 .kolhoosidialog > div > div > div > div {
