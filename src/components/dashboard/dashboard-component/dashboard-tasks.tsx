@@ -160,7 +160,9 @@ export const TaskDetails = props => {
                 <p style={taskDetailsHeaderStyle}>Should be done</p>
                 <span
                     style={{ wordWrap: 'break-word', display: 'inline-block' }}
-                > {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
+                >
+                    {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}
+                </span>
             </div>
         );
     }

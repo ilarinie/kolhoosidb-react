@@ -31,6 +31,7 @@
     "react-router-dom": "^4.2.2",
     "react-router-transition": "^1.1.3",
     "react-scripts-ts": "2.8.0",
+    "react-styleguidist": "^6.2.2",
     "react-table": "^6.7.6",
     "react-test-renderer": "^16.2.0",
     "react-translate": "^6.0.0",
@@ -45,6 +46,8 @@
     "jest-localstorage-mock": "^2.1.0"
   },
   "scripts": {
+    "styleguide": "styleguidist server",
+    "styleguide:build": "styleguidist build",
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
