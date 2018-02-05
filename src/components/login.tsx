@@ -1,20 +1,27 @@
 import * as React from 'react';
 import { MainState, mainState } from '../store/state';
 import { observer, inject } from 'mobx-react';
-import { RegisterComponent } from './register';
+import { decorate, style } from '../theme';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui/styles';
+import RegisterComponent from './register';
 import { User } from '../store/models/user';
 import { TextField, Paper } from 'material-ui';
-import { SubmitButton } from './util/submit-button';
+import SubmitButton from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
 import { Redirect } from 'react-router-dom';
-import { ComponentThemeWrapper } from './util/componentThemeWrapper';
 import { FaUser, FaLock } from 'react-icons/lib/fa';
 
-const logo = require('../assets/logo.png');
+// const logo = require('../assets/logo.png');
 
-@inject('mainState')
-@observer
-export class LoginComponent extends React.Component<{ mainState: MainState }, {}> {
+/**
+ * Grid properties.
+ */
+export interface LoginComponentProps {
+    mainState: MainState;
+}
+
+class LoginComponent extends React.Component<LoginComponentProps & WithStyles, {}> {
     containerStyle = {
         width: '370px',
         maxWidth: '95vw',
@@ -49,7 +56,6 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
     };
 
     componentDidMount() {
-        console.log(process.env.REACT_APP_ENV);
         if (process.env.REACT_APP_ENV !== 'production' && process.env.REACT_APP_ENV !== 'integration') {
             this.submitLogin('testaaja1', 'testaaja');
         }
@@ -62,10 +68,10 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
             return (<Redirect to="/" push={true} />);
         }
         return (
-            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+            <div>
                 <div style={this.containerStyle}>
-                    <Paper style={this.paperStyles} rounded={true} zDepth={2}>
-                        <img style={{ width: '100%' }} src={logo} />
+                    <Paper style={this.paperStyles}>
+                        {/* <img style={{ width: '100%' }} src={logo} /> */}
                         <h4>Log in</h4>
                         <form onSubmit={this.login}>
                             <div className="fieldContainer">
@@ -74,13 +80,13 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                                     style={this.textFieldStyle}
                                     id="username"
                                     type="text"
-                                    hintText="Username"
-                                    errorText={this.props.mainState.uiState.loginError.message}
+                                    placeholder="Username"
+                                // errorText={this.props.mainState.uiState.loginError.message}
                                 />
                             </div>
                             <div className="fieldContainer">
                                 <FaLock />
-                                <TextField style={this.textFieldStyle} id="password" type="password" hintText="Password" />
+                                <TextField style={this.textFieldStyle} id="password" type="password" placeholder="Password" />
                             </div>
                             <br /><br />
                             <SubmitButton
@@ -96,7 +102,7 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
                 <div style={this.containerStyle}>
                     <RegisterComponent mainState={this.props.mainState} />
                 </div>
-            </ComponentThemeWrapper>
+            </div>
         );
     }
 
@@ -123,3 +129,10 @@ export class LoginComponent extends React.Component<{ mainState: MainState }, {}
     }
 
 }
+
+export default compose<LoginComponentProps & WithStyles, any>(
+    decorate,
+    style,
+    inject('mainState'),
+    observer
+)(LoginComponent);

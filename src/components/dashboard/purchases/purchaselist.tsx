@@ -2,13 +2,15 @@ import * as React from 'react';
 import ReactTable from 'react-table';
 import { Purchase } from '../../../store/models/purchase';
 import 'react-table/react-table.css';
-import { FlatButton } from 'material-ui';
+import { Button, WithStyles } from 'material-ui';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { Checkbox } from 'material-ui';
 import TiCancel from 'react-icons/lib/ti/cancel';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
 import * as moment from 'moment';
 import { parseLocale } from '../../../domain/formatter/localeParser';
+import { decorate, style } from '../../../theme';
+import { compose } from 'recompose';
 
 const getAveragePurchase = (purchases: any[]): number => {
     let sum = 0.0;
@@ -31,8 +33,7 @@ interface PurchaseListState {
 
 }
 
-@observer
-export class PurchaseList extends React.Component<PurchaseListProps, PurchaseListState> {
+class PurchaseList extends React.Component<PurchaseListProps & WithStyles, PurchaseListState> {
 
     columnStyle = {
         padding: '15px 5px',
@@ -53,8 +54,8 @@ export class PurchaseList extends React.Component<PurchaseListProps, PurchaseLis
             Filter: ({ filter, onChange }) => (
                 <span style={{ fontSize: '11px' }}>
                     <Checkbox
-                        style={{ marginLeft: '-15px', marginTop: '5px', float: 'left', maxWidth: '5px' }}
-                        onCheck={(event, selected) => onChange(selected)}
+                        // style={{ marginLeft: '-15px', marginTop: '5px', float: 'left', maxWidth: '5px' }}
+                        onChange={(event, selected) => onChange(selected)}
                     />Only show<br />my purchases
                 </span>
             ),
@@ -101,7 +102,7 @@ export class PurchaseList extends React.Component<PurchaseListProps, PurchaseLis
     getTableStyle = () => {
         return {
             style: {
-                color: '#424242'
+                color: this.props.theme.palette.text.primary
             }
         };
     }
@@ -160,13 +161,11 @@ export class PurchaseDetails extends React.Component<PurchaseDetailsProps, Purch
         let deleteButton = null;
         if (this.props.current_user_id === this.props.row.original.user_id && this.props.row.original.category !== 'Refund') {
             deleteButton = (
-                <FlatButton
+                <Button
                     onClick={this.deletePurchase}
-                    label="Delete"
-                    icon={<TiCancel style={{ color: 'red' }} />}
-                    primary={true}
                     style={{ float: 'right' }}
-                />
+                ><TiCancel style={{ color: 'red' }} /> Delete
+                </Button>
             );
         }
         let date = new Date(this.props.row.original.created_at);
@@ -187,3 +186,9 @@ export class PurchaseDetails extends React.Component<PurchaseDetailsProps, Purch
         }
     }
 }
+
+export default compose<PurchaseListProps, any>(
+    decorate,
+    style,
+    observer,
+)(PurchaseList);

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { PurchaseCategory } from '../../../../store/models/purchase_category';
-import { TextField, RaisedButton, CardText, Card, CardActions } from 'material-ui';
-import { CardHeader } from 'material-ui/Card';
+import { TextField, CardHeader, Button, CardContent, Card, CardActions } from 'material-ui';
 import { FaPencil } from 'react-icons/lib/fa';
 import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 
@@ -27,16 +26,13 @@ export class PurchaseCategoryEditor extends React.Component<PurchaseCategoryEdit
                 <Card key={index}>
                     <CardHeader
                         title={cat.name}
-                        actAsExpander={true}
-                        showExpandableButton={true}
                     />
-                    <CardText
-                        expandable={true}
+                    <CardContent
                     >
                         <CardActions>
                             <p>todo</p>
                         </CardActions>
-                    </CardText>
+                    </CardContent>
                 </Card>
             ));
         }
@@ -47,24 +43,21 @@ export class PurchaseCategoryEditor extends React.Component<PurchaseCategoryEdit
                 <Card style={{ marginTop: '20px' }}>
                     <CardHeader
                         title="Add purchase category"
-                        actAsExpander={true}
-                        showExpandableButton={true}
                     />
-                    <CardText
-                        expandable={true}
+                    <CardContent
                     >
                         <TextField
                             name="name"
                             type="text"
-                            floatingLabelText="Purchase Category Name"
+                            placeholder="Purchase Category Name"
                             value={this.state.purchaseCategory.name}
                             id="cat"
                             onChange={this.handleChange}
                         />
                         <CardActions>
-                            <RaisedButton label="Create" onClick={this.createCategory} />
+                            <Button raised={true} onClick={this.createCategory} >Create</Button>
                         </CardActions>
-                    </CardText>
+                    </CardContent>
                 </Card>
             </div>
         );

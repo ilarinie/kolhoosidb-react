@@ -2,8 +2,12 @@ import { MainState } from './state';
 import { action, observable } from 'mobx';
 import { persist } from 'mobx-persist';
 import { KolhoosiError } from './error';
-import { getMuiTheme, darkBaseTheme } from 'material-ui/styles';
-import { DashboardActivityFeed } from '../components/dashboard/dashboard-component/dashboard_activity_feed';
+import { red, yellow, grey, green } from 'material-ui/colors';
+import createMuiTheme, { Theme } from 'material-ui/styles/createMuiTheme';
+import blue from 'material-ui/colors/blue';
+import purple from 'material-ui/colors/purple';
+import deepPurple from 'material-ui/colors/deepPurple';
+import pink from 'material-ui/colors/pink';
 
 export class UiState {
 
@@ -109,57 +113,92 @@ export class UiState {
     window.location.reload();
   }
 
-  getKolhoosiTheme = () => {
+  getKolhoosiTheme = (): Theme => {
     let theme;
     if (this.mainState.userState.current_user) {
       theme = this.mainState.userState.current_user.default_theme;
     } else {
       theme = 'default';
     }
-    switch (theme) {
-      case 'darkBase':
-        return getMuiTheme(darkBaseTheme);
-      case 'lightBase':
-        return getMuiTheme();
-      case 'dark':
-        return getMuiTheme({
-          palette: {
-            primary1Color: '#2f4f4f',
-            primary2Color: '#fff',
-            primary3Color: '#2f4f4f',
-            accent1Color: '#fff',
-            accent2Color: '#fff',
-            accent3Color: '#fff',
-            canvasColor: '#2f4f4f',
-            textColor: '#fff',
-            disabledColor: '#fff',
-            alternateTextColor: '#fff',
-            secondaryTextColor: '#fff'
-          },
-          fontFamily: 'Roboto, sans-serif',
-          textField: {
-            focusColor: '#fff'
-          },
-          raisedButton: {
-            color: '#2f4f4f'
-          }
 
-        });
-      default:
-        return getMuiTheme({
-          palette: {
-            primary1Color: '#FF0025',
-            primary2Color: '#EF5350',
-            primary3Color: '#BDBDBD',
-            accent1Color: '#FFBF00',
-            accent2Color: '#FFFF8D',
-            accent3Color: '#9E9E9E',
-            textColor: '#030303',
-            alternateTextColor: '#fff',
+    const palette = {
+      primary: red,
+      secondary: yellow,
+    };
+
+    const palette2 = {
+      primary: pink,
+      secondary: purple,
+      type: 'dark' as 'dark',
+    };
+    const theme2 = createMuiTheme({
+      palette: palette
+    });
+
+    return createMuiTheme({
+      palette: palette2,
+      overrides: {
+        MuiDrawer: {
+          paper: {
+            width: '250px'
+          }
+        },
+        MuiButton: {
+          root: {
+            backgroundColor: grey[50],
+            color: green[500]
           },
-          fontFamily: 'Roboto, sans-serif'
-        });
-    }
+          raised: {
+            backgroundColor: grey[50],
+            color: green[500]
+          }
+        }
+      }
+    });
+    // switch (theme) {
+    //   case 'darkBase':
+    //     return getMuiTheme(darkBaseTheme);
+    //   case 'lightBase':
+    //     return getMuiTheme();
+    //   case 'dark':
+    //     return getMuiTheme({
+    //       palette: {
+    //         primary1Color: '#2f4f4f',
+    //         primary2Color: '#fff',
+    //         primary3Color: '#2f4f4f',
+    //         accent1Color: '#fff',
+    //         accent2Color: '#fff',
+    //         accent3Color: '#fff',
+    //         canvasColor: '#2f4f4f',
+    //         textColor: '#fff',
+    //         disabledColor: '#fff',
+    //         alternateTextColor: '#fff',
+    //         secondaryTextColor: '#fff'
+    //       },
+    //       fontFamily: 'Roboto, sans-serif',
+    //       textField: {
+    //         focusColor: '#fff'
+    //       },
+    //       raisedButton: {
+    //         color: '#2f4f4f'
+    //       }
+
+    //     });
+    //   default:
+    //     return getMuiTheme({
+    //       palette: {
+    //         primary1Color: '#FF0025',
+    //         primary2Color: '#EF5350',
+    //         primary3Color: '#BDBDBD',
+    //         accent1Color: '#FFBF00',
+    //         accent2Color: '#FFFF8D',
+    //         accent3Color: '#9E9E9E',
+    //         textColor: '#030303',
+    //         alternateTextColor: '#fff',
+    //       },
+    //       fontFamily: 'Roboto, sans-serif'
+    //     });
+    // }
 
   }
 }

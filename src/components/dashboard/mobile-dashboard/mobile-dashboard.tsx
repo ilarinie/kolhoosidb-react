@@ -2,12 +2,16 @@ import * as React from 'react';
 import { observer, inject } from 'mobx-react';
 import { MainState } from '../../../store/state';
 import { Refund } from '../../../store/models/refund';
-import mail from 'material-ui/svg-icons/content/mail';
-import { DashboardTasksComponent } from '../dashboard-component/dashboard-tasks';
-import { DashboardPurchasesComponent } from '../dashboard-component/dashboard_purchases';
-import { PurchaseCreator } from '../purchases/purchasecreator';
+import DashboardTasksComponent from '../dashboard-component/dashboard-tasks';
+import DashboardPurchasesComponent from '../dashboard-component/dashboard_purchases';
+import PurchaseCreator from '../purchases/purchasecreator';
 import { Purchase } from '../../../store/models/purchase';
 import { AnimatedSwitch } from 'react-router-transition';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
+import { WithStyles, BottomNavigation, BottomNavigationAction } from 'material-ui';
+import { FaTasks, FaMoney, FaEur } from 'react-icons/lib/fa';
+import { ThemeWrapper } from '../../util/theme-wrapper';
 
 interface MobileDashboardComponentProps {
     mainState: MainState;
@@ -17,18 +21,22 @@ interface MobileDashboardComponentState {
     shownComponent: number;
 }
 
-@inject('mainState')
-@observer
-export class MobileDashboardComponent extends React.Component<MobileDashboardComponentProps, MobileDashboardComponentState> {
+class MobileDashboardComponent extends React.Component<MobileDashboardComponentProps & WithStyles, MobileDashboardComponentState> {
     outerContainerStyles: any = {
-        width: '97vw',
-        height: '60vh',
-        padding: '5px',
+        maxWidth: '95%',
+        width: '100vw',
+        height: '100%',
+        overflow: 'auto',
+        margin: '0 auto',
+        // background: this.props.theme.palette.background.default,
     };
 
     headerStyle = {
         margin: '0 auto',
-        textAlign: 'center'
+        textAlign: 'center',
+        fontWeight: 'bold' as 'bold',
+        fontVariant: 'small-caps'
+
     };
 
     footerStyles: any = {
@@ -38,17 +46,17 @@ export class MobileDashboardComponent extends React.Component<MobileDashboardCom
         left: 0,
         width: '100vw',
         height: '2em',
-        background: this.props.mainState.uiState.getKolhoosiTheme().palette.primary1Color,
+        background: this.props.theme.palette.primary.main,
         color: 'white',
         display: 'flex',
         justifyContent: 'center',
-        borderTop: '1px solid ' + this.props.mainState.uiState.getKolhoosiTheme().palette.primary1Color,
+        borderTop: '1px solid ' + this.props.theme.palette.primary.main,
     };
 
     constructor(props: any) {
         super(props);
         this.state = {
-            shownComponent: 1
+            shownComponent: 0
         };
     }
 
@@ -79,16 +87,16 @@ export class MobileDashboardComponent extends React.Component<MobileDashboardCom
 
     getComponent = () => {
         switch (this.state.shownComponent) {
-            case 1:
+            case 0:
                 return (
-                    <div style={{ width: '95vw', maxWidth: '95vw', marginLeft: '5px', overflow: 'auto' }}>
+                    <div style={{ width: '100%', overflow: 'auto' }}>
                         <div style={this.headerStyle}>Tasks</div>
                         <DashboardTasksComponent mainState={this.props.mainState} />
                     </div>
                 );
-            case 2:
+            case 1:
                 return (
-                    <div style={{ width: '95vw', maxWidth: '95vw', marginRight: '-2px', margin: '0 auto', overflow: 'hidden' }}>
+                    <div style={{ width: '100%', overflow: 'hidden' }}>
                         <div style={this.headerStyle}>Create a purchase</div>
                         <PurchaseCreator
                             categories={this.props.mainState.selCommune().purchase_categories}
@@ -98,9 +106,9 @@ export class MobileDashboardComponent extends React.Component<MobileDashboardCom
                         />
                     </div>
                 );
-            case 3:
+            case 2:
                 return (
-                    <div style={{ width: '95vw', maxWidth: '95vw', marginRight: '-2px', margin: '0 auto', overflow: 'auto' }}>
+                    <div style={{ width: '100%', overflow: 'auto' }}>
                         <div style={this.headerStyle}>Budget</div>
                         <DashboardPurchasesComponent mainState={this.props.mainState} hideButtons={true} />
                     </div>
@@ -114,9 +122,14 @@ export class MobileDashboardComponent extends React.Component<MobileDashboardCom
         this.setState({ shownComponent: id });
     }
 
+    handleChange = (event, value) => {
+        this.setState({ shownComponent: value });
+    }
+
     render() {
+        const value = this.state.shownComponent;
         return (
-            <div style={{ height: '60vh' }}>
+            <ThemeWrapper>
                 <div style={this.outerContainerStyles}>
                     <AnimatedSwitch
                         key={this.state.shownComponent}
@@ -129,12 +142,23 @@ export class MobileDashboardComponent extends React.Component<MobileDashboardCom
                         {this.getComponent()}
                     </AnimatedSwitch>
                 </div>
-                <div style={this.footerStyles}>
-                    <FooterLink id={1} selected={this.state.shownComponent === 1} onClick={this.switchTab}>Tasks</FooterLink>
-                    <FooterLink id={2} selected={this.state.shownComponent === 2} onClick={this.switchTab}>New Purchase</FooterLink>
-                    <FooterLink id={3} selected={this.state.shownComponent === 3} onClick={this.switchTab}>Budget</FooterLink>
-                </div>
-            </div>
+                <BottomNavigation
+                    style={{
+                        position: 'fixed',
+                        bottom: 0,
+                        width: '100vw',
+                        maxWidth: '100%'
+                    }}
+                    value={value}
+                    onChange={this.handleChange}
+                    showLabels={true}
+                    classes={this.props.classes}
+                >
+                    <BottomNavigationAction label="Tasks" icon={<FaTasks />} />
+                    <BottomNavigationAction label="New Purchase" icon={<FaMoney />} />
+                    <BottomNavigationAction label="Budget" icon={<FaEur />} />
+                </BottomNavigation>
+            </ThemeWrapper>
         );
     }
 }
@@ -158,3 +182,10 @@ const FooterLink = props => {
         <span style={linkStyles} onClick={clicker}>{props.children}</span>
     );
 };
+
+export default compose<MobileDashboardComponentProps & WithStyles, any>(
+    decorate,
+    style,
+    inject('mainState'),
+    observer,
+)(MobileDashboardComponent);

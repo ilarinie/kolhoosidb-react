@@ -3,13 +3,18 @@ import { MainState } from '../store/state';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
 import { inject, observer } from 'mobx-react';
-import { SubmitButton } from './util/submit-button';
+import SubmitButton from './util/submit-button';
 import { SmallErrorDisplay } from './util/small-error-display';
-import { Card, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardHeader, CardContent } from 'material-ui';
+import { compose } from 'recompose';
+import { decorate, style } from '../theme';
+import { WithStyles } from 'material-ui';
 
-@inject('mainState')
-@observer
-export class RegisterComponent extends React.Component<{ mainState: MainState }, { user: any }> {
+interface RegisterComponentProps {
+    mainState: MainState;
+}
+
+class RegisterComponent extends React.Component<RegisterComponentProps & WithStyles, { user: any }> {
 
     constructor(props: any) {
         super(props);
@@ -33,17 +38,15 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
                 <CardHeader
                     className="register-form-button"
                     title="Register"
-                    actAsExpander={true}
-                    showExpandableButton={true}
                 />
-                <CardText expandable={true}>
+                <CardContent>
                     <SmallErrorDisplay error={this.props.mainState.uiState.registerError} />
                     <ValidatorForm
                         onSubmit={this.handleSubmit}
                         onError={errors => this.showError(errors)}
                     >
                         <TextValidator
-                            floatingLabelText="Username"
+                            placeholder="Username"
                             onChange={this.handleChange}
                             name="username"
                             type="text"
@@ -52,7 +55,7 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
                             value={user.username}
                         /><br />
                         <TextValidator
-                            floatingLabelText="Name"
+                            placeholder="Name"
                             onChange={this.handleChange}
                             name="name"
                             type="text"
@@ -61,7 +64,7 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
                             value={user.name}
                         /><br />
                         <TextValidator
-                            floatingLabelText="Email"
+                            placeholder="Email"
                             onChange={this.handleChange}
                             name="email"
                             type="email"
@@ -70,7 +73,7 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
                             value={user.email}
                         /><br />
                         <TextValidator
-                            floatingLabelText="Password"
+                            placeholder="Password"
                             onChange={this.handleChange}
                             name="password"
                             type="password"
@@ -79,7 +82,7 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
                             value={user.password}
                         /><br />
                         <TextValidator
-                            floatingLabelText="Password Confirmation"
+                            placeholder="Password Confirmation"
                             onChange={this.handleChange}
                             name="password_confirmation"
                             type="password"
@@ -91,7 +94,7 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
                             <span id="registerbutton" />
                         </SubmitButton>
                     </ValidatorForm>
-                </CardText>
+                </CardContent>
             </Card>
         );
     }
@@ -111,3 +114,9 @@ export class RegisterComponent extends React.Component<{ mainState: MainState },
     }
 
 }
+
+export default compose<RegisterComponentProps, any>(
+    decorate,
+    style,
+    observer,
+)(RegisterComponent);

@@ -1,5 +1,8 @@
 import * as React from 'react';
 import { FaSpinner, FaStar } from 'react-icons/lib/fa';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../theme';
 
 const loadingDivStyles = {
     margin: '0 auto',
@@ -9,17 +12,17 @@ const loadingDivStyles = {
     textAlign: 'center'
 };
 
-export class LoadingScreen extends React.Component<{ loading: boolean }, {}> {
+class LoadingScreenImpl extends React.Component<{ loading: boolean } & WithStyles, {}> {
     render() {
         if (this.props.loading) {
             return (
                 <div style={loadingDivStyles}>
-                    <FaStar style={{ color: 'red' }} size={72} className="fa-spin" />
+                    <FaStar style={{ color: this.props.theme.palette.primary.dark }} size={72} className="fa-spin" />
                 </div>
             );
         } else {
             return (
-                <div style={{ width: '100%' }}>
+                <div>
                     {this.props.children}
                 </div>
             );
@@ -27,3 +30,10 @@ export class LoadingScreen extends React.Component<{ loading: boolean }, {}> {
 
     }
 }
+
+export const LoadingScreen = compose<{ loading: boolean }, any>(
+    decorate,
+    style
+)(LoadingScreenImpl);
+
+export default LoadingScreen;

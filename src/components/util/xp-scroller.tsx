@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { TopListItem } from '../../store/models/top_list_item';
 import { observer } from 'mobx-react';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../theme';
 
 interface XpScrollerProps {
     weekly: TopListItem[];
@@ -9,11 +12,10 @@ interface XpScrollerProps {
     getTopLists: any;
 }
 
-@observer
-export class XpScroller extends React.Component<XpScrollerProps, {}> {
+class XpScroller extends React.Component<XpScrollerProps & WithStyles, {}> {
     constructor(props: any) {
         super(props);
-        
+
     }
 
     componentDidMount() {
@@ -30,10 +32,10 @@ export class XpScroller extends React.Component<XpScrollerProps, {}> {
     }
 }
 
-export class TopListRow extends React.Component<{list: TopListItem[], title: string}, {}> {
+class TopListRow extends React.Component<{ list: TopListItem[], title: string }, {}> {
     constructor(props: any) {
         super(props);
-        
+
     }
     render() {
         let items = this.props.list.map((item, index) => (
@@ -56,3 +58,9 @@ export class TopListRow extends React.Component<{list: TopListItem[], title: str
         );
     }
 }
+
+export default compose<XpScrollerProps, any>(
+    decorate,
+    style,
+    observer,
+)(XpScroller);

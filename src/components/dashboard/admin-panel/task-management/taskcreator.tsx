@@ -1,12 +1,15 @@
 import * as React from 'react';
-import { Card, CardText } from 'material-ui/Card';
-import { Dialog } from 'material-ui';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
 import { Task } from '../../../../store/models/task';
-import { RaisedButton } from 'material-ui';
 import { KolhoosiLargeTextInput } from '../../../util/kolhoosi-large-text-input';
-import { SubmitButton } from '../../../util/submit-button';
+import SubmitButton from '../../../util/submit-button';
+
+export interface TaskCreatorProps {
+    editedTask: Task;
+    submitTask: any;
+    loading: boolean;
+}
 
 export class TaskCreator extends React.Component<{ editedTask: Task, submitTask: any, loading: boolean }, { task: any }> {
 

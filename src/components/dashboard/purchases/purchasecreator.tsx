@@ -1,15 +1,18 @@
 import { TextValidator, SelectValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
-import { MenuItem, SelectField, RaisedButton, CardHeader, CardText, Card, FlatButton } from 'material-ui';
+import { MenuItem } from 'material-ui';
 import * as React from 'react';
 import { Purchase } from '../../../store/models/purchase';
 import { KolhoosiCardTitle } from '../../util/card-title';
 import { FaEur, FaChevronDown } from 'react-icons/lib/fa';
-import { SubmitButton } from '../../util/submit-button';
-import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
+import SubmitButton from '../../util/submit-button';
 import { KolhoosiLargeSelectField } from '../../util/kolhoosi-large-select-field';
 import { KolhoosiLargeTextInput } from '../../util/kolhoosi-large-text-input';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
+import { inject, observer } from 'mobx-react';
 
 interface PurchaseCreatorProps {
     categories: PurchaseCategory[];
@@ -20,7 +23,7 @@ interface PurchaseCreatorProps {
     loading: boolean;
 }
 
-export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { purchase: Purchase }> {
+class PurchaseCreator extends React.Component<PurchaseCreatorProps & WithStyles, { purchase: Purchase, purchase_category_id: number }> {
 
     textFieldStyle = {
         width: '85%',
@@ -43,7 +46,8 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         purchase.category = this.props.categories[0];
         purchase.purchase_category_id = this.props.categories[0].id;
         this.state = {
-            purchase: purchase
+            purchase: purchase,
+            purchase_category_id: this.props.categories[0].id
         };
     }
 
@@ -53,8 +57,10 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
 
     handleCatChange = (event, index, value) => {
         const { purchase } = this.state;
-        purchase.purchase_category_id = value;
-        this.setState({ purchase: purchase });
+        if (value) {
+            purchase.purchase_category_id = value;
+            this.setState({ purchase: purchase });
+        }
     }
 
     handleChange = (event) => {
@@ -68,7 +74,10 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         let cats = null;
         if (this.props.categories.length !== 0) {
             cats = this.props.categories.map((cat, index) => (
-                <MenuItem className={'purchase-category-' + index} key={index} value={cat.id} primaryText={cat.name} />
+                <MenuItem className={'purchase-category-' + index} key={index} value={cat.id} >
+                    {cat.name}
+                </MenuItem>
+
             ));
         }
         return (
@@ -102,7 +111,7 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                     <KolhoosiLargeSelectField
                         label="How would you categorize it?"
                         onChange={this.handleCatChange}
-                        value={this.state.purchase.purchase_category_id}
+                        value={this.state.purchase_category_id}
                         children={cats}
                     />
                     <div style={{ margin: '30px auto' }}>
@@ -113,7 +122,6 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
                             loading={this.props.loading}
                             fullWidth={true}
                             backgroundColor="#43A047"
-                            labelStyle={{ color: 'white', fontSize: '20px' }}
                         />
                     </div>
 
@@ -122,3 +130,8 @@ export class PurchaseCreator extends React.Component<PurchaseCreatorProps, { pur
         );
     }
 }
+
+export default compose<PurchaseCreatorProps & WithStyles, any>(
+    decorate,
+    style,
+)(PurchaseCreator);

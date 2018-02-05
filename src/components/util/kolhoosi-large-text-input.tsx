@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { FaEur } from 'react-icons/lib/fa';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../theme';
 
 interface KolhoosiLargeTextInputProps {
     value: any;
@@ -32,22 +35,21 @@ export const KolhoosiLargeTextInput = (props: KolhoosiLargeTextInputProps) => {
                     onChange={props.onChange}
                     value={props.value}
                     validators={props.validators}
-                    inputStyle={props.multiline ? null : {
-                        textAlign: props.align,
-                        fontFamily: 'inconsolata',
-                        fontSize: props.currency ? '30px' : '15px',
-                        color: 'gray',
-                        width: '85%'
+                    InputProps={{
+                        disableUnderline: true,
                     }}
+                    rows={props.rows}
+                    multiline={props.multiline}
                     step={props.currency ? '.01' : null}
 
-                    textareaStyle={props.textareaStyle || null}
-                    multiLine={props.multiline}
-                    rows={props.rows}
-                    underlineShow={false}
                 />
                 {props.currency ? <FaEur style={{ fontSize: '20px', color: 'gray' }} /> : null}
             </div>
         </div>
     );
 };
+
+// export const KolhoosiLargeTextInput = compose<KolhoosiLargeTextInputProps, any>(
+//     decorate,
+//     style
+// )(KolhoosiLargeTextInputImpl);

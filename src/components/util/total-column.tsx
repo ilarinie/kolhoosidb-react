@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TableRowColumn } from 'material-ui';
+import { TableCell } from 'material-ui';
 import { currencyFormatter } from '../../domain/formatter/currencyFormatter';
 
 export class TotalColumn extends React.Component<{
@@ -8,7 +8,7 @@ export class TotalColumn extends React.Component<{
     render() {
         let total = currencyFormatter.format(this.props.total);
         return (
-            <TableRowColumn >{total}</TableRowColumn>
+            <TableCell >{total}</TableCell>
         );
     }
 }

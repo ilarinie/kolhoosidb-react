@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Dialog } from 'material-ui';
-import NavigationClose from 'material-ui/svg-icons/navigation/close';
+import { FaClose } from 'react-icons/lib/fa';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { decorate, style } from '../../../theme';
+import { compose } from 'recompose';
 
 interface KolhoosiDialogProps {
     actions?: any;
@@ -13,7 +16,7 @@ interface KolhoosiDialogState {
 
 }
 
-export class KolhoosiDialog extends React.Component<KolhoosiDialogProps, KolhoosiDialogState> {
+class KolhoosiDialog extends React.Component<KolhoosiDialogProps & WithStyles, KolhoosiDialogState> {
 
     headerStyles = {
         background: 'red',
@@ -43,20 +46,8 @@ export class KolhoosiDialog extends React.Component<KolhoosiDialogProps, Kolhoos
     render() {
         return (
             <Dialog
-                actions={this.props.actions ? this.props.actions : null}
-                modal={false}
                 open={this.props.open}
-                contentStyle={{
-                    padding: '0px !important',
-                    width: '400px'
-                }}
-                bodyStyle={{
-                    style: {
-                        padding: '0px'
-                    },
-                }}
                 className="kolhoosidialog"
-                autoScrollBodyContent={true}
             >
                 <div style={this.containerStyles}>
                     <div style={this.headerStyles}>
@@ -70,7 +61,7 @@ export class KolhoosiDialog extends React.Component<KolhoosiDialogProps, Kolhoos
                                 cursor: 'pointer'
                             }}
 
-                        ><NavigationClose style={{ fill: 'white' }} onClick={this.props.handleClose} />
+                        ><FaClose style={{ fill: 'white' }} onClick={this.props.handleClose} />
                         </span>
                     </div>
                     <div style={this.contentStyles}>
@@ -81,3 +72,8 @@ export class KolhoosiDialog extends React.Component<KolhoosiDialogProps, Kolhoos
         );
     }
 }
+
+export default compose<KolhoosiDialogProps, any>(
+    decorate,
+    style
+)(KolhoosiDialog);

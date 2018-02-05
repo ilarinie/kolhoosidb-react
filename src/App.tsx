@@ -1,17 +1,17 @@
 import * as React from 'react';
 import './App.css';
 import { Provider, observer, inject } from 'mobx-react';
-import { LoginComponent } from './components/login';
+import LoginComponent from './components/login';
 import { Route, Router, Redirect, Switch } from 'react-router-dom';
-import { Dashboard } from './components/dashboard/dashboard';
+import Dashboard from './components/dashboard/dashboard';
 import createBrowserHistory from './history';
 import { mainState } from './store/state';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { kolhoosiTheme } from './theme';
+// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import { create } from 'mobx-persist';
-import { SelectField, MenuItem, RaisedButton } from 'material-ui';
 import { UiState } from './store/ui-state';
 import { observable } from 'mobx';
+import ThemeObserver from './theme-observer';
 
 mainState.reset();
 // This will fetch the app state from localstorage.
@@ -32,6 +32,7 @@ const startLocationHistoryListen = () => {
     mainState.uiState.locationHistory.push(location.pathname);
   });
 };
+
 class App extends React.Component<{}, {}> {
   render(): any {
     return (
@@ -39,14 +40,16 @@ class App extends React.Component<{}, {}> {
         <ThemeObserver uiState={mainState.uiState}>
           <Provider mainState={mainState}>
             <Router history={createBrowserHistory}>
-              <Switch>
-                <Route path="/login" component={LoginComponent} />
-                <DashboardRoute path="/" component={Dashboard} />
-              </Switch>
+              <div style={{ width: '100vw', maxWidth: '100%', backgroundColor: mainState.uiState.getKolhoosiTheme().palette.background.default }} >
+                <Switch>
+                  <Route path="/login" component={LoginComponent} />
+                  <DashboardRoute path="/" component={Dashboard} />
+                </Switch>
+              </div>
             </Router>
           </Provider>
         </ThemeObserver>
-      </div>
+      </div >
     );
   }
 }
@@ -63,7 +66,7 @@ const DashboardRoute = ({ component: Component, ...rest }) => (
 
 export const CommuneSelectedRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
-    mainState.communeState.communeSelected ? (
+    mainState.communeState.selectedCommune ? (
       <Component {...props} />
     ) : (
         <Redirect to={{
@@ -90,21 +93,6 @@ export const LoginRoute = ({ component: Component, ...rest }) => (
 
 
 
-@inject('uiState')
-@observer
-export class ThemeObserver extends React.Component<{ uiState: UiState }, {}> {
-  constructor(props: any) {
-    super(props);
 
-  }
-  render() {
-    return (
-      <MuiThemeProvider muiTheme={mainState.uiState.getKolhoosiTheme()}
-      >
-        {this.props.children}
-      </MuiThemeProvider>
-    )
-  }
-}
 
 export default App;

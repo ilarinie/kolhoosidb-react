@@ -1,10 +1,8 @@
 import * as React from 'react';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
-import { SubmitButton } from '../../../util/submit-button';
+import SubmitButton from '../../../util/submit-button';
 import { Commune } from '../../../../store/models/commune';
-import { CardHeader, Card } from 'material-ui';
-import { CardText } from 'material-ui/Card';
 import { FaCogs } from 'react-icons/lib/fa';
 import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
 
@@ -21,7 +19,7 @@ export class CommuneDetailsEditor extends React.Component<{ commune: Commune, su
         return (
             <ValidatorForm onSubmit={this.handleSubmit}>
                 <TextValidator
-                    floatingLabelText="Commune name"
+                    placeholder="Commune name"
                     name="name"
                     type="text"
                     value={commune.name}
@@ -30,7 +28,7 @@ export class CommuneDetailsEditor extends React.Component<{ commune: Commune, su
                     errorMessages={['Name is requred']}
                 /><br />
                 <TextValidator
-                    floatingLabelText="Commune description"
+                    placeholder="Commune description"
                     name="description"
                     type="text"
                     multiLine={true}

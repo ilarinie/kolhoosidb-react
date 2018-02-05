@@ -1,23 +1,28 @@
 import * as React from 'react';
 import { MainState } from '../../../store/state';
-import { LoadingScreen } from '../../util/loading-screen';
+import LoadingScreen from '../../util/loading-screen';
 import { observer, inject } from 'mobx-react';
 import { Purchase } from '../../../store/models/purchase';
-import { Dialog, RaisedButton } from 'material-ui';
-import { PurchaseCreator } from '../purchases/purchasecreator';
+import { Dialog, Button } from 'material-ui';
+import PurchaseCreator from '../purchases/purchasecreator';
 import { TotalColumn } from '../../util/total-column';
 import { DiffColumn } from '../../util/diff-column';
 import { PurchaseCategory } from '../../../store/models/purchase_category';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
 import { FaPlus, FaUser } from 'react-icons/lib/fa';
-import { BarChart, XAxis, YAxis, Legend, Tooltip, Bar } from 'recharts';
-import { KolhoosiDialog } from '../../util/container/kolhoosidialog';
-import { RefundCreator } from '../purchases/refundcreator';
+import KolhoosiDialog from '../../util/container/kolhoosidialog';
+import RefundCreator from '../purchases/refundcreator';
 import { Refund } from '../../../store/models/refund';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
 
-@inject('mainState')
-@observer
-export class DashboardPurchasesComponent extends React.Component<{ mainState: MainState, hideButtons?: boolean }, { dialogOpen: boolean }> {
+interface DashboardPurchasesComponentProps {
+    mainState: MainState;
+    hideButtons?: boolean;
+}
+
+class DashboardPurchasesComponent extends React.Component<DashboardPurchasesComponentProps & WithStyles, { dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -64,20 +69,22 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
             this.props.mainState.communeState.selectedCommune.purchase_categories.length !== 0) {
             creator = (
                 <div>
-                    <RaisedButton
+                    <Button
+                        raised={true}
                         className="new-purchase-button"
                         style={{ width: '100%', margin: '0 auto', padding: '10px' }}
                         onClick={this.openDialog}
                     >
                         <FaPlus /> Add a Purchase
-                    </RaisedButton>
-                    <RaisedButton
+                    </Button>
+                    <Button
+                        raised={true}
                         className="new-refund-button"
                         style={{ width: '100%', margin: '0 auto', padding: '10px' }}
                         onClick={this.openRefundDialog}
                     >
                         <FaPlus /> Send a refund
-                    </RaisedButton>
+                    </Button>
                     <KolhoosiDialog
                         open={this.props.mainState.uiState.purchaseDialogOpen}
                         title="Create a purchase"
@@ -130,6 +137,12 @@ export class DashboardPurchasesComponent extends React.Component<{ mainState: Ma
         this.props.mainState.purchaseState.createPurchase(purchase);
     }
 }
+
+export default compose<DashboardPurchasesComponentProps, any>(
+    decorate,
+    style,
+    observer,
+)(DashboardPurchasesComponent);
 
 export class BudgetRow extends React.Component<{ user: any, diff: any }, {}> {
     constructor(props: any) {
