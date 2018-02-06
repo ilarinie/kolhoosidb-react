@@ -31,7 +31,7 @@ export class CommuneDetailsEditor extends React.Component<{ commune: Commune, su
                     placeholder="Commune description"
                     name="description"
                     type="text"
-                    multiLine={true}
+                    multiline={true}
                     rows={2}
                     value={commune.description}
                     onChange={this.handleChange}

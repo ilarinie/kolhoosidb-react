@@ -11,6 +11,7 @@ import { decorate, style } from '../../../theme';
 import { IconTitle } from '../../util/icon-title';
 import Toolbar from 'material-ui/Toolbar/Toolbar';
 import { MdMenu, MdAccountCircle } from 'react-icons/lib/md';
+import ListSubheader from 'material-ui/List/ListSubheader';
 const logo = require('../../../assets/logo.png');
 
 class AppBarComponent extends React.Component<{ mainState: MainState } & WithStyles, { docked: boolean, mobile: boolean, drawerOpen: any }> {
@@ -40,7 +41,7 @@ class AppBarComponent extends React.Component<{ mainState: MainState } & WithSty
             adminMenuItems = (
                 <div>
                     <Divider />
-                    <small>Admin tools</small>
+                    <ListSubheader>Admin tools</ListSubheader>
                     <KolhoosiNavItem
                         disabled={false}
                         path="/admin_panel"

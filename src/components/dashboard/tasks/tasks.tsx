@@ -27,14 +27,25 @@ class TasksComponent extends React.Component<{ mainState: MainState } & WithStyl
         this.props.mainState.taskState.deleteTaskCompletion(completion);
     }
 
+    updateTask = (task: Task) => {
+        this.props.mainState.taskState.updateTask(task);
+    }
+
+    deleteTask = (task: Task) => {
+        this.props.mainState.taskState.deleteTask(task);
+    }
+
     render() {
         let tasks = this.props.mainState.communeState.selectedCommune.tasks.map((task, index) => (
             <TaskCard
                 deleteTaskCompletion={this.deleteTaskCompletion}
-                current_user_id={this.props.mainState.userState.current_user.id}
+                current_user={this.props.mainState.userState.current_user}
+                current_user_admin={this.props.mainState.communeState.selectedCommune.current_user_admin}
                 completeTask={this.completeTask}
                 task={task}
                 key={index}
+                deleteTask={this.deleteTask}
+                submitTask={this.updateTask}
             />
         ));
         return (

@@ -43,6 +43,9 @@ export class UiState {
   @observable snackbarMessage: string = '';
   @observable showSnackbar: boolean = false;
   @observable undoFunction: any = null;
+  @observable palettePrimary: any = red;
+  @observable paletteSecondary: any = yellow;
+
   snackBarTimeout: any;
 
   constructor(mainState: MainState) {
@@ -122,8 +125,8 @@ export class UiState {
     }
 
     const palette = {
-      primary: red,
-      secondary: yellow,
+      primary: this.palettePrimary,
+      secondary: this.paletteSecondary
     };
 
     const palette2 = {
@@ -137,7 +140,7 @@ export class UiState {
     });
 
     return createMuiTheme({
-      palette: palette2,
+      palette: palette,
       overrides: {
         MuiDrawer: {
           paper: {

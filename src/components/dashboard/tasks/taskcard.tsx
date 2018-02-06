@@ -12,9 +12,20 @@ import ExpansionPanel from 'material-ui/ExpansionPanel/ExpansionPanel';
 import { decorate, style } from '../../../theme';
 import { compose } from 'recompose';
 import { FaLevelDown } from 'react-icons/lib/fa';
-import { TaskDetailsMobileComponent } from './task-details-mobile/task-details-mobile';
+import TaskDetailsMobileComponent from './task-details-mobile/task-details-mobile';
+import { User } from '../../../store/models/user';
 
-class TaskCard extends React.Component<{ completeTask: any, task: Task, current_user_id: number, deleteTaskCompletion: any } & WithStyles, { loading: boolean }> {
+interface TaskCardProps {
+    completeTask: any;
+    task: Task;
+    current_user: User;
+    current_user_admin: boolean;
+    deleteTaskCompletion: any;
+    submitTask: any;
+    deleteTask: any;
+}
+
+class TaskCard extends React.Component<TaskCardProps & WithStyles, { loading: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -29,7 +40,7 @@ class TaskCard extends React.Component<{ completeTask: any, task: Task, current_
     }
     render() {
         let completions = this.props.task.completions.map((completion, index) => (
-            <CompletionRow key={index} completion={completion} deleteTaskCompletion={this.deleteTaskCompletion} current_user_id={this.props.current_user_id} />
+            <CompletionRow key={index} completion={completion} deleteTaskCompletion={this.deleteTaskCompletion} current_user_id={this.props.current_user.id} />
         ));
         let latest_completion = null;
         if (this.props.task.completions.length !== 0) {
@@ -47,7 +58,12 @@ class TaskCard extends React.Component<{ completeTask: any, task: Task, current_
                     </div>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={this.props.classes.details}>
-                    <TaskDetailsMobileComponent admin={true} task={this.props.task} />
+                    <TaskDetailsMobileComponent
+                        admin={this.props.current_user_admin}
+                        task={this.props.task}
+                        submitTask={this.props.submitTask}
+                        deleteTask={this.props.deleteTask}
+                    />
                 </ExpansionPanelDetails>
             </ExpansionPanel>
 
@@ -103,7 +119,7 @@ class CompletionRow extends React.Component<{ completion: TaskCompletion, curren
     }
 }
 
-export default compose<any, any>(
+export default compose<TaskCardProps, any>(
     decorate,
     style,
     observer,

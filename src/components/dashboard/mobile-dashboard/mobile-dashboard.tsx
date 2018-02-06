@@ -12,13 +12,16 @@ import { decorate, style } from '../../../theme';
 import { WithStyles, BottomNavigation, BottomNavigationAction } from 'material-ui';
 import { FaTasks, FaMoney, FaEur } from 'react-icons/lib/fa';
 import { ThemeWrapper } from '../../util/theme-wrapper';
+import Transition from 'react-transition-group/Transition';
+import { ReactElement } from 'react';
 
 interface MobileDashboardComponentProps {
     mainState: MainState;
 }
 
 interface MobileDashboardComponentState {
-    shownComponent: number;
+    shownComponent: React.ReactElement<any>;
+    selected: number;
 }
 
 class MobileDashboardComponent extends React.Component<MobileDashboardComponentProps & WithStyles, MobileDashboardComponentState> {
@@ -56,7 +59,8 @@ class MobileDashboardComponent extends React.Component<MobileDashboardComponentP
     constructor(props: any) {
         super(props);
         this.state = {
-            shownComponent: 0
+            shownComponent: this.getComponent(0),
+            selected: 0
         };
     }
 
@@ -85,18 +89,18 @@ class MobileDashboardComponent extends React.Component<MobileDashboardComponentP
         this.props.mainState.purchaseState.createPurchase(purchase);
     }
 
-    getComponent = () => {
-        switch (this.state.shownComponent) {
+    getComponent = (value: number) => {
+        switch (value) {
             case 0:
                 return (
-                    <div style={{ width: '100%', overflow: 'auto' }}>
+                    <div key={0} style={{ width: '100%', overflow: 'auto' }}>
                         <div style={this.headerStyle}>Tasks</div>
                         <DashboardTasksComponent mainState={this.props.mainState} />
                     </div>
                 );
             case 1:
                 return (
-                    <div style={{ width: '100%', overflow: 'hidden' }}>
+                    <div key={1} style={{ width: '100%', overflow: 'hidden' }}>
                         <div style={this.headerStyle}>Create a purchase</div>
                         <PurchaseCreator
                             categories={this.props.mainState.selCommune().purchase_categories}
@@ -108,7 +112,7 @@ class MobileDashboardComponent extends React.Component<MobileDashboardComponentP
                 );
             case 2:
                 return (
-                    <div style={{ width: '100%', overflow: 'auto' }}>
+                    <div key={2} style={{ width: '100%', overflow: 'auto' }}>
                         <div style={this.headerStyle}>Budget</div>
                         <DashboardPurchasesComponent mainState={this.props.mainState} hideButtons={true} />
                     </div>
@@ -118,16 +122,12 @@ class MobileDashboardComponent extends React.Component<MobileDashboardComponentP
         }
     }
 
-    switchTab = (id: number) => {
-        this.setState({ shownComponent: id });
-    }
-
     handleChange = (event, value) => {
-        this.setState({ shownComponent: value });
+        this.setState({ shownComponent: this.getComponent(value), selected: value });
     }
 
     render() {
-        const value = this.state.shownComponent;
+        const value = this.state.selected;
         return (
             <ThemeWrapper>
                 <div style={this.outerContainerStyles}>
@@ -139,7 +139,8 @@ class MobileDashboardComponent extends React.Component<MobileDashboardComponentP
                         className="switch-wrapper"
                         runOnMount={true}
                     >
-                        {this.getComponent()}
+
+                        {this.state.shownComponent}
                     </AnimatedSwitch>
                 </div>
                 <BottomNavigation
@@ -162,26 +163,6 @@ class MobileDashboardComponent extends React.Component<MobileDashboardComponentP
         );
     }
 }
-
-const FooterLink = props => {
-    let linkStyles = {
-        margin: '0 auto',
-        color: props.selected ? '#333' : 'white',
-        height: '100%',
-        background: props.selected ? 'white' : 'inherit',
-        paddingTop: '0.3em',
-        width: '33%',
-        textAlign: 'center',
-        borderRadius: '5px 5px 0px 0px'
-    };
-
-    const clicker = () => {
-        props.onClick(props.id);
-    };
-    return (
-        <span style={linkStyles} onClick={clicker}>{props.children}</span>
-    );
-};
 
 export default compose<MobileDashboardComponentProps & WithStyles, any>(
     decorate,

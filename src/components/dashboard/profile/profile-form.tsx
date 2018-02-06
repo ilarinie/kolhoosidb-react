@@ -23,14 +23,14 @@ class ProfileForm extends React.Component<{ user: User, handleSubmit: any, handl
                                 type="text"
                                 onChange={this.handleChange}
                                 value={this.props.user.name}
-                                placeholder="Display name"
+                                helperText="Display name"
                             /><br />
                             <TextValidator
                                 name="email"
                                 type="email"
                                 onChange={this.handleChange}
                                 value={this.props.user.email}
-                                placeholder="Email address"
+                                helperText="Email address"
                             /><br />
                             <Button raised={true} type="submit" >Save changes</Button>
                         </ValidatorForm>

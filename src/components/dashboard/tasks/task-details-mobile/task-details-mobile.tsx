@@ -16,6 +16,8 @@ import { MdSave } from 'react-icons/lib/md';
 interface TaskDetailsMobileComponentProps {
     task: Task;
     admin: boolean;
+    deleteTask: any;
+    submitTask: any;
 }
 
 interface TaskDetailsMobileComponentState {
@@ -40,6 +42,13 @@ class TaskDetailsMobileComponentImpl extends React.Component<TaskDetailsMobileCo
 
     deleteTask = () => {
         let confirmation = confirm('Are you sure you want to delete the task?\nThis cant be undone and completions will be removed');
+        if (confirmation) {
+            this.props.deleteTask(this.props.task);
+        }
+    }
+
+    saveTask = (task?: Task) => {
+        this.props.submitTask(this.props.task);
     }
 
     render() {
@@ -48,7 +57,7 @@ class TaskDetailsMobileComponentImpl extends React.Component<TaskDetailsMobileCo
             actions = (
                 <div className="classes.column" style={{ float: 'right' }}>
                     <Button onClick={this.openDialog} >Edit</Button>
-                    <Button style={{ color: this.props.theme.palette.error.dark }} onClick={() => { console.log('delete'); }}>Delete</Button>
+                    <Button style={{ color: this.props.theme.palette.error.dark }} onClick={this.deleteTask}>Delete</Button>
                 </div>
             );
         }
@@ -61,11 +70,12 @@ class TaskDetailsMobileComponentImpl extends React.Component<TaskDetailsMobileCo
                     open={this.state.dialogOpen}
                     onClose={this.toggleDialog}
                     title={'Edit ' + this.props.task.name}
-                    rightAction={() => { console.log('saved'); }}
+                    rightAction={this.saveTask}
                     rightActionIcon={<MdSave />}
                     closeAfterAction={true}
+                    contentStyle={{ padding: '1em' }}
                 >
-                    <TaskCreator editedTask={this.props.task} submitTask={() => { console.log('subm'); }} loading={false} />
+                    <TaskCreator editedTask={this.props.task} submitTask={this.saveTask} loading={false} />
                 </KolhoosiFullScreenDialog >
             </div >
         );

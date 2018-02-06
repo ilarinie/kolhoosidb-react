@@ -7,6 +7,7 @@ import { WithStyles } from 'material-ui/styles/withStyles';
 import IconButton from 'material-ui/IconButton/IconButton';
 import { MdKeyboardBackspace } from 'react-icons/lib/md';
 import Typography from 'material-ui/Typography/Typography';
+import { DialogAppBar } from './dialog-appbar';
 
 interface KolhoosiFullScreenDialogProps {
     open: boolean;
@@ -15,10 +16,12 @@ interface KolhoosiFullScreenDialogProps {
     rightActionIcon?: React.ReactElement<any>;
     rightAction?: any;
     closeAfterAction?: boolean;
+    style: any;
+    contentStyle: any;
 }
 
 interface KolhoosiFullScreenDialogState {
-
+    mobile: boolean;
 }
 
 class KolhoosiFullScreenDialogImpl extends React.Component<KolhoosiFullScreenDialogProps & WithStyles, KolhoosiFullScreenDialogState> {
@@ -27,17 +30,35 @@ class KolhoosiFullScreenDialogImpl extends React.Component<KolhoosiFullScreenDia
 
     constructor(props: any) {
         super(props);
+        this.state = {
+            mobile: false
+        };
+    }
+
+    componentDidMount() {
+        const mediaQuery = window.matchMedia('(min-width: 768px)');
+        if (mediaQuery.matches) {
+            this.setState({
+                mobile: false
+            });
+        } else {
+            this.setState({
+                mobile: true
+            });
+        }
     }
 
     onRightActionClick = () => {
-        this.props.rightAction();
-        if (this.props.closeAfterAction) {
-            this.timeout = setTimeout(
-                () => {
-                    this.props.onClose();
-                },
-                2000
-            );
+        if (this.props.rightAction) {
+            this.props.rightAction();
+            if (this.props.closeAfterAction) {
+                this.timeout = setTimeout(
+                    () => {
+                        this.props.onClose();
+                    },
+                    2000
+                );
+            }
         }
     }
 
@@ -47,41 +68,26 @@ class KolhoosiFullScreenDialogImpl extends React.Component<KolhoosiFullScreenDia
     }
 
     render() {
-        let rightAction = null;
-        if (this.props.rightAction && this.props.rightActionIcon) {
-            rightAction = (
-                <IconButton
-                    style={{
-                        color: this.props.theme.palette.primary.contrastText,
-                        position: 'absolute',
-                        right: 20,
-                    }}
-                    onClick={this.onRightActionClick}
-                >
-                    {this.props.rightActionIcon}
-                </IconButton>
+        let appBar = null;
+        if (this.state.mobile) {
+            appBar = (
+                <DialogAppBar
+                    title={this.props.title}
+                    rightActionIcon={this.props.rightActionIcon}
+                    onRightActionClick={this.onRightActionClick}
+                    onClose={this.props.onClose}
+                />
             );
         }
         return (
             <Dialog
-                fullScreen={true}
+                fullScreen={this.state.mobile}
                 open={this.props.open}
                 onClose={this.props.onClose}
+                style={this.props.style}
             >
-                <AppBar
-                    position="static"
-                >
-                    <Toolbar >
-                        <IconButton style={{ color: this.props.theme.palette.primary.contrastText }} onClick={this.props.onClose} >
-                            <MdKeyboardBackspace />
-                        </IconButton>
-                        <Typography type="title" color="inherit">
-                            {this.props.title || null}
-                        </Typography>
-                        {rightAction}
-                    </Toolbar>
-                </AppBar>
-                <div style={{ paddingTop: 64 }}>
+                {appBar}
+                <div style={this.props.contentStyle}>
                     {this.props.children}
                 </div>
             </Dialog>
