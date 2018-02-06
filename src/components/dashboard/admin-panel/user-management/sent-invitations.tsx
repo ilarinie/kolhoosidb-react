@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Card, CardHeader, CardActions, CardText } from 'material-ui/Card';
-import { RaisedButton } from 'material-ui';
+import { Card, CardHeader, CardActions } from 'material-ui';
+import { Button } from 'material-ui';
 import { Invitation } from '../../../../store/models/invitation';
 import { FaEnvelope } from 'react-icons/lib/fa';
 import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
@@ -31,7 +31,7 @@ class InvitationCard extends React.Component<{ invitation: Invitation, cancelInv
                     title={this.props.invitation.username}
                 />
                 <CardActions>
-                    <RaisedButton label="Cancel" onClick={this.cancel} />
+                    <Button raised={true} onClick={this.cancel} >Cancel</Button>
                 </CardActions>
             </Card>
 

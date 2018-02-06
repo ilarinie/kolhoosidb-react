@@ -1,7 +1,11 @@
 import { Refund } from '../../../store/models/refund';
 import * as React from 'react';
-import { FlatButton, RaisedButton, Paper } from 'material-ui';
+import { Button, Paper } from 'material-ui';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
+import { inject, observer } from 'mobx-react';
 
 interface RefundRowProps {
     refund: Refund;
@@ -12,7 +16,7 @@ interface RefundRowProps {
     handleReject?: any;
 }
 
-export class RefundRow extends React.Component<RefundRowProps, {}> {
+class RefundRow extends React.Component<RefundRowProps & WithStyles, {}> {
     render() {
         if (this.props.sent) {
             return (
@@ -35,7 +39,7 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                         </table>
                         <div style={{ overflow: 'hidden' }}>
                             <div style={{ float: 'right' }} >
-                                <FlatButton primary={true} className={'cancel_' + this.props.classIdentifier + '_button'} onClick={this.handleCancel} label="Cancel" />
+                                <Button className={'cancel_' + this.props.classIdentifier + '_button'} onClick={this.handleCancel} >Cancel</Button>
                             </div>
                         </div>
                     </div>
@@ -61,18 +65,16 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
                         </table>
                         <div style={{ overflow: 'hidden' }}>
                             <div style={{ float: 'right' }} >
-                                <FlatButton
-                                    labelStyle={{ color: 'green' }}
+                                <Button
                                     className={'accept_' + this.props.classIdentifier + '_button'}
-                                    label="Accept"
                                     onClick={this.handleAccept}
-                                />
-                                <FlatButton
-                                    primary={true}
+                                >Accept
+                                </Button>
+                                <Button
                                     className={'reject_' + this.props.classIdentifier + '_button'}
                                     onClick={this.handleReject}
-                                    label="Reject"
-                                />
+                                >Reject
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -93,3 +95,9 @@ export class RefundRow extends React.Component<RefundRowProps, {}> {
         this.props.handleReject(this.props.refund);
     }
 }
+
+export default compose<RefundRowProps, any>(
+    decorate,
+    style,
+    observer,
+)(RefundRow);

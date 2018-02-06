@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
-import { RaisedButton, Card, CardHeader, CardText } from 'material-ui';
 import { KolhoosiLargeTextInput } from '../../util/kolhoosi-large-text-input';
-import { SubmitButton } from '../../util/submit-button';
+import SubmitButton from '../../util/submit-button';
 
 export class CommuneCreationComponent extends React.Component<{ submitCommune: any, loading: boolean }, { commune: any }> {
 

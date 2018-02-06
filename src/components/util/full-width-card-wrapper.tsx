@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Card } from 'material-ui/Card';
-import { CardHeader, CardText } from 'material-ui';
+import { Card } from 'material-ui';
+import { CardHeader, CardContent } from 'material-ui';
 
 interface FullWidthCardWrapperProps {
     title: string;
@@ -35,15 +35,13 @@ export class FullWidthCardWrapper extends React.Component<FullWidthCardWrapperPr
             <Card style={this.getCardStyle()}>
                 <CardHeader
                     title={title}
-                    actAsExpander={true}
-                    showExpandableButton={true}
+
                     className={this.props.classIdentifier}
                 />
-                <CardText
-                    expandable={true}
+                <CardContent
                 >
                     {this.props.children}
-                </CardText>
+                </CardContent>
             </Card>
         );
     }

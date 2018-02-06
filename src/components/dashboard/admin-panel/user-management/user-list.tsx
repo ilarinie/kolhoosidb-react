@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { User } from '../../../../store/models/user';
-import { RaisedButton, Card, CardHeader, CardText, CardActions } from 'material-ui';
+import { Button, Card, CardHeader, CardContent, CardActions } from 'material-ui';
 import { FaStar, FaUser } from 'react-icons/lib/fa';
 import { FullWidthCardWrapper } from '../../../util/full-width-card-wrapper';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../../theme';
 
-export class UserListComponent extends React.Component<{ users: User[], admins: User[], removeUser: any }, {}> {
+class UserListComponent extends React.Component<{ users: User[], admins: User[], removeUser: any } & WithStyles, {}> {
 
     render() {
         let users = this.props.users.map((user, index) => (
@@ -48,18 +51,15 @@ export class UserEntry extends React.Component<{ user: User, removeUser: any }, 
             <Card>
                 <CardHeader
                     title={this.props.user.name}
-                    subtitle="Expand for actions"
-                    actAsExpander={true}
-                    showExpandableButton={true}
                 />
-                <CardText
-                    expandable={true}
+
+                <CardContent
                 >
                     <CardActions>
-                        <RaisedButton onClick={this.removeUser} label="Remove" />
-                        <RaisedButton className={'promote_user_button_' + this.props.user.username} label="Promote" />
+                        <Button raised={true} onClick={this.removeUser} >Remove</Button>
+                        <Button raised={true} className={'promote_user_button_' + this.props.user.username}>Promote</Button>
                     </CardActions>
-                </CardText>
+                </CardContent>
             </Card>
         );
     }
@@ -74,18 +74,14 @@ export class AdminEntry extends React.Component<{ user: User, removeUser: any },
             <Card>
                 <CardHeader
                     title={this.props.user.name}
-                    subtitle="Expand for actions"
-                    actAsExpander={true}
-                    showExpandableButton={true}
                 />
-                <CardText
-                    expandable={true}
+                <CardContent
                 >
                     <CardActions>
-                        <RaisedButton onClick={this.removeUser} label="Remove" />
-                        <RaisedButton label="Demote" />
+                        <Button raised={true} onClick={this.removeUser}>Remove</Button>
+                        <Button raised={true}>Demote</Button>
                     </CardActions>
-                </CardText>
+                </CardContent>
             </Card>
         );
     }
@@ -93,3 +89,8 @@ export class AdminEntry extends React.Component<{ user: User, removeUser: any },
         this.props.removeUser(this.props.user);
     }
 }
+
+export default compose<any, any>(
+    decorate,
+    style,
+)(UserListComponent);

@@ -59,6 +59,7 @@ export class TaskState {
             await ApiService.destroy(`communes/${commune_id}/tasks/${task.id}`);
             this.mainState.communeState.selectedCommune.tasks.splice(this.mainState.communeState.selectedCommune.tasks.findIndex(oldTask => oldTask.id === task.id), 1);
             // this.mainState.communeState.refreshCommune();
+            this.mainState.uiState.showDashboardError(task.name + ' deleted.');
         } catch (error) {
             this.mainState.uiState.showDashboardError(error.message);
         } finally {

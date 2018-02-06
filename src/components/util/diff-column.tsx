@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TableRowColumn } from 'material-ui';
+import { TableCell } from 'material-ui';
 import { currencyFormatter } from '../../domain/formatter/currencyFormatter';
 
 export class DiffColumn extends React.Component<{ diff: number }, {}> {
@@ -22,7 +22,7 @@ export class DiffColumn extends React.Component<{ diff: number }, {}> {
     render() {
         let diff = currencyFormatter.format(this.props.diff);
         return (
-            <TableRowColumn style={this.rowStyle}>{diff}</TableRowColumn>
+            <TableCell style={this.rowStyle}>{diff}</TableCell>
         );
     }
 }

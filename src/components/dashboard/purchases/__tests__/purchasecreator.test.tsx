@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
-import { PurchaseCreator } from '../purchasecreator';
+import PurchaseCreator from '../purchasecreator';
 import { PurchaseCategory } from '../../../../store/models/purchase_category';
 
 it('renders without crashing', () => {

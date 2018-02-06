@@ -1,18 +1,24 @@
 import * as React from 'react';
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
-import { DashboardTasksComponent } from './dashboard-tasks';
-import { DashboardPurchasesComponent } from './dashboard_purchases';
-import { DashboardActivityFeed } from './dashboard_activity_feed';
-import { DashboardUserInfo } from './dashboard_userinfo';
+import DashboardTasksComponent from './dashboard-tasks';
+import DashboardPurchasesComponent from './dashboard_purchases';
+import DashboardActivityFeed from './dashboard_activity_feed';
+import DashboardUserInfo from './dashboard_userinfo';
 import { UiState } from '../../../store/ui-state';
-import { XpScroller } from '../../util/xp-scroller';
+import XpScroller from '../../util/xp-scroller';
 import { Refund } from '../../../store/models/refund';
-import { DashboardItemContainer } from '../../util/container/dashboard-item-container';
+import DashboardItemContainer from '../../util/container/dashboard-item-container';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate } from '../../../theme';
+import { Grid } from 'material-ui';
+import { ThemeWrapper } from '../../util/theme-wrapper';
 
-@inject('mainState')
-@observer
-export class DashboardComponent extends React.Component<{ mainState: MainState }, {}> {
+interface DashboardComponentProps {
+    mainState: MainState;
+}
+class DashboardComponent extends React.Component<DashboardComponentProps & WithStyles, {}> {
 
     mainContainerStyles = {
         display: 'flex',
@@ -21,7 +27,7 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
         justifyContent: 'center' as 'center',
         minHeight: '100vh',
         maxWidth: '99vw',
-        background: this.props.mainState.uiState.getKolhoosiTheme().palette.canvasColor
+        background: this.props.theme.palette.background.default
     };
 
     componentDidMount() {
@@ -47,42 +53,61 @@ export class DashboardComponent extends React.Component<{ mainState: MainState }
 
     render() {
         return (
-            <div style={{ width: '100%' }}>
-                <div style={this.mainContainerStyles}>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
-                        <DashboardUserInfo
-                            user={this.props.mainState.userState.current_user}
-                            commune={this.props.mainState.selCommune()}
-                            acceptRefund={this.acceptRefund}
-                            cancelRefund={this.cancelRefund}
-                            rejectRefund={this.rejectRefund}
-                        />
-                    </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Tasks">
-                        <DashboardTasksComponent mainState={this.props.mainState} />
-                    </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Budget">
-                        <DashboardPurchasesComponent mainState={this.props.mainState} />
-                    </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="Activity feed">
-                        <DashboardActivityFeed
-                            feed={this.props.mainState.communeState.selectedCommune.feed}
-                            getFeed={this.getFeed}
-                        />
-                    </DashboardItemContainer>
-                    <DashboardItemContainer
-                        uiState={this.props.mainState.uiState}
-                        title="Top Lists"
-                    >
-                        <XpScroller
-                            getTopLists={this.getTopList}
-                            weekly={this.props.mainState.communeState.weeklyTop}
-                            monthly={this.props.mainState.communeState.montlyTop}
-                            all_time={this.props.mainState.communeState.allTimeTop}
-                        />
-                    </DashboardItemContainer>
+            <ThemeWrapper>
+                <div style={{ padding: '1em' }}>
+                    <Grid container={true} spacing={40}>
+
+                        <Grid item={true} >
+                            <DashboardItemContainer uiState={this.props.mainState.uiState} title="Info">
+                                <DashboardUserInfo
+                                    user={this.props.mainState.userState.current_user}
+                                    commune={this.props.mainState.selCommune()}
+                                    acceptRefund={this.acceptRefund}
+                                    cancelRefund={this.cancelRefund}
+                                    rejectRefund={this.rejectRefund}
+                                />
+                            </DashboardItemContainer>
+                        </Grid>
+                        <Grid item={true} >
+                            <DashboardItemContainer uiState={this.props.mainState.uiState} title="Tasks">
+                                <DashboardTasksComponent mainState={this.props.mainState} />
+                            </DashboardItemContainer>
+                        </Grid>
+                        <Grid item={true} >
+                            <DashboardItemContainer uiState={this.props.mainState.uiState} title="Budget">
+                                <DashboardPurchasesComponent mainState={this.props.mainState} />
+                            </DashboardItemContainer>
+                        </Grid>
+                        <Grid item={true} >
+                            <DashboardItemContainer uiState={this.props.mainState.uiState} title="Activity feed">
+                                <DashboardActivityFeed
+                                    feed={this.props.mainState.communeState.selectedCommune.feed}
+                                    getFeed={this.getFeed}
+                                />
+                            </DashboardItemContainer>
+                        </Grid>
+                        <Grid item={true} >
+                            <DashboardItemContainer
+                                uiState={this.props.mainState.uiState}
+                                title="Top Lists"
+                            >
+                                <XpScroller
+                                    getTopLists={this.getTopList}
+                                    weekly={this.props.mainState.communeState.weeklyTop}
+                                    monthly={this.props.mainState.communeState.montlyTop}
+                                    all_time={this.props.mainState.communeState.allTimeTop}
+                                />
+                            </DashboardItemContainer>
+                        </Grid>
+                    </Grid>
                 </div>
-            </div>
+            </ThemeWrapper>
         );
     }
 }
+
+export default compose<DashboardComponentProps & WithStyles, any>(
+    decorate,
+    inject('mainState'),
+    observer,
+)(DashboardComponent);

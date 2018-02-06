@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { Snackbar } from 'material-ui';
+
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../store/state';
+import { decorate, style } from '../../theme';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui/styles/withStyles';
 
-@inject('mainState')
-@observer
-export default class KolhoosiSnackBar extends React.Component<{ mainState: MainState }, { open: boolean, autohideDuration: number, message: string }> {
+class KolhoosiSnackBar extends React.Component<{ mainState: MainState } & WithStyles, { open: boolean, autohideDuration: number, message: string }> {
 
   constructor(props: any) {
     super(props);
@@ -20,11 +22,11 @@ export default class KolhoosiSnackBar extends React.Component<{ mainState: MainS
     return (
       <Snackbar
         open={this.props.mainState.uiState.showSnackbar}
-        message={this.props.mainState.uiState.snackbarMessage}
+        message={<p>{this.props.mainState.uiState.snackbarMessage}</p>}
         autoHideDuration={4000}
-        onRequestClose={this.handleRequestClose}
-        onActionClick={this.props.mainState.uiState.undoFunction ? this.props.mainState.uiState.undoFunction : null}
-        action={this.props.mainState.uiState.undoFunction ? 'Undo' : null}
+      // onRequestClose={this.handleRequestClose}
+      // onActionClick={this.props.mainState.uiState.undoFunction ? this.props.mainState.uiState.undoFunction : null}
+      // action={this.props.mainState.uiState.undoFunction ? 'Undo' : null}
       />
     );
   }
@@ -35,3 +37,9 @@ export default class KolhoosiSnackBar extends React.Component<{ mainState: MainS
     });
   }
 }
+
+export default compose<{ mainState: MainState } & WithStyles, any>(
+  decorate,
+  style,
+  observer,
+)(KolhoosiSnackBar);

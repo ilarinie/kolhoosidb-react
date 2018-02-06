@@ -2,7 +2,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
-  color: '#333'
+  color: '#333';
+  height: 100vh;
 }
 
 p {
@@ -18,11 +19,22 @@ small {
 @media screen and (min-width: 768px) {
   .dashboard {
     padding-left: 250px;
+    width: calc(100vw-250px);
+    max-width: 100%;    
   }
 }
 
+@media screen and (max-width: 768px) {
+  .dashboad {
+    width: 100vw;
+    max-width: 100%;
+  }
+}
+
+
 #root {
-  width: 100%;
+  width: 100vw;
+  max-width: 100%;
 }
 
 /* This will remove the stupid chrome yellow autofill */
@@ -69,6 +81,7 @@ input:-webkit-autofill {
 
 .switch-wrapper > div {
   position: absolute;
+  width: 100%;
 }
 /* Removes padding from MUI dialog */
 .kolhoosidialog > div > div > div > div {

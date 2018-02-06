@@ -1,12 +1,15 @@
 import { User } from '../../../store/models/user';
 import * as React from 'react';
-import { MenuItem, SelectField } from 'material-ui';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
-import { SubmitButton } from '../../util/submit-button';
+import SubmitButton from '../../util/submit-button';
 import { FaEur } from 'react-icons/lib/fa';
 import { KolhoosiLargeSelectField } from '../../util/kolhoosi-large-select-field';
 import { KolhoosiLargeTextInput } from '../../util/kolhoosi-large-text-input';
+import { MenuItem } from 'material-ui';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
 
 interface RefundCreatorProps {
     handleSubmit: any;
@@ -14,7 +17,7 @@ interface RefundCreatorProps {
     loading: boolean;
 }
 
-export class RefundCreator extends React.Component<RefundCreatorProps, { refund: any }> {
+class RefundCreator extends React.Component<RefundCreatorProps & WithStyles, { refund: any }> {
 
     containerStyles = {
         width: '300px'
@@ -38,7 +41,7 @@ export class RefundCreator extends React.Component<RefundCreatorProps, { refund:
 
     handleUserChange = (event, index, value) => {
         const { refund } = this.state;
-        refund.to = value;
+        refund.to = event.target.value;
         this.setState({ refund: refund });
     }
 
@@ -54,12 +57,14 @@ export class RefundCreator extends React.Component<RefundCreatorProps, { refund:
 
     render() {
         const { refund } = this.state;
-        let users = null;
+        let users = [(<MenuItem key={123} />)];
         if (this.props.users.length !== 0) {
             users = this.props.users.map((user, index) => {
                 let kebabName = user.name.replace(/\ /g, '_');
                 return (
-                    <MenuItem className={'user-' + kebabName} key={index} value={user.id} primaryText={user.name} />
+                    <MenuItem className={'user-' + kebabName} key={index} value={user.id}>
+                        {user.name}
+                    </MenuItem>
                 );
             });
         }
@@ -97,3 +102,8 @@ export class RefundCreator extends React.Component<RefundCreatorProps, { refund:
         );
     }
 }
+
+export default compose<RefundCreatorProps, any>(
+    decorate,
+    style,
+)(RefundCreator);
