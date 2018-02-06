@@ -129,7 +129,8 @@ export class UiState {
     const palette2 = {
       primary: pink,
       secondary: purple,
-      type: 'dark' as 'dark',
+      error: red,
+      // type: 'dark' as 'dark',
     };
     const theme2 = createMuiTheme({
       palette: palette

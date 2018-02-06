@@ -84,32 +84,10 @@ export class SubmitButton extends React.Component<SubmitButtonProps & WithStyles
     }
 
     getButtonIcon = () => {
-        if (this.lastState) {
-            this.setTimeout();
-            return (<FaCheck style={{ color: 'green' }} />);
+        if (this.props.loading) {
+            return (<FaStar style={{ color: this.props.theme.palette.primary.dark }} className="fa-spin" />);
         } else {
-            if (this.props.loading) {
-                this.lastState = true;
-                return (<FaStar style={{ color: this.props.theme.palette.primary.dark }} className="fa-spin" />);
-            } else {
-                return null;
-            }
-        }
-    }
-
-    setTimeout = () => {
-        this.timeout = setTimeout(
-            () => {
-                this.lastState = false;
-                this.setState({ lastState: false });
-            },
-            5000);
-    }
-
-    componentWillUnmount() {
-        if (this.timeout) {
-            clearTimeout(this.timeout);
-            this.timeout = 0;
+            return null;
         }
     }
 }

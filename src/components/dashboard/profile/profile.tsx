@@ -11,6 +11,7 @@ import { FaUser, FaEnvelopeO, FaStarO } from 'react-icons/lib/fa';
 import { WithStyles } from 'material-ui/styles/withStyles';
 import { compose } from 'recompose';
 import { decorate, style } from '../../../theme';
+import { ThemeWrapper } from '../../util/theme-wrapper';
 
 class ProfileComponent extends React.Component<{ mainState: MainState } & WithStyles, { user: User }> {
     containerStyle: any = {
@@ -29,29 +30,31 @@ class ProfileComponent extends React.Component<{ mainState: MainState } & WithSt
 
     render() {
         return (
-            <div style={this.containerStyle} >
-                <FullWidthCardWrapper
-                    title="Invitations"
-                    icon={<FaEnvelopeO />}
-                    hidden={this.props.mainState.userState.current_user.invitations.length === 0}
-                    classIdentifier="invitations-card"
-                >
-                    <InvitationsList accept={this.acceptInvitation} reject={this.rejectInvitation} invitations={this.props.mainState.userState.current_user.invitations} />
-                </FullWidthCardWrapper>
-                <FullWidthCardWrapper
-                    title="Edit profile"
-                    icon={<FaUser />}
-                    hidden={false}
-                    classIdentifier="edit-profile-card"
-                >
-                    <ProfileForm
-                        user={this.state.user}
-                        handlePwChange={this.handlePwChange}
-                        handleChange={this.handleFormChange}
-                        handleSubmit={this.handleProfileSubmit}
-                    />
-                </FullWidthCardWrapper>
-            </div>
+            <ThemeWrapper>
+                <div style={this.containerStyle} >
+                    <FullWidthCardWrapper
+                        title="Invitations"
+                        icon={<FaEnvelopeO />}
+                        hidden={this.props.mainState.userState.current_user.invitations.length === 0}
+                        classIdentifier="invitations-card"
+                    >
+                        <InvitationsList accept={this.acceptInvitation} reject={this.rejectInvitation} invitations={this.props.mainState.userState.current_user.invitations} />
+                    </FullWidthCardWrapper>
+                    <FullWidthCardWrapper
+                        title="Edit profile"
+                        icon={<FaUser />}
+                        hidden={false}
+                        classIdentifier="edit-profile-card"
+                    >
+                        <ProfileForm
+                            user={this.state.user}
+                            handlePwChange={this.handlePwChange}
+                            handleChange={this.handleFormChange}
+                            handleSubmit={this.handleProfileSubmit}
+                        />
+                    </FullWidthCardWrapper>
+                </div>
+            </ThemeWrapper>
         );
     }
 

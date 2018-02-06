@@ -55,31 +55,31 @@ class PurchasesComponent extends React.Component<{ mainState: MainState } & With
 
         return (
 
-            // <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
+            <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
 
-            <ThemeWrapper>
-                <div style={this.mainContainerStyles}>
-                    <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="Purchases" maxHeight="1000px">
-                        <PurchaseList
-                            purchases={this.props.mainState.communeState.selectedCommune.purchases}
-                            current_user_id={this.props.mainState.userState.current_user.id}
-                            deletePurchase={this.deletePurchase}
-                            totalPurchases={this.props.mainState.communeState.selectedCommune.budget.commune_total}
-                            averagePurchase={this.props.mainState.communeState.selectedCommune.budget.commune_avg}
-                        />
-                    </DashboardItemContainer>
-                    <DashboardItemContainer maxHeight="1000px" title="Refunds" uiState={this.props.mainState.uiState} >
-                        <RefundPanel mainState={this.props.mainState} />
-                    </DashboardItemContainer>
-                    <DashboardItemContainer padding="30px" uiState={this.props.mainState.uiState} title="budget" width="600px">
-                        {rows}
-                    </DashboardItemContainer>
-                    <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase">
-                        {creator}
-                    </DashboardItemContainer>
-                </div>
-            </ThemeWrapper>
-            // </LoadingScreen>
+                <ThemeWrapper>
+                    <div style={this.mainContainerStyles}>
+                        <DashboardItemContainer padding="0" uiState={this.props.mainState.uiState} title="Purchases" maxHeight="1000px">
+                            <PurchaseList
+                                purchases={this.props.mainState.communeState.selectedCommune.purchases}
+                                current_user_id={this.props.mainState.userState.current_user.id}
+                                deletePurchase={this.deletePurchase}
+                                totalPurchases={this.props.mainState.communeState.selectedCommune.budget.commune_total}
+                                averagePurchase={this.props.mainState.communeState.selectedCommune.budget.commune_avg}
+                            />
+                        </DashboardItemContainer>
+                        <DashboardItemContainer maxHeight="1000px" title="Refunds" uiState={this.props.mainState.uiState} >
+                            <RefundPanel mainState={this.props.mainState} />
+                        </DashboardItemContainer>
+                        <DashboardItemContainer padding="30px" uiState={this.props.mainState.uiState} title="budget" width="600px">
+                            {rows}
+                        </DashboardItemContainer>
+                        <DashboardItemContainer uiState={this.props.mainState.uiState} title="New purchase">
+                            {creator}
+                        </DashboardItemContainer>
+                    </div>
+                </ThemeWrapper>
+            </LoadingScreen>
         );
     }
 

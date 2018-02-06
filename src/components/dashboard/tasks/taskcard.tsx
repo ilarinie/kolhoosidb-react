@@ -12,6 +12,7 @@ import ExpansionPanel from 'material-ui/ExpansionPanel/ExpansionPanel';
 import { decorate, style } from '../../../theme';
 import { compose } from 'recompose';
 import { FaLevelDown } from 'react-icons/lib/fa';
+import { TaskDetailsMobileComponent } from './task-details-mobile/task-details-mobile';
 
 class TaskCard extends React.Component<{ completeTask: any, task: Task, current_user_id: number, deleteTaskCompletion: any } & WithStyles, { loading: boolean }> {
 
@@ -46,19 +47,8 @@ class TaskCard extends React.Component<{ completeTask: any, task: Task, current_
                     </div>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={this.props.classes.details}>
-                    <div className={this.props.classes.column}>
-                        <p><b>Latest completions</b></p>
-                        <CompleteButton taskName={this.props.task.name} loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
-                        {completions}
-                    </div>
+                    <TaskDetailsMobileComponent admin={true} task={this.props.task} />
                 </ExpansionPanelDetails>
-                <Divider />
-                <ExpansionPanelActions>
-                    <Button size="small">Cancel</Button>
-                    <Button size="small" color="primary">
-                        Save
-                    </Button>
-                </ExpansionPanelActions>
             </ExpansionPanel>
 
             // <Card style={{ width: '400px', margin: '10px 10px' }}>
