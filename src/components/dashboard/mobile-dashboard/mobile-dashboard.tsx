@@ -12,7 +12,6 @@ import { decorate, style } from '../../../theme';
 import { WithStyles, BottomNavigation, BottomNavigationAction } from 'material-ui';
 import { FaTasks, FaMoney, FaEur } from 'react-icons/lib/fa';
 import { ThemeWrapper } from '../../util/theme-wrapper';
-import Transition from 'react-transition-group/Transition';
 import { ReactElement } from 'react';
 
 interface MobileDashboardComponentProps {

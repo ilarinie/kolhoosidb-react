@@ -54,20 +54,24 @@ export class UiState {
   }
 
   intializeMedialistener = () => {
-    const mediaQuery = window.matchMedia('(min-width: 768px)');
-    if (mediaQuery.matches) {
-      this.mobileState = false;
-    } else {
-      this.mobileState = true;
-    }
-    mediaQuery.addListener((mq) => {
-      if (mq.matches) {
+    // TODO: Refactor tests so this is not needed
+    if (window.matchMedia) {
+      const mediaQuery = window.matchMedia('(min-width: 768px)');
+      if (mediaQuery.matches) {
         this.mobileState = false;
       } else {
         this.mobileState = true;
       }
-    });
-
+      if (mediaQuery.addListener) {
+        mediaQuery.addListener((mq) => {
+          if (mq.matches) {
+            this.mobileState = false;
+          } else {
+            this.mobileState = true;
+          }
+        });
+      }
+    }
   }
 
   @action
