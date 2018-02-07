@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
-import { PurchasesComponent } from '../purchases';
+import PurchasesComponent from '../purchases';
 import { MainState } from '../../../../store/state';
 
 it('renders without crashing', () => {

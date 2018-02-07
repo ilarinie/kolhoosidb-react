@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { Commune } from '../../../store/models/commune';
-import { RaisedButton, Card, CardActions, CardHeader } from 'material-ui';
+import { Button, Card, CardActions, CardHeader } from 'material-ui';
 import { Checkbox } from 'material-ui';
 import { FaArrowCircleRight } from 'react-icons/lib/fa';
-import { FontIcon } from 'material-ui/FontIcon';
-import ContentForward from 'material-ui/svg-icons/content/forward';
+import { FaMailForward } from 'react-icons/lib/fa';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { style, decorate } from '../../../theme';
+import { compose } from 'recompose';
 
 interface CommuneCardProps {
     commune: Commune;
@@ -14,45 +16,45 @@ interface CommuneCardProps {
     defaultCommuneId: number;
 }
 
-export class CommuneCard extends React.Component<CommuneCardProps, {}> {
+class CommuneCard extends React.Component<CommuneCardProps & WithStyles, {}> {
 
     render() {
         let deleteButton = null;
         if (this.props.commune.is_owner) {
             deleteButton = (
-                <RaisedButton label="Delete" onClick={this.deleteCommune} backgroundColor="warning" />
+                <Button raised={true} onClick={this.deleteCommune} >Delete</Button>
             );
         }
         let members = this.props.commune.members.map((member, index) => (
             <small key={index}>{member.name}, </small>
         ));
         return (
-            <Card style={{ width: '400px', maxWidth: '99vw', margin: '20px auto' }}>
+            <Card style={{ width: '350px', maxWidth: '99vw', margin: '20px auto' }}>
                 <CardHeader
                     title={this.props.commune.name}
-                    subtitle={this.props.commune.description}
-                    titleStyle={{ fontWeight: 'bold', fontSize: '30px' }}
-                />
+                >
+                    <small>{this.props.commune.description}</small>
+                </CardHeader>
                 <div style={{ padding: '0px 15px' }}>
                     <small>Members: </small><br />
                     {members}
                 </div>
                 <CardActions>
-                    <RaisedButton
-                        label="Set as default"
+                    <Button
+                        raised={true}
                         onClick={this.setDefaultCommune}
                         disabled={(this.props.defaultCommuneId === this.props.commune.id)}
                         fullWidth={true}
 
-                    /><br />
-                    <RaisedButton
+                    >Set as default
+                    </Button><br />
+                    <Button
+                        raised={true}
                         fullWidth={true}
                         className="select-commune-button"
-                        label="Select"
                         onClick={this.selectCommune}
-                        backgroundColor="#43A047"
-                        icon={<ContentForward color="white" />}
-                    />
+                    >Select
+                    </Button>
                     {/* {deleteButton} */}
                 </CardActions>
             </Card>
@@ -71,3 +73,8 @@ export class CommuneCard extends React.Component<CommuneCardProps, {}> {
         this.props.deleteCommune(this.props.commune);
     }
 }
+
+export default compose<CommuneCardProps, any>(
+    decorate,
+    style,
+)(CommuneCard);

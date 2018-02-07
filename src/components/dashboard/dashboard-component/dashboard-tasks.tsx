@@ -1,19 +1,21 @@
 import { MainState } from '../../../store/state';
 import * as React from 'react';
-import { LoadingScreen } from '../../util/loading-screen';
+import LoadingScreen from '../../util/loading-screen';
 import { observer, inject } from 'mobx-react';
-// import { TaskCard } from './taskcard';
 import { Task } from '../../../store/models/task';
-// import { Table, TableHeader, TableBody, TableRow, TableRowColumn, TableHeaderColumn, RaisedButton } from 'material-ui';
 import * as moment from 'moment';
-import { RaisedButton } from 'material-ui';
+import { Button } from 'material-ui';
 import { FaUser, FaStar, FaCheck, FaStarO } from 'react-icons/lib/fa';
 import { sortTasks } from '../../../domain/task-sorter';
 import { MdArrowDropDown } from 'react-icons/lib/md';
-import label from 'material-ui/svg-icons/action/label';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui';
+import { decorate, style } from '../../../theme';
 
-@observer
-export class DashboardTasksComponent extends React.Component<{ mainState: MainState }, { dialogOpen: boolean }> {
+interface DashboardTasksComponentProps {
+    mainState: MainState;
+}
+class DashboardTasksComponent extends React.Component<DashboardTasksComponentProps & WithStyles, { dialogOpen: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -38,7 +40,9 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
         ));
         return (
             <LoadingScreen loading={this.props.mainState.uiState.dataLoading}>
-                {tasks}
+                <div style={{ width: '100%' }}>
+                    {tasks}
+                </div>
             </LoadingScreen>
         );
     }
@@ -47,8 +51,18 @@ export class DashboardTasksComponent extends React.Component<{ mainState: MainSt
         return this.props.mainState.taskState.completeTask(task);
     }
 }
-@observer
-export class TaskRow extends React.Component<{ task: Task, completeTask: any, loading: boolean }, { display: string }> {
+
+export default compose<DashboardTasksComponentProps & WithStyles, any>(
+    decorate,
+    observer,
+)(DashboardTasksComponent);
+
+interface TaskRowComponentProps {
+    task: Task;
+    completeTask: any;
+    loading: boolean;
+}
+class TaskRowComponent extends React.Component<TaskRowComponentProps & WithStyles, { display: string }> {
 
     constructor(props: any) {
         super(props);
@@ -89,7 +103,7 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
         }
 
         return (
-            <div>
+            <div style={{ width: '100%' }}>
                 <div style={{ float: 'left', padding: '10px' }}>
                     <span style={{ width: '100%', height: '100%', cursor: 'pointer' }} onClick={this.toggleDetails} >
                         {this.state.display === 'hidden' ? <FaStarO /> : <FaStar />}
@@ -97,11 +111,16 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
                 </div>
                 <div
                     style={{
+                        width: '100%',
                         maxWidth: '200px'
                     }}
                 >
-                    <span style={{ maxWidth: '100px', fontVariant: 'small-caps' }} >{this.props.task.name}</span><br />
-                    <span style={{ fontVariant: 'small-caps' }} ><small>{when_to_do}</small></span> <br />
+                    <span
+                        style={{ maxWidth: '100px', fontVariant: 'small-caps', }}
+                    >
+                        {this.props.task.name}
+                    </span><br />
+                    <span style={{ maxWidth: '100%', fontVariant: 'small-caps', wordWrap: 'break-word', display: 'inline-block' }} ><small>{when_to_do}</small></span> <br />
                 </div>
                 <CompleteButton
                     identifier={this.props.task.name.trim()}
@@ -127,12 +146,18 @@ export class TaskRow extends React.Component<{ task: Task, completeTask: any, lo
     }
 }
 
+const TaskRow = compose<TaskRowComponentProps, any>(
+    decorate,
+    style,
+    observer,
+)(TaskRowComponent);
+
 const taskDetailsHeaderStyle = {
     fontSize: '12px',
     color: 'gray'
 };
 
-export const TaskDetails = props => {
+const TaskDetails = props => {
 
     let lastCompletion = null;
     if (props.task.completions[0]) {
@@ -155,14 +180,18 @@ export const TaskDetails = props => {
                 <p style={taskDetailsHeaderStyle}>Awards</p>
                 <span>{props.task.reward ? props.task.reward : 'No'} points</span><br />
                 <p style={taskDetailsHeaderStyle}>Should be done</p>
-                <span> {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}</span>
+                <span
+                    style={{ wordWrap: 'break-word', display: 'inline-block' }}
+                >
+                    {props.task.priority ? 'Every ' + moment.duration(props.task.priority, 'hours').humanize() : 'Whenever neccesary'}
+                </span>
             </div>
         );
     }
 
 };
 
-export interface CompleteButtonProps {
+interface CompleteButtonProps {
     loading: boolean;
     label: string;
     onClick: any;
@@ -170,44 +199,51 @@ export interface CompleteButtonProps {
     identifier: string;
 }
 
-@observer
-export class CompleteButton extends React.Component<CompleteButtonProps, {}> {
+class CompleteButtonComponent extends React.Component<CompleteButtonProps, {}> {
     styles = {
         float: 'right',
         marginTop: '-37px',
-        background: '#689F38'
+        marginRight: '0.5em',
     };
     render() {
         if (this.props.completed) {
             return (
-                <RaisedButton
+                <Button
+                    raised={true}
                     className={this.props.identifier}
                     style={this.styles}
                     disabled={true}
                 >
                     <FaCheck style={{ color: 'green' }} />
-                </RaisedButton>
+                </Button>
             );
         } else if (this.props.loading) {
             return (
-                <RaisedButton
+                <Button
+                    raised={true}
                     className={this.props.identifier}
                     style={this.styles}
                     disabled={true}
                 >
                     <FaStar style={{ color: 'red' }} className="fa-spin" />
-                </RaisedButton>
+                </Button>
             );
         } else {
             return (
-                <RaisedButton
+                <Button
+                    raised={true}
                     className={this.props.identifier}
                     style={this.styles}
-                    label={this.props.label}
                     onClick={this.props.onClick}
-                />
+                > {this.props.label}
+                </Button>
             );
         }
 
     }
 }
+export const CompleteButton = compose<CompleteButtonProps, any>(
+    style,
+    decorate,
+    observer
+)(CompleteButtonComponent);

@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { Invitation } from '../../../store/models/invitation';
-import { Card, CardActions, CardHeader } from 'material-ui/Card';
-import { RaisedButton } from 'material-ui';
+import { Card, CardActions, CardHeader } from 'material-ui';
+import { Button } from 'material-ui';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { style, decorate } from '../../../theme';
 
-export class InvitationsList extends React.Component<{ accept: any, reject: any, invitations: Invitation[] }, {}> {
+class InvitationsList extends React.Component<{ accept: any, reject: any, invitations: Invitation[] } & WithStyles, {}> {
     render() {
         let invitations = this.props.invitations.map((invitation, index) => (
             <InvitationCard key={index} invitation={invitation} accept={this.acceptInvitation} reject={this.rejectInvitation} />
@@ -33,8 +36,8 @@ class InvitationCard extends React.Component<{ invitation: Invitation, accept: a
                     title={this.props.invitation.commune_name}
                 />
                 <CardActions>
-                    <RaisedButton className="accept-invitation-button" label="Accept" onClick={this.handleAccept} />
-                    <RaisedButton label="Reject" onClick={this.handleReject} />
+                    <Button raised={true} className="accept-invitation-button" onClick={this.handleAccept} >Accept</Button>
+                    <Button raised={true} onClick={this.handleReject}>Reject</Button>
                 </CardActions>
             </Card>
         );
@@ -49,3 +52,8 @@ class InvitationCard extends React.Component<{ invitation: Invitation, accept: a
     }
 
 }
+
+export default compose<any, any>(
+    decorate,
+    style,
+)(InvitationsList);

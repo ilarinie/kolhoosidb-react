@@ -1,20 +1,19 @@
 import { observer, inject } from 'mobx-react';
 import * as React from 'react';
 import { MainState } from '../../../store/state';
-import { InvitationsList } from './invitations';
+import InvitationsList from './invitations';
 import { Invitation } from '../../../store/models/invitation';
 import { User } from '../../../store/models/user';
-import { ProfileForm } from './profile-form';
+import ProfileForm from './profile-form';
 import { FullWidthCardWrapper } from '../../util/full-width-card-wrapper';
-import { SetDefaultCommuneComponent } from './set-commune';
 import { LatestActivityComponent } from './latest-activity';
-import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
-import { ThemeChooser } from './theme-chooser';
 import { FaUser, FaEnvelopeO, FaStarO } from 'react-icons/lib/fa';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
+import { ThemeWrapper } from '../../util/theme-wrapper';
 
-@inject('mainState')
-@observer
-export class ProfileComponent extends React.Component<{ mainState: MainState }, { user: User }> {
+class ProfileComponent extends React.Component<{ mainState: MainState } & WithStyles, { user: User }> {
     containerStyle: any = {
         display: 'flex',
         justifyContent: 'center',
@@ -31,7 +30,7 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
 
     render() {
         return (
-            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+            <ThemeWrapper>
                 <div style={this.containerStyle} >
                     <FullWidthCardWrapper
                         title="Invitations"
@@ -54,32 +53,8 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
                             handleSubmit={this.handleProfileSubmit}
                         />
                     </FullWidthCardWrapper>
-                    <FullWidthCardWrapper
-                        title="Set default commune"
-                        icon={<FaStarO />}
-                        hidden={false}
-                        classIdentifier="default-commune-card"
-                    >
-                        <SetDefaultCommuneComponent
-                            communes={this.props.mainState.communeState.communes}
-                            saveDefaultCommune={this.saveDefaultCommune}
-                            user={this.props.mainState.userState.current_user}
-                        />
-                    </FullWidthCardWrapper>
-                    <FullWidthCardWrapper
-                        title="Set default theme"
-                        icon={<FaStarO />}
-                        hidden={false}
-                        classIdentifier="default-theme-card"
-                    >
-                        <ThemeChooser
-                            themes={this.props.mainState.uiState.themes}
-                            chosen_theme={this.props.mainState.userState.current_user.default_theme}
-                            chooseTheme={this.saveDefaultTheme}
-                        />
-                    </FullWidthCardWrapper>
                 </div>
-            </ComponentThemeWrapper>
+            </ThemeWrapper>
         );
     }
 
@@ -117,5 +92,10 @@ export class ProfileComponent extends React.Component<{ mainState: MainState }, 
         this.props.mainState.userState.updateUser(user);
         this.props.mainState.uiState.switchTheme(user.default_theme);
     }
-
 }
+export default compose<{ mainState: MainState } & WithStyles, any>(
+    decorate,
+    style,
+    inject('mainState'),
+    observer,
+)(ProfileComponent);

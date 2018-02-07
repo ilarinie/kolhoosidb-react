@@ -51,6 +51,7 @@ export class CommuneState {
     try {
       this.selectedCommune = await ApiService.get('communes/' + id);
       this.mainState.uiState.getDashboardContents(true);
+      this.mainState.userState.getUsers();
       this.communeSelected = true;
       createBrowserHistory.push('/');
     } catch (error) {

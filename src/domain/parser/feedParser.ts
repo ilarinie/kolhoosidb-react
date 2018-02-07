@@ -1,5 +1,4 @@
 import { FeedItem } from '../../store/models/feed_item';
-import feedback from 'material-ui/svg-icons/action/feedback';
 import { currencyFormatter } from '../formatter/currencyFormatter';
 
 const COMPLETION = 'task_completion';

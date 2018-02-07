@@ -1,22 +1,23 @@
 import * as React from 'react';
 import { Refund } from '../../../store/models/refund';
-import { Paper, RaisedButton, MenuItem, SelectField, FlatButton } from 'material-ui';
 import { User } from '../../../store/models/user';
 import { inject, observer } from 'mobx-react';
 import { MainState } from '../../../store/state';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
-import { RefundRow } from './refund-row';
+import RefundRow from './refund-row';
 import { FaEur } from 'react-icons/lib/fa';
-import { SubmitButton } from '../../util/submit-button';
-import { RefundCreator } from './refundcreator';
+import SubmitButton from '../../util/submit-button';
+import RefundCreator from './refundcreator';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui';
+import { decorate, style } from '../../../theme';
 
 interface RefundPanelProps {
     mainState: MainState;
 }
-@inject('mainState')
-@observer
-export class RefundPanel extends React.Component<RefundPanelProps, {}> {
+
+class RefundPanel extends React.Component<RefundPanelProps & WithStyles, {}> {
 
     componentDidMount() {
         this.props.mainState.userState.getUsers();
@@ -75,3 +76,8 @@ export class RefundPanel extends React.Component<RefundPanelProps, {}> {
         );
     }
 }
+export default compose<RefundPanelProps, any>(
+    decorate,
+    style,
+    observer,
+)(RefundPanel);

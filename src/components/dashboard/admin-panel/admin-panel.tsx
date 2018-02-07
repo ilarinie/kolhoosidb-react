@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { MainState } from '../../../store/state';
 import { observer, inject } from 'mobx-react';
-import { UserManagementComponent } from './user-management/user-management';
-import { Tabs, Tab } from 'material-ui';
-import { TaskManagement } from './task-management/task-management';
-import { CommuneEditor } from './commune-editor/commune-editor';
-import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
-import { DashboardItemContainer } from '../../util/container/dashboard-item-container';
+import UserManagementComponent from './user-management/user-management';
+import TaskManagement from './task-management/task-management';
+import CommuneEditor from './commune-editor/commune-editor';
+import DashboardItemContainer from '../../util/container/dashboard-item-container';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
+import { WithStyles } from 'material-ui/styles/withStyles';
 
-@inject('mainState')
-@observer
-export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
+class AdminPanel extends React.Component<{ mainState: MainState } & WithStyles, {}> {
 
     constructor(props: any) {
         super(props);
@@ -19,7 +18,7 @@ export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
 
     render() {
         return (
-            <ComponentThemeWrapper uiState={this.props.mainState.uiState} >
+            <div>
                 <DashboardItemContainer
                     title="Users"
                     uiState={this.props.mainState.uiState}
@@ -38,7 +37,14 @@ export class AdminPanel extends React.Component<{ mainState: MainState }, {}> {
                 >
                     <CommuneEditor mainState={this.props.mainState} />
                 </DashboardItemContainer>
-            </ComponentThemeWrapper>
+            </div>
         );
     }
 }
+
+export default compose<{ mainState: MainState }, any>(
+    decorate,
+    style,
+    inject('mainState'),
+    observer,
+)(AdminPanel);

@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { UiState } from '../../../store/ui-state';
+import { decorate, style } from '../../../theme';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui/styles/withStyles';
 
 interface DashboardItemContainerProps {
     padding?: string;
     title: string;
-    uiState: UiState;
+    // uiState: UiState;
     maxHeight?: string;
     width?: string;
 }
@@ -13,7 +17,7 @@ interface DashboardItemContainerState {
     open: boolean;
 }
 
-export class DashboardItemContainer extends React.Component<DashboardItemContainerProps, DashboardItemContainerState> {
+class DashboardItemContainer extends React.Component<DashboardItemContainerProps & WithStyles, DashboardItemContainerState> {
 
     maxHeight = this.props.maxHeight ? this.props.maxHeight : '400px';
     width = this.props.width ? this.props.width : '500px';
@@ -24,13 +28,13 @@ export class DashboardItemContainer extends React.Component<DashboardItemContain
         width: this.width,
         maxWidth: '95vw',
         border: '0.5px solid lightgray',
-        borderColor: this.props.uiState.getKolhoosiTheme().palette.borderColor,
+        // borderColor: this.props.classes,
         boxShadow: '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     };
 
     innerContainerHeaderStyles = {
         textAlign: 'center',
-        background: this.props.uiState.getKolhoosiTheme().palette.primary1Color,
+        background: this.props.theme.palette.primary.dark, // this.props.uiState.getKolhoosiTheme().palette.primary1Color,
         // background: '-webkit-linear-gradient(90deg, rgba(255,0,37,1) 0%, rgba(222,15,0,1) 100%)',
         paddingTop: '5px',
         color: 'white'
@@ -40,8 +44,8 @@ export class DashboardItemContainer extends React.Component<DashboardItemContain
         padding: this.padding,
         overflowY: 'auto' as 'auto',
         maxHeight: this.maxHeight,
-        color: this.props.uiState.getKolhoosiTheme().palette.textColor,
-        background: this.props.uiState.getKolhoosiTheme().palette.canvasColor
+        // color: 'grey', // this.props.uiState.getKolhoosiTheme().palette.textColor,
+        // background: 'white', // this.props.uiState.getKolhoosiTheme().palette.canvasColor
     };
 
     getInnerContainerStyles = () => {
@@ -104,3 +108,9 @@ export class DashboardItemContainer extends React.Component<DashboardItemContain
         );
     }
 }
+
+export default compose<DashboardItemContainerProps, any>(
+    decorate,
+    style,
+    observer,
+)(DashboardItemContainer);

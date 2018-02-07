@@ -1,15 +1,31 @@
 import * as React from 'react';
 import { Task } from '../../../store/models/task';
-import { CardActions, Card, CardHeader, CardText } from 'material-ui/Card';
+import { CardActions, Card, CardHeader, CardContent, ExpansionPanelActions, Divider, ExpansionPanelDetails, ExpansionPanelSummary, Typography, WithStyles } from 'material-ui';
 import * as moment from 'moment';
-import { RaisedButton, FlatButton } from 'material-ui';
+import { Button } from 'material-ui';
 import { FaCheck, FaSpinner } from 'react-icons/lib/fa';
 import { TaskCompletion } from '../../../store/models/task_completion';
 import { observer } from 'mobx-react';
 import { parseLocale } from '../../../domain/formatter/localeParser';
+import { CompleteButton } from '../dashboard-component/dashboard-tasks';
+import ExpansionPanel from 'material-ui/ExpansionPanel/ExpansionPanel';
+import { decorate, style } from '../../../theme';
+import { compose } from 'recompose';
+import { FaLevelDown } from 'react-icons/lib/fa';
+import TaskDetailsMobileComponent from './task-details-mobile/task-details-mobile';
+import { User } from '../../../store/models/user';
 
-@observer
-export class TaskCard extends React.Component<{ completeTask: any, task: Task, current_user_id: number, deleteTaskCompletion: any }, { loading: boolean }> {
+interface TaskCardProps {
+    completeTask: any;
+    task: Task;
+    current_user: User;
+    current_user_admin: boolean;
+    deleteTaskCompletion: any;
+    submitTask: any;
+    deleteTask: any;
+}
+
+class TaskCard extends React.Component<TaskCardProps & WithStyles, { loading: boolean }> {
 
     constructor(props: any) {
         super(props);
@@ -24,7 +40,7 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task, c
     }
     render() {
         let completions = this.props.task.completions.map((completion, index) => (
-            <CompletionRow key={index} completion={completion} deleteTaskCompletion={this.deleteTaskCompletion} current_user_id={this.props.current_user_id} />
+            <CompletionRow key={index} completion={completion} deleteTaskCompletion={this.deleteTaskCompletion} current_user_id={this.props.current_user.id} />
         ));
         let latest_completion = null;
         if (this.props.task.completions.length !== 0) {
@@ -35,24 +51,38 @@ export class TaskCard extends React.Component<{ completeTask: any, task: Task, c
         }
         let prio = (this.props.task.priority ? 'Priority: ' + moment.duration(this.props.task.priority, 'hours').humanize() : 'No priority set.');
         return (
-            <Card style={{ width: '400px', margin: '10px 10px' }}>
-                <CardHeader
-                    title={this.props.task.name}
-                    subtitle={prio}
-                    showExpandableButton={true}
-                    actAsExpander={true}
-                />
-                <CardText>
-                    {latest_completion}
-                </CardText>
-                <CardActions>
-                    <CompleteButton taskName={this.props.task.name} loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
-                </CardActions>
-                <CardText expandable={true}>
-                    <p><b>Latest completions</b></p>
-                    {completions}
-                </CardText>
-            </Card>
+            <ExpansionPanel style={{ width: '100%' }} defaultExpanded={false}>
+                <ExpansionPanelSummary expandIcon={<FaLevelDown />}>
+                    <div className={this.props.classes.column}>
+                        <Typography className={this.props.classes.heading}>{this.props.task.name}</Typography>
+                    </div>
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails className={this.props.classes.details}>
+                    <TaskDetailsMobileComponent
+                        admin={this.props.current_user_admin}
+                        task={this.props.task}
+                        submitTask={this.props.submitTask}
+                        deleteTask={this.props.deleteTask}
+                    />
+                </ExpansionPanelDetails>
+            </ExpansionPanel>
+
+            // <Card style={{ width: '400px', margin: '10px 10px' }}>
+            //     <CardHeader
+            //         title={this.props.task.name}
+            //     >
+            //         <small>{prio}</small>
+            //     </CardHeader>
+            //     <CardContent>
+            //         {latest_completion}
+            //     </CardContent>
+            //     <CardActions>
+            //         <CompleteButton taskName={this.props.task.name} loading={this.state.loading} label="Complete" completeTask={this.completeTask} />
+            //     </CardActions>
+            //     <CardContent >
+
+            //     </CardContent>
+            // </Card>
         );
     }
 
@@ -81,7 +111,7 @@ class CompletionRow extends React.Component<{ completion: TaskCompletion, curren
                 <p>{this.props.completion.name}<br />
                     @ {this.getHumanDate(this.props.completion.created_at)} </p>
                 {this.props.completion.user_id === this.props.current_user_id ?
-                    <FlatButton primary={true} style={{ float: 'right', marginTop: '-50px' }} label="Delete" onClick={this.deleteTaskCompletion} />
+                    <Button style={{ float: 'right', marginTop: '-50px' }} onClick={this.deleteTaskCompletion} >Delete</Button>
                     : null}
                 <hr />
             </div>
@@ -89,47 +119,8 @@ class CompletionRow extends React.Component<{ completion: TaskCompletion, curren
     }
 }
 
-class CompleteButton extends React.Component<{ loading: boolean, label: string, completeTask: any, taskName: string }, { completed: boolean }> {
-
-    handle: any;
-
-    constructor(props: any) {
-        super(props);
-        this.state = {
-            completed: false
-        };
-    }
-
-    render() {
-        let classIdentifier = 'complete_task_button_' + this.props.taskName.replace(/\ /g, '_');
-        if (this.props.loading) {
-            return (
-                <RaisedButton className={classIdentifier} disabled={true}><FaSpinner style={{ color: 'red' }} className="fa-spin" /></RaisedButton>
-            );
-        } else if (this.state.completed) {
-            return (
-                <RaisedButton className={classIdentifier} disabled={true}><FaCheck style={{ color: 'green' }} /></RaisedButton>
-            );
-        } else {
-            return (
-                <RaisedButton className={classIdentifier} label={this.props.label} onClick={this.completeTask} />
-            );
-        }
-    }
-
-    componentWillUnmont() {
-        if (this.handle) {
-            clearTimeout(this.handle);
-        }
-    }
-
-    completeTask = () => {
-        this.setState({ completed: true });
-        this.props.completeTask();
-        this.handle = setTimeout(() => {
-            this.setState({ completed: false });
-            // tslint:disable-next-line:align
-        }, 5000);
-    }
-
-}
+export default compose<TaskCardProps, any>(
+    decorate,
+    style,
+    observer,
+)(TaskCard);

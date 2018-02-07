@@ -2,10 +2,14 @@ import * as React from 'react';
 import { User } from '../../../store/models/user';
 import { Link } from 'react-router-dom';
 import { currencyFormatter } from '../../../domain/formatter/currencyFormatter';
-import { RefundRow } from '../purchases/refund-row';
+import RefundRow from '../purchases/refund-row';
 import { FaUser } from 'react-icons/lib/fa';
 import { Commune } from '../../../store/models/commune';
-import { observer } from 'mobx-react';
+import { observer, inject } from 'mobx-react';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui';
+import { decorate } from '../../../theme';
+import { LoadingScreen } from '../../util/loading-screen';
 
 interface DashboardUserInfoProps {
     user: User;
@@ -15,8 +19,7 @@ interface DashboardUserInfoProps {
     rejectRefund?: any;
 }
 
-@observer
-export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {}> {
+class DashboardUserInfo extends React.Component<DashboardUserInfoProps & WithStyles, {}> {
     render() {
         let invitations = this.props.user.invitations.map((invitation, index) => (
             <span key={index}>Invited to {invitation.commune_name} <Link to="/profile">Go</Link></span>
@@ -55,17 +58,24 @@ export class DashboardUserInfo extends React.Component<DashboardUserInfoProps, {
         }
         return (
             <div>
-                <small>Logged in as</small><br />
-                <p>
-                    <FaUser /> {this.props.user.name}
-                </p>
-                {invitations ? <h5>Invitations</h5> : null}
-                {invitations}
-                {sent_refunds ? <h5>Sent refunds:</h5> : null}
-                {sent_refunds}
-                {received_refunds ? <h5>Received refunds:</h5> : null}
-                {received_refunds}
+                <LoadingScreen loading={this.props.user == null}>
+                    <small>Logged in as</small><br />
+                    <p>
+                        <FaUser /> {this.props.user.name}
+                    </p>
+                    {invitations ? <h5>Invitations</h5> : null}
+                    {invitations}
+                    {sent_refunds ? <h5>Sent refunds:</h5> : null}
+                    {sent_refunds}
+                    {received_refunds ? <h5>Received refunds:</h5> : null}
+                    {received_refunds}
+                </LoadingScreen>
             </div>
         );
     }
 }
+
+export default compose<DashboardUserInfoProps & WithStyles, any>(
+    decorate,
+    observer,
+)(DashboardUserInfo);

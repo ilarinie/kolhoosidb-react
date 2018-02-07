@@ -1,17 +1,18 @@
 import * as React from 'react';
 import { MainState } from '../../../store/state';
 import { inject, observer } from 'mobx-react';
-import { CommuneCard } from './communecard';
+import CommuneCard from './communecard';
 import { CommuneCreationComponent } from './communecreator';
-import { LoadingScreen } from '../../util/loading-screen';
+import LoadingScreen from '../../util/loading-screen';
 import { Commune } from '../../../store/models/commune';
 import { Redirect } from 'react-router-dom';
-import { ComponentThemeWrapper } from '../../util/componentThemeWrapper';
 import { User } from '../../../store/models/user';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui';
+import { decorate } from '../../../theme';
+import { ThemeWrapper } from '../../util/theme-wrapper';
 
-@inject('mainState')
-@observer
-export class Communelist extends React.Component<{ mainState: MainState }, {}> {
+class Communelist extends React.Component<{ mainState: MainState } & WithStyles, {}> {
 
     componentDidMount() {
         if (!this.props.mainState.communeState.communeSelected) {
@@ -37,15 +38,15 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
             )
         );
         return (
-            <ComponentThemeWrapper uiState={this.props.mainState.uiState}>
+            <ThemeWrapper>
                 <div style={{ display: 'flex', flexWrap: 'wrap' }}>
                     {communes}
                 </div>
-                <div style={{ margin: '0 auto', padding: '20px', width: '400px', maxWidth: '99vw' }}>
+                <div style={{ margin: '0 auto', padding: '20px', width: '350px', maxWidth: '99vw' }}>
                     <h3>No commune? No problem.</h3>
                     <CommuneCreationComponent submitCommune={this.submitCommune} loading={this.props.mainState.uiState.communesLoading} />
                 </div>
-            </ComponentThemeWrapper>
+            </ThemeWrapper>
         );
     }
 
@@ -65,3 +66,9 @@ export class Communelist extends React.Component<{ mainState: MainState }, {}> {
         this.props.mainState.communeState.createCommune(commune);
     }
 }
+
+export default compose<{ mainState: MainState } & WithStyles, any>(
+    decorate,
+    inject('mainState'),
+    observer,
+)(Communelist);

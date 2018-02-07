@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { shallow } from 'enzyme';
 import { assert } from 'chai';
-import { PurchaseList } from '../purchaselist';
+import PurchaseList from '../purchaselist';
 import { Purchase } from '../../../../store/models/purchase';
 
 it('renders without crashing', () => {

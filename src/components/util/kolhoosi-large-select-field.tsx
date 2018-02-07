@@ -1,6 +1,9 @@
 import { SelectValidator } from 'react-material-ui-form-validator';
 import * as React from 'react';
-import { NavigationExpandMore } from 'material-ui/svg-icons';
+import { FaLevelDown } from 'react-icons/lib/fa';
+import { decorate, style } from '../../theme';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui/styles/withStyles';
 
 interface KolhoosiLargeSelectFieldProps {
     value: any;
@@ -10,13 +13,13 @@ interface KolhoosiLargeSelectFieldProps {
     className?: string;
 }
 
-export const KolhoosiLargeSelectField = (props: KolhoosiLargeSelectFieldProps) => {
+const KolhoosiLargeSelectFieldImpl = (props: KolhoosiLargeSelectFieldProps & WithStyles) => {
     const selectStyle = {
         width: '95%',
     };
     return (
         <div style={{ textAlign: 'left' }}>
-            <p>{props.label}</p>
+            <p style={{ fontSize: '12px' }}>{props.label}</p>
             <div style={{ border: '1px solid lightgray', borderRadius: '5px', textAlign: 'center', fontWeight: 'bold' }}>
                 <SelectValidator
                     className={props.className || null}
@@ -25,20 +28,11 @@ export const KolhoosiLargeSelectField = (props: KolhoosiLargeSelectFieldProps) =
                     value={props.value}
                     onChange={props.onChange}
                     validators={['required']}
-                    underlineShow={false}
-                    dropDownMenuProps={{
-                        iconButton: <NavigationExpandMore />
-                    }}
-                    iconStyle={{
-                        fill: 'grey',
-                    }}
-                    labelStyle={{
-                        textAlign: 'center',
-                        color: 'gray',
-                        marginRight: '-50px',
-                        fontFamily: 'inconsolata',
-                        fontSize: '25px',
-                        marginBottom: '-20px'
+                    SelectProps={{
+                        MenuProps: {
+                            className: props.classes.menu,
+                        },
+                        disableUnderline: true,
                     }}
                 >
                     {props.children}
@@ -47,3 +41,8 @@ export const KolhoosiLargeSelectField = (props: KolhoosiLargeSelectFieldProps) =
         </div>
     );
 };
+
+export const KolhoosiLargeSelectField = compose<KolhoosiLargeSelectFieldProps, any>(
+    decorate,
+    style
+)(KolhoosiLargeSelectFieldImpl);

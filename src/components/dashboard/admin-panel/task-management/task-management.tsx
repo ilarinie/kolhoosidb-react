@@ -3,11 +3,13 @@ import { MainState } from '../../../../store/state';
 import { Task } from '../../../../store/models/task';
 import { TaskCreator } from './taskcreator';
 import { observer, inject } from 'mobx-react';
-import { RaisedButton, CardHeader, CardActions, Card, Checkbox } from 'material-ui';
+import { Button, CardHeader, CardActions, Card, Checkbox } from 'material-ui';
 import ReactTable from 'react-table';
+import { compose } from 'recompose';
+import { decorate } from '../../../../theme';
+import { WithStyles } from 'material-ui/styles/withStyles';
 
-@observer
-export class TaskManagement extends React.Component<{ mainState: MainState }, { editedTask: Task, dialogOpen: boolean }> {
+class TaskManagement extends React.Component<{ mainState: MainState } & WithStyles, { editedTask: Task, dialogOpen: boolean }> {
 
     columns = [
         {
@@ -88,6 +90,11 @@ export class TaskManagement extends React.Component<{ mainState: MainState }, { 
     }
 }
 
+export default compose<{ mainState: MainState }, any>(
+    decorate,
+    observer
+)(TaskManagement);
+
 export class TaskRow extends React.Component<{ task: Task, editTask: any, deleteTask: any }, {}> {
 
     taskStyles = {
@@ -102,13 +109,14 @@ export class TaskRow extends React.Component<{ task: Task, editTask: any, delete
             <Card style={{ margin: '5px auto' }}>
                 <CardHeader
                     title={this.props.task.name}
-                    subtitle={'Priority: ' + this.props.task.priority}
-                />
+                >
+                    <small>Priority: {this.props.task.priority}</small>
+                </CardHeader>
                 <CardActions>
-                    <RaisedButton label="Edit" onClick={this.editTask} />
-                    <RaisedButton label="Delete" onClick={this.deleteTask} />
+                    <Button raised={true} onClick={this.editTask} >Edit</Button>
+                    <Button raised={true} onClick={this.deleteTask} >Delete</Button>
                 </CardActions>
-            </Card>
+            </Card >
         );
     }
 

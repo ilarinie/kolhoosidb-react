@@ -1,18 +1,20 @@
 import * as React from 'react';
 import { MainState } from '../../../store/state';
-import { AppBar } from 'material-ui';
-import Drawer from 'material-ui/Drawer';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
-import { KolhoosiNavItem } from './kolhoosi-nav-item';
+import { AppBar, IconButton, Typography, ListItemIcon, ListItemText } from 'material-ui';
+import { Drawer, MenuItem, Divider, WithStyles } from 'material-ui';
+import KolhoosiNavItem from './kolhoosi-nav-item';
 import createBrowserHistory from '../../../history';
-import { Subheader, FontIcon } from 'material-ui';
 import { observer } from 'mobx-react';
 import { FaCheck, FaDashboard, FaStarO, FaSignOut, FaTasks, FaLock, FaUser, FaEur } from 'react-icons/lib/fa';
+import { compose } from 'recompose';
+import { decorate, style } from '../../../theme';
+import { IconTitle } from '../../util/icon-title';
+import Toolbar from 'material-ui/Toolbar/Toolbar';
+import { MdMenu, MdAccountCircle } from 'react-icons/lib/md';
+import ListSubheader from 'material-ui/List/ListSubheader';
 const logo = require('../../../assets/logo.png');
 
-@observer
-export class AppBarComponent extends React.Component<{ mainState: MainState }, { docked: boolean, mobile: boolean, drawerOpen: any }> {
+class AppBarComponent extends React.Component<{ mainState: MainState } & WithStyles, { docked: boolean, mobile: boolean, drawerOpen: any }> {
 
     constructor(props: any) {
         super(props);
@@ -21,6 +23,10 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
             docked: false,
             mobile: false
         };
+    }
+
+    handleDrawerToggle = () => {
+        this.setState({ drawerOpen: !this.state.drawerOpen });
     }
 
     render() {
@@ -35,7 +41,7 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
             adminMenuItems = (
                 <div>
                     <Divider />
-                    <Subheader>Admin tools</Subheader>
+                    <ListSubheader>Admin tools</ListSubheader>
                     <KolhoosiNavItem
                         disabled={false}
                         path="/admin_panel"
@@ -52,12 +58,43 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
         return (
             <div>
                 <AppBar
-                    title={communeName}
-                    onLeftIconButtonClick={this.toggleOpenDrawer}
-                    showMenuIconButton={this.state.mobile}
-                />
-                <Drawer zDepth={1} open={this.state.drawerOpen} docked={this.state.docked} width={250} onRequestChange={(open) => this.setState({ drawerOpen: open })}>
-                    <img src={logo} style={{ height: '64px', width: '100%' }} />
+                    position="static"
+                >
+                    <Toolbar>
+                        <IconButton onClick={this.handleDrawerToggle} color="inherit" aria-label="Menu">
+                            <MdMenu />
+                        </IconButton>
+                        <Typography type="title" color="inherit">
+                            {communeName}
+                        </Typography>
+                        <IconButton style={{ position: 'absolute', right: 20 }} onClick={() => { createBrowserHistory.push('/profile'); }} color="inherit" aria-label="Profile" >
+                            <MdAccountCircle />
+                        </IconButton>
+                    </Toolbar>
+                </AppBar>
+                <Drawer
+                    open={this.state.drawerOpen}
+                    onClose={this.handleDrawerToggle}
+                    type={this.state.mobile ? 'temporary' : 'permanent'}
+                    style={{
+                        width: '250px'
+                    }}
+                    ModalProps={{
+                        keepMounted: true, // Better open performance on mobile.
+                    }}
+                    elevation={1}
+                >
+                    <div
+                        style={{
+                            color: this.props.theme.palette.primary.contrastText,
+                            height: '64px',
+                            width: '100%',
+                            background: this.props.theme.palette.primary.main,
+                            textAlign: 'center'
+                        }}
+                    >
+                        <h2>KolhoosiDB</h2>
+                    </div>
                     <KolhoosiNavItem
                         disabled={!this.props.mainState.communeState.communeSelected}
                         path="/"
@@ -98,19 +135,25 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
                         className="profile-link"
                     />
                     <MenuItem
-                        leftIcon={<FaStarO />}
-                        primaryText="Switch Communes"
                         onClick={this.deselectCommune}
                         className="commune-switch-link"
-                    />
+                    >
+                        <ListItemIcon className={this.props.classes.icon}>
+                            <FaStarO />
+                        </ListItemIcon>
+                        <ListItemText classes={{ primary: this.props.classes.primary }} inset={true} primary="Switch Communes" />
+                    </MenuItem>
                     <MenuItem
-                        leftIcon={<FaSignOut />}
-                        primaryText="Log Out"
                         className="logout-link"
                         onClick={this.logout}
-                    />
+                    >
+                        <ListItemIcon className={this.props.classes.icon}>
+                            <FaSignOut />
+                        </ListItemIcon>
+                        <ListItemText classes={{ primary: this.props.classes.primary }} inset={true} primary="Log Out" />
+                    </MenuItem>
                 </Drawer>
-            </div>
+            </div >
         );
     }
 
@@ -173,3 +216,9 @@ export class AppBarComponent extends React.Component<{ mainState: MainState }, {
         this.props.mainState.authState.logOut();
     }
 }
+
+export default compose<{ mainState: MainState }, any>(
+    decorate,
+    style,
+    observer,
+)(AppBarComponent);

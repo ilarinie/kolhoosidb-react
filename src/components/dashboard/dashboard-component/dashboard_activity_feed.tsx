@@ -2,8 +2,12 @@ import * as React from 'react';
 import { FeedItem } from '../../../store/models/feed_item';
 import { getAction, getDescription, getAdditionalInformation } from '../../../domain/parser/feedParser';
 import * as moment from 'moment';
+import { compose } from 'recompose';
+import { WithStyles } from 'material-ui';
+import { decorate } from '../../../theme';
+import { inject } from 'mobx-react';
 
-export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], getFeed: any }, {}> {
+class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], getFeed: any } & WithStyles, {}> {
 
     handle: any;
 
@@ -27,6 +31,10 @@ export class DashboardActivityFeed extends React.Component<{ feed: FeedItem[], g
         );
     }
 }
+
+export default compose<{ feed: FeedItem[], getFeed: any } & WithStyles, any>(
+    decorate,
+)(DashboardActivityFeed);
 
 export class FeedItemComponent extends React.Component<{ feedItem: FeedItem }, {}> {
     constructor(props: any) {

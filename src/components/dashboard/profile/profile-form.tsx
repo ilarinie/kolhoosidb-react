@@ -2,9 +2,12 @@ import * as React from 'react';
 import { TextValidator } from 'react-material-ui-form-validator';
 import { ValidatorForm } from 'react-form-validator-core';
 import { User } from '../../../store/models/user';
-import { RaisedButton, Card, CardActions, CardText, CardHeader } from 'material-ui';
+import { Button, Card, CardActions, CardContent, CardHeader } from 'material-ui';
+import { WithStyles } from 'material-ui/styles/withStyles';
+import { decorate, style } from '../../../theme';
+import { compose } from 'recompose';
 
-export class ProfileForm extends React.Component<{ user: User, handleSubmit: any, handleChange: any, handlePwChange: any }, {}> {
+class ProfileForm extends React.Component<{ user: User, handleSubmit: any, handleChange: any, handlePwChange: any } & WithStyles, {}> {
 
     render() {
         return (
@@ -13,25 +16,25 @@ export class ProfileForm extends React.Component<{ user: User, handleSubmit: any
                     <CardHeader
                         title="Edit Profile"
                     />
-                    <CardText>
+                    <CardContent>
                         <ValidatorForm onSubmit={this.handleSubmit}>
                             <TextValidator
                                 name="name"
                                 type="text"
                                 onChange={this.handleChange}
                                 value={this.props.user.name}
-                                floatingLabelText="Display name"
+                                helperText="Display name"
                             /><br />
                             <TextValidator
                                 name="email"
                                 type="email"
                                 onChange={this.handleChange}
                                 value={this.props.user.email}
-                                floatingLabelText="Email address"
+                                helperText="Email address"
                             /><br />
-                            <RaisedButton type="submit" label="Save changes" />
+                            <Button raised={true} type="submit" >Save changes</Button>
                         </ValidatorForm>
-                    </CardText>
+                    </CardContent>
                 </Card>
                 <hr />
                 <Card>
@@ -39,12 +42,12 @@ export class ProfileForm extends React.Component<{ user: User, handleSubmit: any
                         title="Change password"
                     />
                     <ValidatorForm onSubmit={this.handlePwChange} >
-                        <CardText>
+                        <CardContent>
                             <TextValidator
                                 type="password"
                                 name="password"
                                 id="pw"
-                                floatingLabelText="Password"
+                                placeholder="Password"
                                 validators={['required', 'matchRegexp:^.{8,}']}
                                 errorMessages={['Password must be at least 8 characters long.']}
                             /><br />
@@ -52,11 +55,11 @@ export class ProfileForm extends React.Component<{ user: User, handleSubmit: any
                                 type="password"
                                 name="password_confirmation"
                                 id="pwConf"
-                                floatingLabelText="Password confirmation"
+                                placeholder="Password confirmation"
                             /><br />
-                        </CardText>
+                        </CardContent>
                         <CardActions>
-                            <RaisedButton label="Change password" type="submit" />
+                            <Button raised={true} type="submit" >Change password</Button>
                         </CardActions>
                     </ValidatorForm>
                 </Card>
@@ -83,3 +86,8 @@ export class ProfileForm extends React.Component<{ user: User, handleSubmit: any
         }
     }
 }
+
+export default compose<any & WithStyles, any>(
+    decorate,
+    style,
+)(ProfileForm);
