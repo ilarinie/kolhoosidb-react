@@ -10,8 +10,10 @@ import { TaskCreator } from '../../admin-panel/task-management/taskcreator';
 import { Task } from '../../../../store/models/task';
 import { decorate, style } from '../../../../theme';
 import { KolhoosiFullScreenDialog } from '../../../util/container/kolhoosi-fullscreen-dialog';
-import { IconButton, Divider } from 'material-ui';
+import { IconButton, Divider, ExpansionPanelSummary, Typography } from 'material-ui';
 import { MdSave } from 'react-icons/lib/md';
+import { TaskCompletionRow } from '../task-completion-row';
+import { FaLevelDown } from 'react-icons/lib/fa';
 
 interface TaskDetailsMobileComponentProps {
     task: Task;
@@ -52,6 +54,9 @@ class TaskDetailsMobileComponentImpl extends React.Component<TaskDetailsMobileCo
     }
 
     render() {
+        const rows = this.props.task.completions.map((completion, index) => (
+            <TaskCompletionRow showDelete={true} completion={completion} key={index} deleteCompletion={null} />
+        ));
         let actions = null;
         if (this.props.admin) {
             actions = (
@@ -63,7 +68,16 @@ class TaskDetailsMobileComponentImpl extends React.Component<TaskDetailsMobileCo
         }
         return (
             <div style={{ textAlign: 'center', width: '100%' }}>
-
+                <ExpansionPanel defaultExpanded={false}>
+                <ExpansionPanelSummary expandIcon={<FaLevelDown />}>
+                    <div className={this.props.classes.column}>
+                        <Typography className={this.props.classes.heading}>Recent Completions</Typography>
+                    </div>
+                </ExpansionPanelSummary>    
+                    <ExpansionPanelDetails>
+                            {rows}
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
                 <Divider />
                 {actions}
                 <KolhoosiFullScreenDialog
