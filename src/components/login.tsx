@@ -12,7 +12,7 @@ import { SmallErrorDisplay } from './util/small-error-display';
 import { Redirect } from 'react-router-dom';
 import { FaUser, FaLock } from 'react-icons/lib/fa';
 
-// const logo = require('../assets/logo.png');
+const logo = require('../assets/logo.png');
 
 /**
  * Grid properties.
@@ -71,7 +71,7 @@ class LoginComponent extends React.Component<LoginComponentProps & WithStyles, {
             <div>
                 <div style={this.containerStyle}>
                     <Paper style={this.paperStyles}>
-                        {/* <img style={{ width: '100%' }} src={logo} /> */}
+                        <img style={{ width: '100%' }} src={logo} />
                         <h4>Log in</h4>
                         <form onSubmit={this.login}>
                             <div className="fieldContainer">
